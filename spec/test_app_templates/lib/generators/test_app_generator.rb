@@ -11,6 +11,6 @@ class TestAppGenerator < Rails::Generators::Base
   end
 
   def install_engine
-    generate 'hyrax-batch_ingest:install'
+    generate 'hyrax:batch_ingest:install'
   end
 end
