@@ -1,6 +1,6 @@
 module Hyrax
   module BatchIngest
-    class ApplicationController < ActionController::Base
+    class ApplicationController < Hyrax::MyController
       protect_from_forgery with: :exception
     end
   end

@@ -1,3 +1,6 @@
 # EngineCart will use this file to load gems into your test app.
 # Place gems in this file that you want available in your test app, but don't
 # want to require as a gem dependency.
+
+gem 'pry-byebug'
+gem 'launchy'
