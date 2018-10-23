@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 Hyrax::BatchIngest::Engine.routes.draw do
   resources :batches, only: [:index, :show] do
     resources :items, only: [:show], controller: 'batch_items'

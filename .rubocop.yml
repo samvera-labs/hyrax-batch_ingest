@@ -1,0 +1,19 @@
+inherit_gem:
+  bixby: bixby_default.yml
+
+AllCops:
+  TargetRubyVersion: 2.3
+  DisplayCopNames: true
+
+Naming/FileName:
+  Exclude:
+    - 'Gemfile'
+    - 'hyrax-batch_ingest.gemspec'
+
+Bundler/DuplicatedGem:
+  Exclude:
+    - 'Gemfile'
+
+RSpec/ExampleLength:
+  Exclude:
+    - 'spec/lib/hyrax/batch_ingest/routing/batch_item_routes_spec.rb'

@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 begin
   require 'bundler/setup'
 rescue LoadError
@@ -22,10 +23,11 @@ begin
   require 'rspec/core/rake_task'
   RSpec::Core::RakeTask.new(:spec)
 rescue LoadError
+  puts 'You must add `rspec` to your Gemfile and run `bundle install` to run this rake task'
 end
 
 require 'engine_cart/rake_task'
-task :ci => ['engine_cart:generate'] do
+task ci: [:rubocop, 'engine_cart:generate'] do
   Rake::Task[:spec].invoke
 end
 
@@ -33,5 +35,15 @@ end
 
 # load 'rails/tasks/engine.rake'
 
+begin
+  require 'rubocop/rake_task'
+  desc 'Run style checker'
+  RuboCop::RakeTask.new(:rubocop) do |task|
+    task.fail_on_error = true
+  end
+rescue LoadError
+  puts 'You must add `rubocop` to your Gemfile and run `bundle install` to run this rake task'
+end
+
 # Set default rake task to use RSpec rake task
-task :default => [:ci]
+task default: [:ci]
