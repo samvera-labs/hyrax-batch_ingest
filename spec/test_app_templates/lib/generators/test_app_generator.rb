@@ -20,6 +20,5 @@ class TestAppGenerator < Rails::Generators::Base
 
   def install_engine
     generate 'hyrax:batch_ingest:install'
-    rake 'hyarx:batch_ingest:install:migrations'
   end
 end

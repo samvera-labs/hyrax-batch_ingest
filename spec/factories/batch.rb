@@ -4,7 +4,7 @@ FactoryBot.define do
     submitter_email { 'archivist1@example.com' }
     source_location { 'path/to/batch_manifest.csv' }
     status { :complete }
-    error_message
+    error
     batch_items
   end
 end

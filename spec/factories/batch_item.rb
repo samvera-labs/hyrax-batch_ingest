@@ -1,10 +1,11 @@
 FactoryBot.define do
   factory :batch_item do
     batch
-    name { 'Row #2' }
+    id_within_batch
     source_data { '{ title: ["Title"], creator: ["Jane Doe"], keyword: ["test"]}' }
     source_location { 'path/to/batch_manifest.csv' }
     status { :complete }
-    error_message
+    error
+    object_id
   end
 end

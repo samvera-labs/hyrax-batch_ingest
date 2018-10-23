@@ -4,7 +4,7 @@ class CreateHyraxBatchIngestBatches < ActiveRecord::Migration[5.1]
       t.string :status
       t.string :submitter_email
       t.string :source_location
-      t.string :error_message
+      t.text :error
       t.string :admin_set_id
 
       t.timestamps
