@@ -93,6 +93,11 @@ jobs:
           curl -H 'Content-type: application/json' http://localhost:8985/api/collections/ -d '{create: {name: hydra-test, config: hyrax, numShards: 1}}'
 
     - run:
+        name: Run rubocop
+        command: |
+          bundle exec rake rubocop
+
+    - run:
         name: Run rspec in parallel
         command: |
           mkdir /tmp/test-results
