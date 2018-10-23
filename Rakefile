@@ -28,7 +28,14 @@ end
 
 require 'engine_cart/rake_task'
 task ci: [:rubocop, 'engine_cart:generate'] do
-  Rake::Task[:spec].invoke
+  require 'solr_wrapper'   # necessary for rake_support to work
+  require 'fcrepo_wrapper' # necessary for rake_support to work
+  require 'active_fedora/rake_support'
+
+  ENV['environment'] = "test"
+  with_test_server do
+    Rake::Task['spec'].invoke
+  end
 end
 
 # APP_RAKEFILE = File.expand_path("../.internal_test_app/Rakefile", __FILE__)

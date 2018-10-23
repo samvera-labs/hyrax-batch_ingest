@@ -11,6 +11,13 @@ class TestAppGenerator < Rails::Generators::Base
     generate 'hyrax:install -f'
   end
 
+  def fix_hyrax_install
+    # Need to require 'rails/generators/actions' before hyrax:install:migrations generator is run
+    require 'rails/generators/actions'
+    Hyrax::DatabaseMigrator.copy
+    rake('db:migrate')
+  end
+
   def install_engine
     generate 'hyrax:batch_ingest:install'
   end
