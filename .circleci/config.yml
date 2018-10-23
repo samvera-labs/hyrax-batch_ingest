@@ -98,10 +98,10 @@ jobs:
           bundle exec rake rubocop
 
     - run:
-        name: Run rspec in parallel
+        name: Run rspec
         command: |
           mkdir /tmp/test-results
-          bundle exec rspec $(circleci tests glob "spec/**/*_spec.rb" | circleci tests split --split-by=timings)
+          bundle exec rake spec
 
     - run:
         name: Clean dependencies
