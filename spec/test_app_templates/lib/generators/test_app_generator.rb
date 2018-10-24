@@ -8,8 +8,6 @@ class TestAppGenerator < Rails::Generators::Base
   # into the test app, this generator will be run immediately
   # after setting up the application
   def install_hyrax
-    # Need to require 'rails/generators/actions' before hyrax:install:migrations generator is run
-    require 'rails/generators/actions'
     generate 'hyrax:install -f'
   end
 
