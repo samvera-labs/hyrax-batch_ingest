@@ -1,6 +1,8 @@
 <h1><span class="fa fa-copy"></span>Batches</h1>
 
-<% if @batches %>
+<a href="/batches/new" title="Upload New Batch">Upload New Batch</a>
+
+<% if @presenters.count > 0 %>
   <div class='table-responsive'>
     <table class='table table-condensed'>
       <thead>
@@ -15,7 +17,9 @@
         <th scope='col'>Updated</th>
       </thead>
       <tbody>
-        <%= render @batches %>
+        <% @presenters.each do |presenter| %>
+          <%= render 'batch', presenter: presenter %>
+        <% end %>
       </tbody>
     </table>
   </div>

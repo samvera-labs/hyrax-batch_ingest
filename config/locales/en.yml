@@ -1,0 +1,6 @@
+en:
+  hyrax:
+    batch_ingest:
+      batches:
+        new:
+          header: "Upload New Batch"
