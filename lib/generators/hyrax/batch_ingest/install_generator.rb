@@ -12,7 +12,7 @@ module Hyrax
       end
 
       def install_migrations
-        rake 'hyrax:batch_ingest:install:migrations'
+        rake 'hyrax_batch_ingest:install:migrations'
       end
     end
   end
