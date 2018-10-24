@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 module Hyrax
   module BatchIngest
     class ApplicationController < Hyrax::MyController

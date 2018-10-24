@@ -1,6 +1,7 @@
+# frozen_string_literal: true
 require 'rails_helper'
 
-RSpec.describe Hyrax::BatchIngest::BatchesController, :type => :routing do
+RSpec.describe Hyrax::BatchIngest::BatchesController, type: :routing do
   routes { Hyrax::BatchIngest::Engine.routes }
 
   it 'routes to the list of all Batches' do

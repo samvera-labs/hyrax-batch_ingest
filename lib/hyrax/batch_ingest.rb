@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 require "hyrax/batch_ingest/engine"
 require 'hyrax'
 
