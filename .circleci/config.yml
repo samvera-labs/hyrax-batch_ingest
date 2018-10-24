@@ -53,12 +53,12 @@ jobs:
 
     - restore_cache:
         keys:
-        - v1-internal-test-app-{{ checksum "hyrax-batch_ingest.gemspec" }}-{{ checksum "spec/test_app_templates/lib/generators/test_app_generator.rb" }}
+        - v1-internal-test-app-{{ checksum "hyrax-batch_ingest.gemspec" }}-{{ checksum "spec/test_app_templates/lib/generators/test_app_generator.rb" }}-{{ checksum "lib/generators/hyrax/batch_ingest/install_generator.rb" }}
 
     # Download and cache dependencies
     - restore_cache:
         keys:
-        - v1-dependencies-{{ .Branch }}-{{ checksum "hyrax-batch_ingest.gemspec" }}-{{ checksum "spec/test_app_templates/lib/generators/test_app_generator.rb" }}
+        - v1-dependencies-{{ .Branch }}-{{ checksum "hyrax-batch_ingest.gemspec" }}-{{ checksum "spec/test_app_templates/lib/generators/test_app_generator.rb" }}-{{ checksum "lib/generators/hyrax/batch_ingest/install_generator.rb" }}
         - v1-dependencies-{{ .Branch }}
         - v1-dependencies-
 
@@ -82,7 +82,7 @@ jobs:
     - save_cache:
         paths:
         - ./.internal_test_app
-        key: v1-internal-test-app-{{ checksum "hyrax-batch_ingest.gemspec" }}-{{ checksum "spec/test_app_templates/lib/generators/test_app_generator.rb" }}
+        key: v1-internal-test-app-{{ checksum "hyrax-batch_ingest.gemspec" }}-{{ checksum "spec/test_app_templates/lib/generators/test_app_generator.rb" }}-{{ checksum "lib/generators/hyrax/batch_ingest/install_generator.rb" }}
 
     - run:
         name: Load config into SolrCloud
@@ -105,7 +105,7 @@ jobs:
     - save_cache:
         paths:
         - ./vendor/bundle
-        key: v1-dependencies-{{ .Branch }}-{{ checksum "hyrax-batch_ingest.gemspec" }}-{{ checksum "spec/test_app_templates/lib/generators/test_app_generator.rb" }}
+        key: v1-dependencies-{{ .Branch }}-{{ checksum "hyrax-batch_ingest.gemspec" }}-{{ checksum "spec/test_app_templates/lib/generators/test_app_generator.rb" }}-{{ checksum "lib/generators/hyrax/batch_ingest/install_generator.rb" }}
 
     # collect reports
     - store_test_results:

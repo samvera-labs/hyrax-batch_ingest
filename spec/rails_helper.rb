@@ -31,6 +31,7 @@ Dir[Hyrax::BatchIngest.root.join('spec', 'support', '**', '*.rb')].each { |f| re
 # Checks for pending migrations and applies them before tests are run.
 # If you are not using ActiveRecord, you can remove these lines.
 begin
+  ActiveRecord::Migrator.migrations_paths = File.expand_path('../../.internal_test_app/db/migrate')
   ActiveRecord::Migration.maintain_test_schema!
 rescue ActiveRecord::PendingMigrationError => e
   puts e.to_s.strip

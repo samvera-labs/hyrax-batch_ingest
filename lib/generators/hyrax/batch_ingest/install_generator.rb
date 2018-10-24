@@ -10,6 +10,10 @@ module Hyrax
       def add_routes
         route "mount Hyrax::BatchIngest::Engine, at: '/'"
       end
+
+      def install_migrations
+        rake 'hyrax_batch_ingest:install:migrations'
+      end
     end
   end
 end
