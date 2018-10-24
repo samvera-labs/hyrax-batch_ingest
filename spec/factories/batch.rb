@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 FactoryBot.define do
   factory :batch do
     admin_set_id { 'gid://internal/AdminSet/default' }
