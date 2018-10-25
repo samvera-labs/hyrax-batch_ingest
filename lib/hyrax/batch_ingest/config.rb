@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'yaml'
 require 'hyrax/batch_ingest/error'
 
@@ -35,12 +37,12 @@ module Hyrax
 
         def raw_config
           File.read config_file_path
-        rescue Errno::ENOENT => e
+        rescue Errno::ENOENT
           raise Hyrax::BatchIngest::Error::MissingConfig
         end
 
         def parsed_yaml
-          @parsed_yaml ||= YAML.load(raw_config)
+          @parsed_yaml ||= YAML.safe_load(raw_config)
         end
 
         def default_config_file_path

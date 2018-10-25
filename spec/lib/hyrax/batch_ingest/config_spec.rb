@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'rails_helper'
 require 'hyrax/batch_ingest/config'
 
@@ -8,7 +10,7 @@ RSpec.describe Hyrax::BatchIngest::Config do
     context 'with a valid config file' do
       let(:config_file_path) { File.join(fixture_path, 'example_config', 'valid_config.yml') }
       it 'loads without error' do
-        expect{ config }.to_not raise_error
+        expect { config }.not_to raise_error
       end
 
       describe 'reader' do
@@ -33,7 +35,7 @@ RSpec.describe Hyrax::BatchIngest::Config do
     context 'with an non-existent config file' do
       let(:config_file_path) { 'not_a_file' }
       it 'raises a InvalidConfig error' do
-        expect{ config }.to raise_error Hyrax::BatchIngest::Error::MissingConfig
+        expect { config }.to raise_error Hyrax::BatchIngest::Error::MissingConfig
       end
     end
   end
