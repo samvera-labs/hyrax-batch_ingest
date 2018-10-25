@@ -17,3 +17,7 @@ Bundler/DuplicatedGem:
 RSpec/ExampleLength:
   Exclude:
     - 'spec/lib/hyrax/batch_ingest/routing/batch_item_routes_spec.rb'
+
+Metrics/BlockLength:
+  Exclude:
+    - 'spec/lib/hyrax/batch_ingest/config_spec.rb'
