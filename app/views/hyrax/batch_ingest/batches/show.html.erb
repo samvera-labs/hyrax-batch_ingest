@@ -1,0 +1,27 @@
+<h1><span class="fa fa-copy"></span>Batch Details</h1>
+
+<div class='table-responsive'>
+  <table class='table table-condensed'>
+    <thead>
+      <tr>
+        <th scope='col'>Status</th>
+        <th scope='col'>ID Within Batch</th>
+        <th scope='col'>Source Location</th>
+        <th scope='col'>Repository ID</th>
+        <th scope='col'>Error</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @batch.batch_items.each_with_index do |item, index| %>
+        <tr class="batch-item <%= item.status %>" data-batch-item-id="<%= item.id %>">
+          <td><span data-toggle="collapse" data-target="#error_<%= index %>" class="clickable" style="cursor: pointer;"><%= item.status %></span></td>
+          <td><%= item.id_within_batch %></td>
+          <td><%= item.source_location %></td>
+          <td><%= item.object_id %></td>
+          <td><%= item.error %></td>
+        </tr>
+        <!-- TODO: copy Donut's expandable row containing error information  -->
+      <% end %>
+    </tbody>
+  </table>
+</div>
