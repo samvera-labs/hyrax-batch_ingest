@@ -3,10 +3,10 @@ module Hyrax
     class BatchRunner
       attr_reader :batch, :ingest_type, :file_location, :submitter, :admin_set_id
 
-      def initialize(:ingest_type, :file_location, submitter: nil, admin_set_id: nil)
+      def initialize(:ingest_type, :source_location, submitter_email: nil, admin_set_id: nil)
         @ingest_type = ingest_type
-        @file_location = file_location
-        @submitter = submitter
+        @source_location = source_location
+        @submitter_email = submitter_email
         @admin_set_id = admin_set_id
       end
 
@@ -26,8 +26,9 @@ module Hyrax
 
         def setup_batch
           @batch.ingest_type = @ingest_type
+          @batch.source_location = @source_location
           @batch.admin_set_id = @admin_set_id
-          @batch.submitter_email = @submitter
+          @batch.submitter_email = @submitter_email
           @batch.status = :received
           @batch.save
         end
