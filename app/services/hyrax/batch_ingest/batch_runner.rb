@@ -3,7 +3,7 @@ module Hyrax
     class BatchRunner
       attr_reader :batch, :ingest_type, :file_location, :submitter, :admin_set_id
 
-      def initialize(:ingest_type, :file_location, :submitter, :admin_set_id)
+      def initialize(:ingest_type, :file_location, submitter: nil, admin_set_id: nil)
         @ingest_type = ingest_type
         @file_location = file_location
         @submitter = submitter
