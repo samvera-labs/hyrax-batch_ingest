@@ -12,7 +12,7 @@ module Hyrax
         # TODO: read batch_item.source_data or batch_item.source_location and feed into mapper?
         work = config.mapper.map(batch_item)
         if work.save
-          batch_item.update(status: :success)
+          batch_item.update(status: :success, object_id: work.id)
         else
           notify_failed_save(batch_item, work)
         end

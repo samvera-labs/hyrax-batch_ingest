@@ -14,7 +14,7 @@ module Hyrax
       def run
         batch.save! # batch received
         reader = config.reader.new(batch.source_location)
-        batch.batch_items = reader.batch_items
+        batch.batch_items = reader.batch_items # batch item initialized (and now persisted)
         notify_conflict(batch, reader) if batch.submitter_email.present? && reader.submitter_email.present? && batch.submitter_email != reader.submitter_email
         batch.submitter_email = reader.submitter_email if reader.submitter_email.present?
         batch.status = :accepted
