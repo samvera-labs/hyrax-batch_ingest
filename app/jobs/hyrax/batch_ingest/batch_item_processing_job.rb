@@ -16,6 +16,7 @@ module Hyrax
         else
           notify_failed_save(batch_item, work)
         end
+        batch_item.batch.update(:complete) if batch_item.batch.completed?
       end
 
       private
