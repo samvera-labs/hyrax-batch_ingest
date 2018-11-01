@@ -1,6 +1,5 @@
 class AvalonBatchReader
 
-  EXTENSIONS = ['csv','xls','xlsx','ods']
   FILE_FIELDS = [:file,:label,:offset,:skip_transcoding,:absolute_location,:date_digitized]
   SKIP_FIELDS = [:collection]
 
@@ -32,36 +31,21 @@ class AvalonBatchReader
   
   def read()
     begin
-      # batch.name = spreadsheet.row(spreadsheet.first_row)[0] # TODO add name to batch DB
-      # batch.submitter_email = spreadsheet.row(spreadsheet.first_row)[1]
-      # # batch.admin_set_id = admin_set_id
-      # batch.source_location = ''  # TODO what value?
-
       spreadsheet = Roo::Spreadsheet.open(source_location)
+      read_name_email(spreadsheet)
       read_batch_items(spreadsheet, field_names(spreadsheet))
-      
-      # batch.status = :accepted
     rescue Exception => err
-      # batch.status = :error
-      # batch.error = err
       raise ReaderError "Invalid manifest file: #{err.message}"
     ensure
       @read = true
     end
   end
 
-  def read_name_email
-    @name = @spreadsheet.row(@spreadsheet.first_row)[0]
-    @submitter_email = @spreadsheet.row(@spreadsheet.first_row)[1]
+  def read_name_email(spreadsheet)
+    @name = spreadsheet.row(spreadsheet.first_row)[0]
+    @submitter_email = spreadsheet.row(spreadsheet.first_row)[1]
   end
 
-  def field_names(spreadsheet)
-    header_row = spreadsheet.row(spreadsheet.first_row + 1)
-    field_names = header_row.collect { |field|
-      field.to_s.downcase.gsub(/\s/,'_').strip.to_sym
-    }
-  end
-  
   def read_batch_items(spreadsheet, field_names)
     @batch_items = []
     first = spreadsheet.first_row + 2
@@ -105,17 +89,25 @@ class AvalonBatchReader
 
   def create_batch_item(index, fields, files)
       batch_item = BatchItem.new
-      # batch_item.batch = batch
       batch_item.id_within_batch = index.to_s
       batch_item.source_location = @source_location
-      batch_item.status = :accepted
-      batch_item.error = ''
-      batch_item.object_id = ''  # TODO
+      batch_item.status = :initialized
 
       all_fields = fields.select { |f| !FILE_FIELDS.include?(f) }
       all_fields << { :files => files }
       batch_item.source_data = all_fields.to_json
 
       batch_item
+  end
+
+  def field_names(spreadsheet)
+    header_row = spreadsheet.row(spreadsheet.first_row + 1)
+    field_names = header_row.collect { |field|
+      field.to_s.downcase.gsub(/\s/,'_').strip.to_sym
+    }
+  end
+
+  def true?(value)
+    not (value.to_s =~ /^(y(es)?|t(rue)?)$/i).nil?
   end
 end
