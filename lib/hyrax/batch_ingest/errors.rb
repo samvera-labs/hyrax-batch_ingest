@@ -2,7 +2,7 @@
 
 module Hyrax
   module BatchIngest
-    class BatchIngestError < StandardErrod; end
+    class BatchIngestError < ::StandardError; end
     class MissingConfig < BatchIngestError; end
     class InvalidConfig < BatchIngestError; end
     class ReaderError < BatchIngestError; end
