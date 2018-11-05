@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 require 'rails_helper'
 
-Rspec.describe Hyrax::BatchIngest::BatchRunner do
+RSpec.describe Hyrax::BatchIngest::BatchRunner do
   let(:batch_runner) do
     described_class.new(ingest_type: ingest_type,
                         source_location: source_location,
