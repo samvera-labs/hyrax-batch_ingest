@@ -25,6 +25,6 @@ class BatchReader
 
   protected
 
-  def read()
+  def read
   end
 end

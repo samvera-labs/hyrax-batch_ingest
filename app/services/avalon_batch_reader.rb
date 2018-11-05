@@ -5,7 +5,7 @@ class AvalonBatchReader < BatchReader
 
   protected
 
-  def read()
+  def read
     begin
       spreadsheet = Roo::Spreadsheet.open(source_location)
       read_name_email(spreadsheet)
@@ -20,8 +20,12 @@ class AvalonBatchReader < BatchReader
   private
 
   def read_name_email(spreadsheet)
-    @name = spreadsheet.row(spreadsheet.first_row)[0]
-    @submitter_email = spreadsheet.row(spreadsheet.first_row)[1]
+    begin
+      @name = spreadsheet.row(spreadsheet.first_row)[0]
+      @submitter_email = spreadsheet.row(spreadsheet.first_row)[1]
+    rescue Exception => err
+      raise ReaderError "Missing submitter's email address: #{err.message}"
+    end
   end
 
   def read_batch_items(spreadsheet, field_names)
@@ -79,10 +83,14 @@ class AvalonBatchReader < BatchReader
   end
 
   def field_names(spreadsheet)
-    header_row = spreadsheet.row(spreadsheet.first_row + 1)
-    field_names = header_row.collect { |field|
-      field.to_s.downcase.gsub(/\s/,'_').strip.to_sym
-    }
+    begin
+      header_row = spreadsheet.row(spreadsheet.first_row + 1)
+      field_names = header_row.collect { |field|
+        field.to_s.downcase.gsub(/\s/,'_').strip.to_sym
+      }
+    rescue Exception => err
+      raise ReaderError "Missing header row: #{err.message}"
+    end
   end
 
   def true?(value)
