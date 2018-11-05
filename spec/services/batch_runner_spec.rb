@@ -15,7 +15,7 @@ Rspec.describe Hyrax::BatchIngest::BatchRunner do
   let(:batch) { batch_runner.batch }
 
   describe 'run' do
-    it 'reads and enqueues a batch' do
+    xit 'reads and enqueues a batch' do
     end
   end
 
@@ -40,9 +40,9 @@ Rspec.describe Hyrax::BatchIngest::BatchRunner do
     end
   end
 
-  describe 'read' do
-  end
-
-  describe 'enqueue' do
-  end
+  # describe 'read' do
+  # end
+  #
+  # describe 'enqueue' do
+  # end
 end

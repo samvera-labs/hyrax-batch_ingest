@@ -27,13 +27,16 @@ module Hyrax
       def read
         reader = config.reader.new(batch.source_location)
         batch.batch_items = reader.batch_items # batch item initialized (and now persisted)
-        notify_conflict(batch, reader) if batch.submitter_email.present? && reader.submitter_email.present? && batch.submitter_email != reader.submitter_email
-        batch.submitter_email = reader.submitter_email if reader.submitter_email.present?
+        if batch.submitter_email.present? && reader.submitter_email.present?
+          if batch.submitter_email != reader.submitter_email
+            notify_conflict(reader)
+          else
+            batch.submitter_email = reader.submitter_email
+          end
+        end
         batch.status = :accepted
         batch.save! # batch accepted
-      rescue ReaderError => e
-        notify_failed(e)
-      rescue ActiveRecord::ActiveRecordError => e
+      rescue ReaderError, ActiveRecord::ActiveRecordError => e
         notify_failed(e)
       end
 
@@ -57,6 +60,11 @@ module Hyrax
 
         def notify_failed(exception)
           batch.update(status: :failed, error: exception.message)
+          # TODO: Send email
+        end
+
+        def notify_conflict(reader)
+          batch.update(status: :failed, error: "Conflict: Different submitter emails found (#{batch.submitter_email} and #{reader.submitter_email})")
           # TODO: Send email
         end
     end
