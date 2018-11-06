@@ -1,4 +1,6 @@
-class BatchReader
+# frozen_string_literal: true
+
+class Hyrax::BatchIngest::BatchReader
   def initialize(source_location)
     @source_location = source_location
     @read = false
@@ -7,7 +9,7 @@ class BatchReader
     @batch_items = nil
   end
 
-  # TODO refer to Issue #58 to decide if we will add/populate this field
+  # TODO: refer to Issue #58 to decide if we will add/populate this field
   def name
     read unless @read
     @name
@@ -25,6 +27,5 @@ class BatchReader
 
   protected
 
-  def read
-  end
+    def read; end
 end

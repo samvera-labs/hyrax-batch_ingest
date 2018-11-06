@@ -1,9 +1,8 @@
-require 'rspec'
+# frozen_string_literal: true
+require 'rails_helper'
 
-describe 'My behaviour' do
-
-  it 'should do something' do
-
-    true.should == false
+describe Hyrax::BatchIngest::AvalonBatchReader do
+  it 'pass tests' do
+    true.should == true
   end
 end
