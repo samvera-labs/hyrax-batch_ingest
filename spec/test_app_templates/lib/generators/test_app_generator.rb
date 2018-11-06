@@ -21,4 +21,18 @@ class TestAppGenerator < Rails::Generators::Base
   def install_engine
     generate 'hyrax:batch_ingest:install'
   end
+
+  # TODO: BROKEN - NEEDS TO RUN AFTER FEDORA/SOLR HAVE STARTED.
+  def create_default_admin_set
+    rake 'hyrax:default_admin_set:create'
+  end
+
+  def add_example_batch_ingest_config
+    # TODO: the line below doesn't work. Currently need to copy by hand .
+    copy_file 'config/example_batch_ingest.yml', 'config/batch_ingest.yml'
+  end
+
+  def add_admin_user
+    # TODO
+  end
 end

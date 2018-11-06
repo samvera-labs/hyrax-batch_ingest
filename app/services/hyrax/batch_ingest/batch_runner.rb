@@ -55,7 +55,7 @@ module Hyrax
       private
 
         def config
-          @config ||= Hyrax::BatchIngest::Config.new(ingest_type: batch.ingest_type)
+          @config ||= Hyrax::BatchIngest.config.ingest_types[batch.ingest_type]
         end
 
         def notify_failed(exception)

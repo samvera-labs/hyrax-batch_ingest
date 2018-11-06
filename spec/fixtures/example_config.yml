@@ -1,0 +1,10 @@
+---
+ingest_types:
+  example_ingest_type:
+    label: "Example Ingest Type"
+    reader: "ExampleReader"
+    mapper: "ExampleMapper"
+  other_ingest_type:
+    label: "Other Ingest Type"
+    reader: "OtherReader"
+    mapper: "OtherMapper"

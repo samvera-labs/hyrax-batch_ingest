@@ -12,7 +12,7 @@
       </tr>
     </thead>
     <tbody>
-      <% @batch.batch_items.each_with_index do |item, index| %>
+      <% @presenter.batch_items.each_with_index do |item, index| %>
         <tr class="batch-item <%= item.status %>" data-batch-item-id="<%= item.id %>">
           <td><span data-toggle="collapse" data-target="#error_<%= index %>" class="clickable" style="cursor: pointer;"><%= item.status %></span></td>
           <td><%= item.id_within_batch %></td>

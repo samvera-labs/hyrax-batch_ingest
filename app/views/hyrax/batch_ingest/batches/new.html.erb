@@ -1,0 +1,9 @@
+<h1><%= t('.header') %></h1>
+
+<%= simple_form_for @presenter.batch do |f| %>
+  <%= f.input :ingest_type, collection: @ingest_types, required: true %>
+  <%= f.input :batch_source, as: :file, required: true %>
+  <%= f.input :submitter_email, as: :email, required: true %>
+  <%= f.input :admin_set_id, collection: @admin_sets, required: true %>
+  <%= f.button :submit,  value: 'Save' %>
+<% end %>
