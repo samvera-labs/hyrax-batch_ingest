@@ -35,7 +35,7 @@ RSpec.describe Hyrax::BatchIngest::Config do
     context 'with an non-existent config file' do
       let(:config_file_path) { 'not_a_file' }
       it 'raises a InvalidConfig error' do
-        expect { config }.to raise_error Hyrax::BatchIngest::Error::MissingConfig
+        expect { config }.to raise_error Hyrax::BatchIngest::MissingConfig
       end
     end
   end

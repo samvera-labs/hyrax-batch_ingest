@@ -7,6 +7,7 @@ FactoryBot.define do
     status { :complete }
     sequence(:submitter_email) { |n| "batch_submitter_#{n}@example.org" }
     error {}
+    ingest_type { 'example_ingest_type' }
 
     after(:build) do |batch, evaluator|
       evaluator.batch_items.each { |batch_item| batch_item.batch = batch }

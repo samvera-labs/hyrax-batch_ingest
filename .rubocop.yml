@@ -21,3 +21,8 @@ RSpec/ExampleLength:
 Metrics/BlockLength:
   Exclude:
     - 'spec/lib/hyrax/batch_ingest/config_spec.rb'
+    - 'spec/services/batch_runner_spec.rb'
+
+RSpec/DescribeClass:
+  Exclude:
+    - 'spec/services/batch_runner_spec.rb'
