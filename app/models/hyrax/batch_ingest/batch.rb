@@ -5,7 +5,7 @@ module Hyrax::BatchIngest
     has_many :batch_items
 
     def completed?
-      batch_items.all? { |item| item.status == :success || item.status == :failed }
+      batch_items.all? { |item| item.status == 'success' || item.status == 'failed' }
     end
 
     def admin_set
