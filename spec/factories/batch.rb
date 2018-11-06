@@ -2,9 +2,9 @@
 
 FactoryBot.define do
   factory :batch, class: Hyrax::BatchIngest::Batch do
-    admin_set_id { 'gid://internal/AdminSet/default' }
+    admin_set_id { nil }
     source_location { 'path/to/batch_manifest.csv' }
-    status { 'complete' }
+    status { 'completed' }
     sequence(:submitter_email) { |n| "batch_submitter_#{n}@example.org" }
     error {}
     ingest_type { 'example_ingest_type' }

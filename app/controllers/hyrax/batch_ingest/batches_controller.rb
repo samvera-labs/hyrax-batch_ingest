@@ -17,12 +17,19 @@ module Hyrax
       end
 
       def create
-        @batch = Batch.new(strong_params)
+        @batch = Batch.new(batch_params)
+        # TODO: Is the original_filename is what we really want to put
+        # in source_location?
+        @batch.source_location = params['batch']['batch_source'].original_filename
+        # TODO: status should only be set to 'accepted' after validation of all
+        # other fields succeeds.
+        @batch.status = 'accepted'
+        # TODO: Use BatchRunner to kick off the ingest process.
         if @batch.save
           flash[:notice] = 'Batch Started'
           redirect_to @batch
         else
-          @presenter = presenter_for :new, @batch
+          @presenter = Hyrax::BatchIngest::BatchPresenter.new(@batch)
           render :new
         end
       end
@@ -36,7 +43,7 @@ module Hyrax
       end
 
       def show
-        @presenter = Hyrax::BatchIngest::BatchPresenter.new(Batch.find(strong_params[:id]))
+        @presenter = Hyrax::BatchIngest::BatchPresenter.new(Batch.find(params[:id]))
       end
 
       private
@@ -55,8 +62,8 @@ module Hyrax
           end
         end
 
-        def strong_params
-          params.permit(:id, :submitter_email)
+        def batch_params
+          params.require(:batch).permit(:submitter_email, :ingest_type, :admin_set_id)
         end
     end
   end

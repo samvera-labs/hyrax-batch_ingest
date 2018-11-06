@@ -1,5 +1,18 @@
 <h1><span class="fa fa-copy"></span>Batch Details</h1>
 
+<dl>
+  <dt>Ingest Type:</dt>
+  <dd><%= @presenter.ingest_type %></dd>
+  <dt>Submitter:</dt>
+  <dd><%= @presenter.submitter_email %></dd>
+  <dt>Source Location:</dt>
+  <dd><%= @presenter.source_location %></dd>
+  <dt>Error:</dt>
+  <dd><%= @presenter.error %></dd>
+  <dt>Admin Set:</dt>
+  <dd><%= @presenter.admin_set_title %></dd>
+</dl>
+
 <div class='table-responsive'>
   <table class='table table-condensed'>
     <thead>
@@ -12,15 +25,8 @@
       </tr>
     </thead>
     <tbody>
-      <% @presenter.batch_items.each_with_index do |item, index| %>
-        <tr class="batch-item <%= item.status %>" data-batch-item-id="<%= item.id %>">
-          <td><span data-toggle="collapse" data-target="#error_<%= index %>" class="clickable" style="cursor: pointer;"><%= item.status %></span></td>
-          <td><%= item.id_within_batch %></td>
-          <td><%= item.source_location %></td>
-          <td><%= item.object_id %></td>
-          <td><%= item.error %></td>
-        </tr>
-        <!-- TODO: copy Donut's expandable row containing error information  -->
+      <% @presenter.batch_item_presenters.each_with_index do |batch_item_presenter, index| %>
+        <%= render 'batch_item', presenter: batch_item_presenter, index: index %>
       <% end %>
     </tbody>
   </table>

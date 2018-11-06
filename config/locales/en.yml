@@ -4,3 +4,17 @@ en:
       batches:
         new:
           header: "Upload New Batch"
+        status:
+          received: "received"
+          accepted: "accepted"
+          enqueued: "enqueued"
+          running:  "running"
+          completed: "completed"
+          failed:  "failed"
+      batch_items:
+        status:
+          initialized: 'initialized'
+          enqueued: 'enqueued'
+          running: 'running'
+          succeeded: 'succeeded'
+          failed: 'failed'

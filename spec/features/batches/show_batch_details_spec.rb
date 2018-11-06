@@ -7,8 +7,9 @@ describe 'Show Batches Data', type: :feature do
     before { login_as admin }
 
     describe 'default view' do
-      let(:batch) { create(:batch, batch_items: build_list(:batch_item, 5)) }
-      before { visit "/batches/#{batch.id}" }
+      let(:batch_items) { build_list(:batch_item, 5) }
+      let(:batch) { create(:batch, batch_items: batch_items) }
+      before { visit batch_path(id: batch.id) }
 
       it 'show batch details and list of batch items' do
         expect(page).to have_header "Batch Details"
