@@ -1,0 +1,7 @@
+inherit_from:
+  - bixby_default.yml
+  - .rubocop.exceptions.yml
+
+AllCops:
+  TargetRubyVersion: 2.3
+  DisplayCopNames: true
