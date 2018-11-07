@@ -93,10 +93,17 @@ jobs:
           curl -H 'Content-type: application/json' http://localhost:8985/api/collections/ -d '{create: {name: hydra-test, config: hyrax, numShards: 1}}'
 
     - run:
+        command: |
+          curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter
+          chmod +x ./cc-test-reporter
+          ./cc-test-reporter before-build
+
+    - run:
         name: Run rspec
         command: |
           mkdir /tmp/test-results
-          bundle exec rake spec
+          COVERAGE=true bundle exec rake spec
+          ./cc-test-reporter after-build -t simplecov --exit-code $?
 
     - run:
         name: Clean dependencies
