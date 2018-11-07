@@ -59,8 +59,8 @@ class Hyrax::BatchIngest::AvalonBatchReader < Hyrax::BatchIngest::BatchReader
       end
 
       def add_special_values_to_item!(item)
-        item.fields[:publish] = fields[:publish].present? ? true?(fields[:publish]) : false
-        item.fields[:hidden] = fields[:hidden].present? ? true?(fields[:hidden]) : false
+        item.fields[:publish] = item.fields[:publish].present? ? true?(item.fields[:publish]) : false
+        item.fields[:hidden] = item.fields[:hidden].present? ? true?(item.fields[:hidden]) : false
       end
 
       def field_names
