@@ -30,4 +30,7 @@ Gem::Specification.new do |s|
   s.add_development_dependency 'simplecov'
   s.add_development_dependency 'solr_wrapper'
   s.add_development_dependency 'sqlite3'
+
+  # Pinned dependencies
+  s.add_development_dependency 'sass', '=3.6.0'
 end
