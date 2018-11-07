@@ -32,7 +32,6 @@ jobs:
       NOKOGIRI_USE_SYSTEM_LIBRARIES: true
       ENGINE_CART_RAILS_OPTIONS: --skip-git --skip-bundle --skip-listen --skip-spring --skip-yarn --skip-keeps --skip-coffee --skip-puma --skip-test
       COVERALLS_PARALLEL: true
-      CC_TEST_REPORTER_ID: ${CC_TEST_REPORTER_ID}
 
     steps:
     - restore_cache:
