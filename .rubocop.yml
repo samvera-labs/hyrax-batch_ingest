@@ -31,3 +31,11 @@ RSpec/DescribeClass:
 
 Style/RaiseArgs:
   Enabled: false
+
+Style/GuardClause:
+  Exclude:
+    - 'app/services/hyrax/batch_ingest/batch_runner.rb'
+
+RSpec/VerifiedDoubles:
+  Exclude:
+    - 'spec/services/batch_runner_spec.rb'

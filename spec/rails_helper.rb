@@ -49,6 +49,8 @@ rescue ActiveRecord::PendingMigrationError => e
   exit 1
 end
 
+ActiveJob::Base.queue_adapter = :test
+
 RSpec.configure do |config|
   # Define the fixture_path directory
   config.fixture_path = "#{Hyrax::BatchIngest.root}/spec/fixtures"
