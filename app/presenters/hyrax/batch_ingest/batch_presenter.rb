@@ -16,7 +16,7 @@ module Hyrax
       end
 
       def status
-        status_labels[batch.status]
+        status_labels[batch.status.to_sym]
       end
 
       def admin_set_title
@@ -28,9 +28,12 @@ module Hyrax
         def status_labels
           # TODO: use i18n
           {
-            started: "Batch Started",
-            processing: "Batch Processing",
-            complete: "Batch Complete"
+            received: "Batch Received",
+            accepted: "Batch Accepted",
+            enqueued: "Batch Enqueued",
+            running: "Batch Running",
+            completed: "Batch Completed",
+            failed: "Batch Failed"
           }
         end
     end

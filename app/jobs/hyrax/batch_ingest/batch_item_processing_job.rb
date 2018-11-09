@@ -3,6 +3,7 @@ module Hyrax
   module BatchIngest
     class BatchItemProcessingJob < ApplicationJob
       def perform(batch_item)
+        batch_item.batch.update(status: 'running') if batch_item.batch.status == 'enqueued'
         batch_item.update(status: 'running')
         config = Hyrax::BatchIngest::Config.new(batch_item.batch.ingest_type)
         validation_result = config.source_validator.validate(batch_item)
@@ -13,11 +14,14 @@ module Hyrax
         # TODO: read batch_item.source_data or batch_item.source_location and feed into mapper?
         work = config.mapper.map(batch_item)
         if work.save
-          batch_item.update(status: 'success', object_id: work.id)
+          batch_item.update(status: 'completed', object_id: work.id)
         else
           notify_failed_save(batch_item, work)
         end
-        batch_item.batch.update('complete') if batch_item.batch.completed?
+      rescue StandardError => e
+        notify_failed(batch_item, e)
+      ensure
+        batch_item.batch.update('completed') if batch_item.batch.completed?
       end
 
       private
@@ -28,6 +32,11 @@ module Hyrax
 
         def notify_invalid(batch_item, validation_result)
           batch_item.update(status: 'failed', error: validation_result.messages(full: true).values.flatten.join(" "))
+        end
+
+        def notify_failed(batch_item, exception)
+          batch_item.update(status: 'failed', error: exception.message)
+          # TODO: Send email
         end
     end
   end

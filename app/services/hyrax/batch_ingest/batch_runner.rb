@@ -62,7 +62,7 @@ module Hyrax
         end
 
         def config
-          @config ||= Hyrax::BatchIngest.config.ingest_types[batch.ingest_type]
+          @config ||= Hyrax::BatchIngest.config.ingest_types[batch.ingest_type.to_sym]
         end
 
         def notify_failed(exception)
