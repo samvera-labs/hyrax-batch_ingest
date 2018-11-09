@@ -53,8 +53,15 @@ module Hyrax
 
         def add_column_to_files_and_fields!(files, fields, field, value)
           if FILE_FIELDS.include?(field)
-            files << {} if field == :file
-            files.last[field] = field == :skip_transcoding ? true?(value) : value
+            case field
+            when :file
+              files << {}
+              files.last[field] = value
+            when :skip_transcoding
+              files.last[field] = true?(value)
+            else
+              files.last[field] = value
+            end
           else
             fields[field] = []
             fields[field] << value
