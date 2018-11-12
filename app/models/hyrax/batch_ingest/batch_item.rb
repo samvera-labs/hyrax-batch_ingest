@@ -5,7 +5,7 @@ module Hyrax::BatchIngest
     STATUSES = ['initialized', 'enqueued', 'running', 'succeeded', 'failed'].freeze
 
     belongs_to :batch
-
     validates :status, inclusion: { in: STATUSES }
+    paginates_per 20
   end
 end

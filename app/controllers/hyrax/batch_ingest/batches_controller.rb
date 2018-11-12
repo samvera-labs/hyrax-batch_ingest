@@ -3,8 +3,6 @@
 module Hyrax
   module BatchIngest
     class BatchesController < Hyrax::BatchIngest::ApplicationController
-      skip_authorize_resource
-
       def new
         # We need to have some batch ingest types before we proceed.
         if Hyrax::BatchIngest.config.ingest_types.empty?
@@ -36,14 +34,20 @@ module Hyrax
 
       def index
         # TODO: Restrict batches to those to which current_user is authorized
-        @presenters = Batch.all.map do |batch|
+        @batches = Batch.all
+        @presenters = @batches.map do |batch|
           Hyrax::BatchIngest::BatchPresenter.new(batch)
         end
-        @batches = Batch.all
       end
 
       def show
-        @presenter = Hyrax::BatchIngest::BatchPresenter.new(Batch.find(params[:id]))
+        @default_item_sort = 'id_within_batch asc'
+        @batch = Batch.find(params[:id])
+        @batch_items = @batch.batch_items
+                             .order(sanitize_order(params[:order] || @default_item_sort))
+                             .page(params[:page])
+                             .per(params[:per])
+        @presenter = Hyrax::BatchIngest::BatchPresenter.new(@batch)
       end
 
       private
@@ -64,6 +68,12 @@ module Hyrax
 
         def batch_params
           params.require(:batch).permit(:submitter_email, :ingest_type, :admin_set_id)
+        end
+
+        # Avoid SQL injection attack on ActiveRecord order method
+        # Input must be in format "column asc" or "column desc"
+        def sanitize_order(order_param)
+          { order_param.split.first => order_param.split.second } if order_param.present?
         end
     end
   end
