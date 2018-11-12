@@ -21,13 +21,12 @@ module Hyrax
 
       def perform(batch_item)
         config = Hyrax::BatchIngest.config.ingest_types[batch_item.batch.ingest_type.to_sym]
-        # validation_result = config.source_validator.new(batch_item).validate
-        # if validation_result.failure?
-        #   notify_invalid(batch_item, validation_result)
-        #   return
-        # end
-        work = config.mapper.new(batch_item).map
-        if work.save
+        work_attrs = config.mapper.new(batch_item, config).map
+        work = config.work_class.new
+        ability = Ability.new(User.find(email: batch_item.submitter_email))
+        env = Hyrax::Actors::Environment.new(work, ability, work_attrs)
+        Hyrax::CurationConcern.actor.create(env)
+        if work.persisted?
           batch_item.update(status: 'completed', object_id: work.id)
         else
           notify_failed_save(batch_item, work)
@@ -39,10 +38,6 @@ module Hyrax
         def notify_failed_save(batch_item, work)
           batch_item.update(status: 'failed', error: work.errors.full_messages.join(" "))
         end
-
-        # def notify_invalid(batch_item, validation_result)
-        #   batch_item.update(status: 'failed', error: validation_result.messages(full: true).values.flatten.join(" "))
-        # end
 
         def notify_failed(batch_item, exception)
           batch_item.update(status: 'failed', error: exception.message)
