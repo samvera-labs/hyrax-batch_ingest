@@ -30,3 +30,4 @@ ratings:
 exclude_paths:
 - config/
 - vendor/
+- .internal_test_app/
