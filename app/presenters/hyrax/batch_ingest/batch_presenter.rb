@@ -3,39 +3,83 @@
 module Hyrax
   module BatchIngest
     class BatchPresenter
+      DATETIME_FORMAT = "%m/%d/%y %l:%M %p"
+
       attr_reader :batch
+
+      delegate :id, :submitter_email, :source_location, :batch_items, :error,
+               to: :batch
+
       def initialize(batch)
         @batch = batch
       end
-
-      delegate :id, :submitter_email, :source_location, :batch_items, :error,
-               :created_at, :updated_at, to: :batch
 
       def collection_title
         batch.collection&.title&.first
       end
 
-      def status
-        status_labels[batch.status.to_sym]
+      def ingest_type
+        Hyrax::BatchIngest.config.ingest_types[batch.ingest_type.to_sym].label
+      end
+
+      def status_span_tag
+        # TODO: Style this span
+        "<span class=\"#{status_css_class}\"> #{status_label.capitalize}</span>".html_safe
+      end
+
+      def created_at
+        batch.created_at.strftime(DATETIME_FORMAT)
+      end
+
+      def updated_at
+        batch.updated_at.strftime(DATETIME_FORMAT)
+      end
+
+      def batch_item_count
+        batch.batch_items.count
+      end
+
+      def status_label
+        self.class.status_labels[batch.status] || 'unknown'
+      end
+
+      def status_css_class
+        self.class.status_css_classes[batch.status]
       end
 
       def admin_set_title
         batch.admin_set&.title&.first
       end
 
-      private
+      def batch_item_presenters
+        batch_items.map do |batch_item|
+          Hyrax::BatchIngest::BatchItemPresenter.new(batch_item)
+        end
+      end
 
+      class << self
         def status_labels
-          # TODO: use i18n
           {
-            received: "Batch Received",
-            accepted: "Batch Accepted",
-            enqueued: "Batch Enqueued",
-            running: "Batch Running",
-            completed: "Batch Completed",
-            failed: "Batch Failed"
+            received: I18n.t('hyrax.batch_ingest.batches.status.received'),
+            accepted: I18n.t('hyrax.batch_ingest.batches.status.accepted'),
+            enqueued: I18n.t('hyrax.batch_ingest.batches.status.enqueued'),
+            running: I18n.t('hyrax.batch_ingest.batches.status.running'),
+            completed: I18n.t('hyrax.batch_ingest.batches.status.completed'),
+            failed: I18n.t('hyrax.batch_ingest.batches.status.failed')
+          }.with_indifferent_access
+        end
+
+        def status_css_classes
+          {
+            'received'  => 'fa fa-info',
+            'accepted'  => 'fa fa-info',
+            'enqueued'  => 'fa fa-info',
+            'running'   => 'fa fa-refresh fa-sync',
+            'completed'  => 'fa fa-check-circle',
+            'failed'     => 'fa fa-exclamation-triangle'
           }
         end
+      end
     end
   end
 end

@@ -27,10 +27,10 @@ Gem::Specification.new do |s|
   s.add_development_dependency 'coffee-rails'
   s.add_development_dependency 'factory_bot_rails', '~> 4.11'
   s.add_development_dependency 'fcrepo_wrapper'
-  s.add_development_dependency 'rspec-rails', '~> 3.8'
-  s.add_development_dependency 'simplecov'
+  s.add_development_dependency "sqlite3"
+  s.add_development_dependency "rspec-rails", "~> 3.8"
+  s.add_development_dependency "rspec-collection_matchers"
   s.add_development_dependency 'solr_wrapper'
-  s.add_development_dependency 'sqlite3'
 
   # Pinned dependencies
   s.add_development_dependency 'sass', '=3.6.0'

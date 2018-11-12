@@ -5,7 +5,7 @@ FactoryBot.define do
     sequence(:id_within_batch) { |n| n }
     source_data { '{ title: ["Title"], creator: ["Jane Doe"], keyword: ["test"]}' }
     source_location { 'path/to/batch_manifest.csv' }
-    status { :complete }
+    status { Hyrax::BatchIngest::BatchItem::STATUSES.sample }
     error { nil }
     object_id { '12345678' }
   end

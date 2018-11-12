@@ -19,5 +19,10 @@ RSpec/DescribeClass:
   Exclude:
     - 'spec/services/batch_runner_spec.rb'
 
+Rails/OutputSafety:
+  Exclude:
+    - app/presenters/hyrax/batch_ingest/batch_presenter.rb
+    - app/presenters/hyrax/batch_ingest/batch_item_presenter.rb
+
 Style/RaiseArgs:
   Enabled: false

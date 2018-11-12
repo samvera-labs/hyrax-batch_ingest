@@ -1,11 +1,15 @@
-<tr>
-  <td><%= presenter.id %></td>
-  <td><%= presenter.status %></td>
-  <td><%= presenter.error %></td>
+<!-- TODO: move to css file -->
+<style media="screen">
+.batch-row:hover {
+  background-color: #ddd;
+}
+</style>
+
+<tr class="batch-row">
+  <td><a href="<%= batch_path id: presenter.id %>"><%= presenter.status_span_tag %></a></td>
+  <td><%= presenter.created_at %></td>
+  <td><%= presenter.batch_item_count %></td>
   <td><%= presenter.submitter_email %></td>
   <td><%= presenter.source_location %></td>
   <td><%= presenter.admin_set_title %></td>
-  <td><%= presenter.collection_title %></td>
-  <td><%= presenter.created_at %></td>
-  <td><%= presenter.updated_at %></td>
 </tr>

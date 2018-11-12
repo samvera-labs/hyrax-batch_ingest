@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class CreateHyraxBatchIngestBatches < ActiveRecord::Migration[5.1]
   def change
     create_table :hyrax_batch_ingest_batches do |t|

@@ -2,14 +2,19 @@
 
 module Hyrax::BatchIngest
   class Batch < ApplicationRecord
+    STATUSES = ['received', 'accepted', 'enqueued', 'running', 'completed', 'failed'].freeze
+
     has_many :batch_items
+
+    validates :status, inclusion: { in: STATUSES }
 
     def completed?
       batch_items.all? { |item| item.status == 'success' || item.status == 'failed' }
     end
 
     def admin_set
-      @admin_set ||= AdminSet.find(admin_set_id) if admin_set_id
+      return unless admin_set_id
+      @admin_set ||= AdminSet.find(admin_set_id)
     end
 
     def collection

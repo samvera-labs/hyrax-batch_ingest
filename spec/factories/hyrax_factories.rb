@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 # Specify a list of Hyrax factories to require.
 hyrax_factories = [
-  # 'admin_sets',
+  'admin_sets',
   # 'permission_templates',
   # 'permission_template_accesses',
   # 'collections',
