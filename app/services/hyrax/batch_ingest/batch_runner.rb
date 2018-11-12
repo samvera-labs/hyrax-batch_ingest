@@ -9,8 +9,7 @@ module Hyrax
         @batch ||= Batch.new(ingest_type: ingest_type,
                              source_location: source_location,
                              admin_set_id: admin_set_id,
-                             submitter_email: submitter_email,
-                             status: 'received')
+                             submitter_email: submitter_email)
       end
 
       def run
@@ -20,9 +19,11 @@ module Hyrax
       end
 
       def initialize_batch
+        batch.status = 'received'
         batch.save! # batch received
       rescue ActiveRecord::ActiveRecordError => e
         notify_failed(e)
+        false
       end
 
       def read

@@ -85,11 +85,4 @@ RSpec.configure do |config|
   # NOTE: for controller specs, put the following in the spec's describe block:
   #  routes { Hyrax::BatchIngest::Engine.routes }
   config.include Hyrax::BatchIngest::Engine.routes.url_helpers, type: :feature
-
-  config.before(:context) do
-    # Load a default example configuration for Hyrax::BatchIngest before each
-    # context. To test a different configuration file, simply call
-    # Hyrax::BatchIngest.config.load_config before individual tests.
-    Hyrax::BatchIngest.config.load_config(File.join(fixture_path, 'example_config.yml'))
-  end
 end
