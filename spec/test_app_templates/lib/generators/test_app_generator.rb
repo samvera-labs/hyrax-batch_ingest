@@ -35,4 +35,8 @@ class TestAppGenerator < Rails::Generators::Base
   def add_admin_user
     # TODO
   end
+
+  def generate_work_type
+    generate 'hyrax:work GenericWork'
+  end
 end

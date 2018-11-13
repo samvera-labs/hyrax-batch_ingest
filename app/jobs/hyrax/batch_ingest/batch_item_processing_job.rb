@@ -21,7 +21,7 @@ module Hyrax
 
       def perform(batch_item)
         config = Hyrax::BatchIngest.config.ingest_types[batch_item.batch.ingest_type.to_sym]
-        work_attrs = config.mapper.new(batch_item, config).map
+        work_attrs = config.mapper.new(batch_item).map
         work = config.work_class.new
         ability = Ability.new(User.find(email: batch_item.submitter_email))
         env = Hyrax::Actors::Environment.new(work, ability, work_attrs)
