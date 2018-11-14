@@ -2,7 +2,7 @@
 
 module Hyrax::BatchIngest
   class BatchItem < ApplicationRecord
-    STATUSES = ['initialized', 'enqueued', 'running', 'succeeded', 'failed'].freeze
+    STATUSES = ['initialized', 'enqueued', 'running', 'completed', 'failed'].freeze
 
     belongs_to :batch
 
