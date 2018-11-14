@@ -15,28 +15,20 @@ module Hyrax
 
       rescue_from(StandardError) do |exception|
         batch_item = arguments.first
+        # TODO: destroy any objects that were created
         notify_failed(batch_item, exception)
         batch_item.batch.update(status: 'completed') if batch_item.batch.completed?
       end
 
       def perform(batch_item)
-        config = Hyrax::BatchIngest.config.ingest_types[batch_item.batch.ingest_type.to_sym]
-        work_attrs = config.mapper.new(batch_item).map
-        work = config.work_class.new
-        ability = Ability.new(User.find(email: batch_item.submitter_email))
-        env = Hyrax::Actors::Environment.new(work, ability, work_attrs)
-        Hyrax::CurationConcern.actor.create(env)
-        if work.persisted?
-          batch_item.update(status: 'completed', object_id: work.id)
-        else
-          notify_failed_save(batch_item, work)
-        end
+        work = config.ingester.new(batch_item).ingest
+        batch_item.update(status: 'completed', object_id: work.id)
       end
 
       private
 
-        def notify_failed_save(batch_item, work)
-          batch_item.update(status: 'failed', error: work.errors.full_messages.join(" "))
+        def config
+          @config ||= Hyrax::BatchIngest.config.ingest_types[batch_item.batch.ingest_type.to_sym]
         end
 
         def notify_failed(batch_item, exception)

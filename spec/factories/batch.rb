@@ -28,5 +28,9 @@ FactoryBot.define do
     factory :enqueued_batch do
       status { 'enqueued' }
     end
+
+    factory :running_batch do
+      status { 'enqueued' }
+    end
   end
 end

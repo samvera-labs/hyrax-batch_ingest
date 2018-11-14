@@ -18,10 +18,10 @@ module Hyrax
         raise Hyrax::BatchIngest::ReaderClassNotFoundError.new(options[:reader])
       end
 
-      def mapper
-        @mapper ||= Object.const_get(options[:mapper])
+      def ingester
+        @ingester ||= Object.const_get(options[:ingester])
       rescue NameError
-        raise Hyrax::BatchIngest::MapperClassNotFoundError.new(options[:mapper])
+        raise Hyrax::BatchIngest::IngesterClassNotFoundError.new(options[:ingester])
       end
 
       def label
@@ -44,7 +44,7 @@ module Hyrax
 
         # Returns an array of symbols representing valid options.
         def valid_options
-          [:reader, :mapper, :label]
+          [:reader, :ingester, :label]
         end
 
         # Returns an array of symbols representing required options.

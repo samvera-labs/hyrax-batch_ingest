@@ -2,4 +2,4 @@ ingest_types:
   wgbh_ingest:
     label: 'WGBH Ingest'
     reader: WGBHReader
-    mapper: WGBHMapper
+    ingester: WGBHIngester

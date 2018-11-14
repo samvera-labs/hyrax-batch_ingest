@@ -32,7 +32,7 @@ RSpec.describe Hyrax::BatchIngest::Config do
       config.add_ingest_type_config(
         'foo',
         reader: 'FooReader',
-        mapper: 'FooMapper'
+        ingester: 'FooIngester'
       )
     end
 

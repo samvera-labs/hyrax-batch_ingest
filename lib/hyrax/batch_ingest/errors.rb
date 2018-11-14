@@ -4,7 +4,7 @@ module Hyrax
   module BatchIngest
     class BatchIngestError < ::StandardError; end
     class ReaderError < BatchIngestError; end
-    class MapperError < BatchIngestError; end
+    class IngesterError < BatchIngestError; end
 
     class ConfigFileNotFoundError < BatchIngestError
       def initialize(path)
@@ -30,9 +30,9 @@ module Hyrax
       end
     end
 
-    class MapperClassNotFoundError < BatchIngestError
+    class IngesterClassNotFoundError < BatchIngestError
       def initialize(const_name)
-        super("Batch ingest mapper class '#{const_name}' was not found")
+        super("Batch ingest ingester class '#{const_name}' was not found")
       end
     end
 
