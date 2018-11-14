@@ -21,13 +21,13 @@ module Hyrax
       end
 
       def perform(batch_item)
-        work = config.ingester.new(batch_item).ingest
+        work = config(batch_item).ingester.new(batch_item).ingest
         batch_item.update(status: 'completed', object_id: work.id)
       end
 
       private
 
-        def config
+        def config(batch_item)
           @config ||= Hyrax::BatchIngest.config.ingest_types[batch_item.batch.ingest_type.to_sym]
         end
 
