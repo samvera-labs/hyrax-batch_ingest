@@ -27,7 +27,7 @@ rescue LoadError
 end
 
 require 'engine_cart/rake_task'
-task ci: [:rubocop, 'engine_cart:generate'] do
+task ci: ['engine_cart:generate'] do
   require 'solr_wrapper'   # necessary for rake_support to work
   require 'fcrepo_wrapper' # necessary for rake_support to work
   require 'active_fedora/rake_support'
