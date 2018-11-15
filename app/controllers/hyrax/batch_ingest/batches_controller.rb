@@ -33,18 +33,24 @@ module Hyrax
       end
 
       def index
+        @default_sort = 'created_at desc'
         # TODO: Restrict batches to those to which current_user is authorized
         @batches = Batch.all
+                        .joins(:batch_items)
+                        .group(:batch_id)
+                        .order(sanitize_order(params[:order]))
+                        .page(params[:page])
+                        .per(params[:per])
         @presenters = @batches.map do |batch|
           Hyrax::BatchIngest::BatchPresenter.new(batch)
         end
       end
 
       def show
-        @default_item_sort = 'id_within_batch asc'
+        @default_sort = 'id_within_batch asc'
         @batch = Batch.find(params[:id])
         @batch_items = @batch.batch_items
-                             .order(sanitize_order(params[:order] || @default_item_sort))
+                             .order(sanitize_order(params[:order]))
                              .page(params[:page])
                              .per(params[:per])
         @presenter = Hyrax::BatchIngest::BatchPresenter.new(@batch)
@@ -73,7 +79,12 @@ module Hyrax
         # Avoid SQL injection attack on ActiveRecord order method
         # Input must be in format "column asc" or "column desc"
         def sanitize_order(order_param)
-          { order_param.split.first => order_param.split.second } if order_param.present?
+          order_param ||= @default_sort
+          field, sort_direction = order_param.split
+          sort_function = {
+            'batch_item_count' => "count(batch_id) #{sort_direction}"
+          }
+          sort_function[field] || { field => sort_direction }
         end
     end
   end

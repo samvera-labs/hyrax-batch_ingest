@@ -3,7 +3,7 @@ module Hyrax
   module BatchIngest
     module ApplicationHelper
       def sort_order
-        params[:order] || @default_item_sort
+        params[:order] || @default_sort
       end
 
       def sort_link_to(body, field)

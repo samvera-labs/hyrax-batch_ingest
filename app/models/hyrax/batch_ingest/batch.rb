@@ -8,6 +8,8 @@ module Hyrax::BatchIngest
 
     validates :status, inclusion: { in: STATUSES }
 
+    paginates_per 20
+
     def completed?
       batch_items.all? { |item| item.status == 'success' || item.status == 'failed' }
     end
