@@ -23,14 +23,15 @@ module Hyrax
         batch.save! # batch received
       rescue ActiveRecord::ActiveRecordError => e
         notify_failed(e)
+        false
       end
 
       def read
         raise ArgumentError, "Batch not initialized yet" unless batch.persisted?
         reader = config.reader.new(batch.source_location)
-        batch.batch_items = reader.batch_items # batch item initialized (and now persisted)
-        ensure_submitter_email(reader)
-        batch.status = 'accepted'
+        reader.read
+        fail_on_mismatch(batch, reader)
+        populate_batch_from_reader(batch, reader)
         batch.save! # batch accepted
       rescue ReaderError, ActiveRecord::ActiveRecordError => e
         notify_failed(e)
@@ -51,15 +52,32 @@ module Hyrax
 
       private
 
-        def ensure_submitter_email(reader)
-          if reader.submitter_email.present?
-            if batch.submitter_email.present? && batch.submitter_email != reader.submitter_email
-              raise ReaderError, "Conflict: Different submitter emails found (#{batch.submitter_email} and #{reader.submitter_email})"
-            else
-              batch.submitter_email = reader.submitter_email
-            end
+        # Compare values from batch object with values read in from the reader.
+        # Raise errors on any mismatches that are supposed to match.
+        def fail_on_mismatch(batch, reader)
+          raise ReaderError, "Conflict: Different submitter emails found (#{batch.submitter_email} and #{reader.submitter_email})" if batch.submitter_email != reader.submitter_email
+        end
+
+        def populate_batch_from_reader(batch, reader)
+          batch.batch_items = reader.batch_items # batch item initialized (and now persisted)
+          batch.submitter_email = reader.submitter_email if reader.submitter_email
+          if reader.error
+            batch.error = reader.error
+            batch.status = 'failed'
+          else
+            batch.status = 'accepted'
           end
         end
+
+        # def ensure_submitter_email(reader)
+        #   if reader.submitter_email.present?
+        #     if batch.submitter_email.present? && batch.submitter_email != reader.submitter_email
+        #       raise ReaderError, "Conflict: Different submitter emails found (#{batch.submitter_email} and #{reader.submitter_email})"
+        #     else
+        #       batch.submitter_email = reader.submitter_email
+        #     end
+        #   end
+        # end
 
         def config
           @config ||= Hyrax::BatchIngest.config.ingest_types[batch.ingest_type.to_sym]
