@@ -71,10 +71,6 @@ jobs:
           bundle install
 
     - run:
-        name: Call Rubocop
-        command: bundle exec rubocop
-
-    - run:
         name: Generate test app, ensure top-level Gemfile.lock is valid
         command: |
           [ -e ./.internal_test_app ] || bundle exec rake engine_cart:generate
