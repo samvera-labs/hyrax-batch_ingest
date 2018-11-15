@@ -30,7 +30,7 @@ FactoryBot.define do
     end
 
     factory :running_batch do
-      status { 'enqueued' }
+      status { 'running' }
     end
   end
 end
