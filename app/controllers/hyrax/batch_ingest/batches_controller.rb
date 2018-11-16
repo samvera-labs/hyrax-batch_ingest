@@ -80,7 +80,7 @@ module Hyrax
         def start_batch_runner(batch)
           Hyrax::BatchIngest::BatchRunner.new(batch: batch).run
         end
-      
+
         # Avoid SQL injection attack on ActiveRecord order method
         # Input must be in format "column asc" or "column desc"
         def sanitize_order(order_param)
