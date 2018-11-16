@@ -22,6 +22,10 @@ module Hyrax
           "\n  include Hyrax::BatchIngest::Ability\n"
         end
       end
+
+      def install_kaminari_views
+        generate 'kaminari:views bootstrap3'
+      end
     end
   end
 end
