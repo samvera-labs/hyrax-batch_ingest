@@ -22,10 +22,6 @@ class TestAppGenerator < Rails::Generators::Base
     generate 'hyrax:batch_ingest:install'
   end
 
-  def install_kaminari_views
-    generate 'kaminari:views bootstrap3'
-  end
-
   # TODO: BROKEN - NEEDS TO RUN AFTER FEDORA/SOLR HAVE STARTED.
   def create_default_admin_set
     rake 'hyrax:default_admin_set:create'
