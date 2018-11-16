@@ -6,6 +6,7 @@ module Hyrax
       def new
         # We need to have some batch ingest types before we proceed.
         if Hyrax::BatchIngest.config.ingest_types.empty?
+          # TODO: Add a hint as to how/where to add ingest types to config.
           flash[:notice] = "No batch ingest types have been configured."
           redirect_back fallback_location: batches_url
         end
@@ -19,11 +20,11 @@ module Hyrax
         # TODO: Is the original_filename is what we really want to put
         # in source_location?
         @batch.source_location = params['batch']['batch_source'].original_filename
-        # TODO: status should only be set to 'accepted' after validation of all
-        # other fields succeeds.
-        @batch.status = 'accepted'
-        # TODO: Use BatchRunner to kick off the ingest process.
-        if @batch.save
+        @batch.status = 'received'
+
+        if @batch.valid?
+          # This will kick off jobs to process the batch.
+          start_batch_runner(@batch)
           flash[:notice] = 'Batch Started'
           redirect_to @batch
         else
@@ -74,6 +75,10 @@ module Hyrax
 
         def batch_params
           params.require(:batch).permit(:submitter_email, :ingest_type, :admin_set_id)
+        end
+
+        def start_batch_runner(batch)
+          Hyrax::BatchIngest::BatchRunner.new(batch: batch).run
         end
 
         # Avoid SQL injection attack on ActiveRecord order method
