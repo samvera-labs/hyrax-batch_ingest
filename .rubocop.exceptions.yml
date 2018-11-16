@@ -9,10 +9,12 @@ Bundler/DuplicatedGem:
 
 RSpec/ExampleLength:
   Exclude:
+    - 'lib/hyrax/batch_ingest/spec/shared_specs/batch_reader.rb'
     - 'spec/lib/hyrax/batch_ingest/routing/batch_item_routes_spec.rb'
 
 Metrics/BlockLength:
   Exclude:
+    - 'lib/hyrax/batch_ingest/spec/shared_specs/*.rb'
     - 'spec/**/*_spec.rb'
     - 'spec/factories/*.rb'
 
@@ -36,3 +38,8 @@ RSpec/VerifiedDoubles:
   Exclude:
     - 'spec/services/batch_runner_spec.rb'
     - 'spec/jobs/batch_item_processing_job_spec.rb'
+
+RSpec/NamedSubject:
+  Exclude:
+    - 'lib/hyrax/batch_ingest/spec/shared_specs/batch_item_ingester.rb'
+    - 'lib/hyrax/batch_ingest/spec/shared_specs/batch_reader.rb'

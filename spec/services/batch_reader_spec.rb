@@ -1,25 +1,26 @@
 # frozen_string_literal: true
 require 'rails_helper'
+require 'hyrax/batch_ingest/spec/shared_specs'
 
 describe Hyrax::BatchIngest::BatchReader do
-  let(:reader) { described_class.new(source_location) }
-  let(:source_location) { 'path/to/batch/source' }
+  before(:all) do
+    class ExampleReader < Hyrax::BatchIngest::BatchReader
+      protected
 
-  describe '#initialize' do
-    it 'stores the source_location' do
-      expect(reader.source_location).to eq source_location
+        def perform_read
+          raise Hyrax::BatchIngest::ReaderError.new("Unparsable!") if source_location == "invalid_source"
+          @batch_items = [Hyrax::BatchIngest::BatchItem.new(id_within_batch: '1', source_data: '{}', status: 'initialized')]
+        end
     end
   end
 
-  describe '#submitter_email' do
-    it 'throws an exception' do
-      expect { reader.submitter_email }.to raise_error(Hyrax::BatchIngest::ReaderError)
-    end
+  after(:all) do
+    Object.send(:remove_const, :ExampleReader)
   end
 
-  describe '#batch_items' do
-    it 'throws an exception' do
-      expect { reader.batch_items }.to raise_error(Hyrax::BatchIngest::ReaderError)
-    end
-  end
+  let(:reader_class) { ExampleReader }
+  let(:source_location) { "path/to/source" }
+  let(:invalid_source_location) { "invalid_source" }
+
+  it_behaves_like 'a Hyrax::BatchIngest::BatchReader'
 end
