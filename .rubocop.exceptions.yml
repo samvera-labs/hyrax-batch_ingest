@@ -41,4 +41,5 @@ RSpec/VerifiedDoubles:
 
 RSpec/NamedSubject:
   Exclude:
+    - 'lib/hyrax/batch_ingest/spec/shared_specs/batch_item_ingester.rb'
     - 'lib/hyrax/batch_ingest/spec/shared_specs/batch_reader.rb'
