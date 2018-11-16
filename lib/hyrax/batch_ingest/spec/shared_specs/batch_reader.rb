@@ -64,10 +64,6 @@ RSpec.shared_examples "a Hyrax::BatchIngest::BatchReader" do
         subject
         expect(reader).not_to have_received(:read)
       end
-
-      it 'does not change the read flag' do
-        expect { subject }.not_to change { reader.been_read? }
-      end
     end
 
     context 'with invalid source' do
@@ -104,10 +100,6 @@ RSpec.shared_examples "a Hyrax::BatchIngest::BatchReader" do
         subject
         expect(reader).not_to have_received(:read)
       end
-
-      it 'does not change the read flag' do
-        expect { subject }.not_to change { reader.been_read? }
-      end
     end
 
     context 'with invalid source' do
@@ -143,10 +135,6 @@ RSpec.shared_examples "a Hyrax::BatchIngest::BatchReader" do
         allow(reader).to receive(:read).and_call_original
         subject
         expect(reader).not_to have_received(:read)
-      end
-
-      it 'does not change the read flag' do
-        expect { subject }.not_to change { reader.been_read? }
       end
     end
 

@@ -22,7 +22,7 @@ RSpec.shared_examples "a Hyrax::BatchIngest::BatchItemIngester" do
     subject { ingester.ingest }
 
     it 'creates a new object' do
-      expect { subject }.to change { ActiveFedora::Base.count }.by(1)
+      expect { subject }.to change { ActiveFedora::Base.count }.by_at_least(1)
     end
 
     it 'returns a persisted object' do
