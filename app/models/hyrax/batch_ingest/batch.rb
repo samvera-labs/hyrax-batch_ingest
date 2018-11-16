@@ -9,7 +9,7 @@ module Hyrax::BatchIngest
     validates :status, inclusion: { in: STATUSES }
 
     def completed?
-      batch_items.all? { |item| item.status == 'success' || item.status == 'failed' }
+      batch_items.all? { |item| item.status == 'completed' || item.status == 'failed' }
     end
 
     def admin_set

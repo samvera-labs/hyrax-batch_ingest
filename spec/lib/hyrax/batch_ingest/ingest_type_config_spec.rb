@@ -24,13 +24,13 @@ RSpec.describe Hyrax::BatchIngest::IngestTypeConfig do
     before do
       # some test classes
       class ExampleReader; end
-      class ExampleMapper; end
+      class ExampleIngester; end
     end
 
     let(:ingest_type_config) do
       described_class.new('example_ingest_type', reader: 'ExampleReader',
-                                                 mapper: 'ExampleMapper',
-                                                 label: 'Example Mapper')
+                                                 ingester: 'ExampleIngester',
+                                                 label: 'Example Ingester')
     end
 
     describe '#reader' do
@@ -39,29 +39,29 @@ RSpec.describe Hyrax::BatchIngest::IngestTypeConfig do
       end
     end
 
-    describe 'mapper' do
-      it 'returns the mapper value for the ingest type' do
-        expect(ingest_type_config.mapper).to eq ExampleMapper
+    describe 'ingester' do
+      it 'returns the ingester value for the ingest type' do
+        expect(ingest_type_config.ingester).to eq ExampleIngester
       end
     end
 
     describe '#label' do
       it 'returns the label for the ingest type' do
-        expect(ingest_type_config.label).to eq 'Example Mapper'
+        expect(ingest_type_config.label).to eq 'Example Ingester'
       end
     end
 
     # clean up test classes
     after do
       Object.send(:remove_const, :ExampleReader)
-      Object.send(:remove_const, :ExampleMapper)
+      Object.send(:remove_const, :ExampleIngester)
     end
   end
 
   context 'when the specified classes do not exist' do
     let(:ingest_type_config) do
       described_class.new('example_ingest_type', reader: 'ClassDoesNotExist',
-                                                 mapper: 'ClassDoesNotExist')
+                                                 ingester: 'ClassDoesNotExist')
     end
 
     describe '#reader' do
@@ -70,9 +70,9 @@ RSpec.describe Hyrax::BatchIngest::IngestTypeConfig do
       end
     end
 
-    describe '#mapper' do
+    describe '#ingester' do
       it 'raises a Hyrax::BatchIngest::ReaderClassNotFoundError' do
-        expect { ingest_type_config.mapper }.to raise_error Hyrax::BatchIngest::MapperClassNotFoundError
+        expect { ingest_type_config.ingester }.to raise_error Hyrax::BatchIngest::IngesterClassNotFoundError
       end
     end
   end

@@ -15,34 +15,21 @@ module Hyrax
 
       rescue_from(StandardError) do |exception|
         batch_item = arguments.first
+        # TODO: destroy any objects that were created
         notify_failed(batch_item, exception)
         batch_item.batch.update(status: 'completed') if batch_item.batch.completed?
       end
 
       def perform(batch_item)
-        config = Hyrax::BatchIngest.config.ingest_types[batch_item.batch.ingest_type.to_sym]
-        # validation_result = config.source_validator.new(batch_item).validate
-        # if validation_result.failure?
-        #   notify_invalid(batch_item, validation_result)
-        #   return
-        # end
-        work = config.mapper.new(batch_item).map
-        if work.save
-          batch_item.update(status: 'completed', object_id: work.id)
-        else
-          notify_failed_save(batch_item, work)
-        end
+        work = config(batch_item).ingester.new(batch_item).ingest
+        batch_item.update(status: 'completed', object_id: work.id)
       end
 
       private
 
-        def notify_failed_save(batch_item, work)
-          batch_item.update(status: 'failed', error: work.errors.full_messages.join(" "))
+        def config(batch_item)
+          @config ||= Hyrax::BatchIngest.config.ingest_types[batch_item.batch.ingest_type.to_sym]
         end
-
-        # def notify_invalid(batch_item, validation_result)
-        #   batch_item.update(status: 'failed', error: validation_result.messages(full: true).values.flatten.join(" "))
-        # end
 
         def notify_failed(batch_item, exception)
           batch_item.update(status: 'failed', error: exception.message)

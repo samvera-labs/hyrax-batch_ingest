@@ -3,5 +3,4 @@ ingest_types:
   example_ingest_type:
     label: "Example Ingest Type"
     reader: "ExampleReader"
-    source_validator: "ExampleSourceValidator"
-    mapper: "ExampleMapper"
+    ingester: "ExampleIngester"
