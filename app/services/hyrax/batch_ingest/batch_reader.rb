@@ -8,30 +8,39 @@ module Hyrax
       def initialize(source_location)
         @source_location = source_location
         @read = false
-        # @name = nil
         @submitter_email = nil
         @batch_items = nil
+        @admin_set_id = nil
       end
 
-      # # TODO: refer to Issue #58 to decide if we will add/populate this field
-      # def name
-      #   read unless @read
-      #   @name
-      # end
-
       def submitter_email
-        read unless @read
+        read unless been_read?
         @submitter_email
       end
 
       def batch_items
-        read unless @read
+        read unless been_read?
         @batch_items
+      end
+
+      def admin_set_id
+        read unless been_read?
+        @admin_set_id
+      end
+
+      def read
+        perform_read
+      ensure
+        @read = true
+      end
+
+      def been_read?
+        @read
       end
 
       protected
 
-        def read
+        def perform_read
           raise Hyrax::BatchIngest::ReaderError.new("Cannot use abstract BatchReader class.")
         end
     end

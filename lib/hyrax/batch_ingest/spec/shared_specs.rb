@@ -1,0 +1,2 @@
+# frozen_string_literal: true
+require 'hyrax/batch_ingest/spec/shared_specs/batch_reader'
