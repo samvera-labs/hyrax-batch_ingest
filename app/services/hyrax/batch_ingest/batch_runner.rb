@@ -13,9 +13,12 @@ module Hyrax
       end
 
       def run
-        initialize_batch
-        read
-        enqueue
+        if initialize_batch
+          # rubocop:disable Style/IfUnlessModifier
+          if read
+            enqueue
+          end
+        end
       end
 
       def initialize_batch
@@ -29,12 +32,12 @@ module Hyrax
       def read
         raise ArgumentError, "Batch not initialized yet" unless batch.persisted?
         reader = config.reader.new(batch.source_location)
-        batch.batch_items = reader.batch_items # batch item initialized (and now persisted)
-        ensure_submitter_email(reader)
-        batch.status = 'accepted'
+        fail_on_mismatch(batch, reader)
+        populate_batch_from_reader(batch, reader)
         batch.save! # batch accepted
       rescue ReaderError, ActiveRecord::ActiveRecordError => e
         notify_failed(e)
+        false
       end
 
       def enqueue
@@ -48,18 +51,26 @@ module Hyrax
         # TODO: Send email that batch has been enqueued
       rescue ActiveRecord::ActiveRecordError => e
         notify_failed(e)
+        false
       end
 
       private
 
-        def ensure_submitter_email(reader)
-          if reader.submitter_email.present?
-            if batch.submitter_email.present? && batch.submitter_email != reader.submitter_email
-              raise ReaderError, "Conflict: Different submitter emails found (#{batch.submitter_email} and #{reader.submitter_email})"
-            else
-              batch.submitter_email = reader.submitter_email
+        # Compare values from batch object with values read in from the reader.
+        # Raise errors on any mismatches that are supposed to match.
+        def fail_on_mismatch(batch, reader)
+          [:submitter_email, :admin_set_id].each do |field_name|
+            if batch.send(field_name) && reader.send(field_name) && (batch.send(field_name) != reader.send(field_name))
+              raise ReaderError, "Conflict: Different values for #{field_name.to_s.tr('_', ' ')} found (#{batch.send(field_name)} and #{reader.send(field_name)})"
             end
           end
+        end
+
+        def populate_batch_from_reader(batch, reader)
+          batch.batch_items = reader.batch_items # batch item initialized (and now persisted)
+          batch.submitter_email = reader.submitter_email if reader.submitter_email.present?
+          batch.admin_set_id = reader.admin_set_id if reader.admin_set_id.present?
+          batch.status = 'accepted'
         end
 
         def config

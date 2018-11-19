@@ -98,6 +98,7 @@ RSpec.describe Hyrax::BatchIngest::BatchRunner do
         allow(reader_class).to receive(:new).with(batch.source_location).and_return(reader)
         allow(reader).to receive(:batch_items).and_return(batch_items)
         allow(reader).to receive(:submitter_email).and_return(submitter_email)
+        allow(reader).to receive(:admin_set_id)
         batch_runner.initialize_batch
       end
 
@@ -149,6 +150,8 @@ RSpec.describe Hyrax::BatchIngest::BatchRunner do
 
           before do
             allow(bad_reader_class).to receive(:new).with(batch.source_location).and_return(bad_reader)
+            allow(bad_reader).to receive(:submitter_email)
+            allow(bad_reader).to receive(:admin_set_id)
             allow(bad_reader).to receive(:batch_items).and_raise(Hyrax::BatchIngest::ReaderError, "Invalid batch")
           end
 
