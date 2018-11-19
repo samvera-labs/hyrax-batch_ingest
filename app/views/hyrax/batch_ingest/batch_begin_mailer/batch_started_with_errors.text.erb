@@ -1,0 +1,14 @@
+Batch Ingest Started But Had Errors
+===================================
+
+The batch submitted by <%= @batch.submitter_email %> was started, but had errors.
+
+To view its status, just follow this link:
+<%= link_to(@batch) %>.
+
+===================================
+Errors:
+
+<%= @batch.errors.full_messages.each to |message| %>
+<%= "#{message}" %>
+<%= end %>

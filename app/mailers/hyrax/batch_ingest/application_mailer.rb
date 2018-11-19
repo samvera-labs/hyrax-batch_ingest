@@ -2,7 +2,8 @@
 module Hyrax
   module BatchIngest
     class ApplicationMailer < ActionMailer::Base
-      default from: 'from@example.com'
+      # TODO: get default sender from config
+      default from: 'admin@example.com'
       layout 'mailer'
     end
   end
