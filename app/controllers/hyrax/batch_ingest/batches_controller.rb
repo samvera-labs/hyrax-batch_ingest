@@ -38,7 +38,7 @@ module Hyrax
         # TODO: Restrict batches to those to which current_user is authorized
         @batches = Batch.all
                         .joins(:batch_items)
-                        .group(:batch_id)
+                        .group(:batch_id, :id)
                         .order(sanitize_order(params[:order]))
                         .page(params[:page])
                         .per(params[:per])
