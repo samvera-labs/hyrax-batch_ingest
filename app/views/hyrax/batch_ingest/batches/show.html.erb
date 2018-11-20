@@ -15,12 +15,14 @@
   <dd><%= @presenter.ingest_type %></dd>
   <dt>Submitter:</dt>
   <dd><%= @presenter.submitter_email %></dd>
-  <dt>Source Location:</dt>
-  <dd><%= @presenter.source_location %></dd>
-  <dt>Error:</dt>
-  <dd><%= @presenter.error %></dd>
   <dt>Admin Set:</dt>
   <dd><%= @presenter.admin_set_title %></dd>
+  <dt>Source Location:</dt>
+  <dd><%= @presenter.source_location %></dd>
+  <% if @presenter.error.present? %>
+    <dt>Error:</dt>
+    <dd><%= @presenter.error %></dd>
+  <% end %>
 </dl>
 
 <div class='table-responsive'>
