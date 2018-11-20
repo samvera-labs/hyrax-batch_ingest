@@ -19,7 +19,7 @@ module Hyrax
         @batch = Batch.new(batch_params)
         # TODO: Is the original_filename is what we really want to put
         # in source_location?
-        @batch.source_location = params['batch']['batch_source'].original_filename
+        @batch.source_location = params['batch']['batch_source'].path
         @batch.status = 'received'
 
         if @batch.valid?
