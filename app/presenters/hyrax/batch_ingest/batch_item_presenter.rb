@@ -30,7 +30,7 @@ module Hyrax
             initialized: I18n.t('hyrax.batch_ingest.batch_items.status.initialized'),
             enqueued:    I18n.t('hyrax.batch_ingest.batch_items.status.enqueued'),
             running:     I18n.t('hyrax.batch_ingest.batch_items.status.running'),
-            succeeded:   I18n.t('hyrax.batch_ingest.batch_items.status.succeeded'),
+            completed:   I18n.t('hyrax.batch_ingest.batch_items.status.completed'),
             failed:      I18n.t('hyrax.batch_ingest.batch_items.status.failed')
           }.with_indifferent_access
         end
@@ -40,7 +40,7 @@ module Hyrax
             initialized:  'fa fa-info',
             enqueued:     'fa fa-info',
             running:      'fa fa-refresh fa-sync',
-            succeeded:    'fa fa-check-circle',
+            completed:    'fa fa-check-circle',
             failed:       'fa fa-exclamation-triangle'
           }.with_indifferent_access
         end
