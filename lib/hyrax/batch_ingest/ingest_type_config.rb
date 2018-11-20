@@ -28,6 +28,14 @@ module Hyrax
         options[:label]
       end
 
+      def reader_options
+        options[:reader_options]
+      end
+
+      def ingester_options
+        options[:ingester_options]
+      end
+
       private
 
         def validate_options(options = {})
@@ -44,12 +52,12 @@ module Hyrax
 
         # Returns an array of symbols representing valid options.
         def valid_options
-          [:reader, :ingester, :label]
+          [:label, :reader, :reader_options, :ingester, :ingester_options]
         end
 
         # Returns an array of symbols representing required options.
         def required_options
-          valid_options - [:label]
+          valid_options - [:label, :reader_options, :ingester_options]
         end
     end
   end

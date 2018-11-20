@@ -30,7 +30,7 @@ RSpec.describe Hyrax::BatchIngest::IngestTypeConfig do
     let(:ingest_type_config) do
       described_class.new('example_ingest_type', reader: 'ExampleReader',
                                                  ingester: 'ExampleIngester',
-                                                 label: 'Example Ingester')
+                                                 label: 'Example Batch Ingest')
     end
 
     describe '#reader' do
@@ -39,7 +39,7 @@ RSpec.describe Hyrax::BatchIngest::IngestTypeConfig do
       end
     end
 
-    describe 'ingester' do
+    describe '#ingester' do
       it 'returns the ingester value for the ingest type' do
         expect(ingest_type_config.ingester).to eq ExampleIngester
       end
@@ -47,7 +47,31 @@ RSpec.describe Hyrax::BatchIngest::IngestTypeConfig do
 
     describe '#label' do
       it 'returns the label for the ingest type' do
-        expect(ingest_type_config.label).to eq 'Example Ingester'
+        expect(ingest_type_config.label).to eq 'Example Batch Ingest'
+      end
+    end
+
+    context 'when optional reader_options and ingester_options options are specified' do
+      let(:reader_options) { { 'opt1' => "reader option 1", 'opt2' => "reader option 1" } }
+      let(:ingester_options) { { 'opt1' => 'ingest option 1' } }
+      let(:ingest_type_config) do
+        described_class.new('example_ingest_type', reader: 'ExampleReader',
+                                                   reader_options: reader_options,
+                                                   ingester: 'ExampleIngester',
+                                                   ingester_options: ingester_options,
+                                                   label: 'Example Batch Ingest')
+      end
+
+      describe '#reader_options' do
+        it 'returns the reader options' do
+          expect(ingest_type_config.reader_options).to eq reader_options
+        end
+      end
+
+      describe '#ingester_options' do
+        it 'returns the optional config values' do
+          expect(ingest_type_config.ingester_options).to eq ingester_options
+        end
       end
     end
 
