@@ -52,7 +52,7 @@ RSpec.describe Hyrax::BatchIngest::BatchesController, type: :controller do
       it "all routes should return 403" do
         expect(get :index, format: 'json').to have_http_status(403)
         expect(get :show, id: batch.id, format: 'json').to have_http_status(403)
-        expect(get :new, id: batch.id, format: 'json').to have_http_status(403)
+        expect(get :new, format: 'json').to have_http_status(403)
         expect(post :create, format: 'json').to have_http_status(403)
       end
     end
@@ -62,7 +62,7 @@ RSpec.describe Hyrax::BatchIngest::BatchesController, type: :controller do
       it "all routes should return 200" do
         expect(get :index, format: 'json').to have_http_status(200)
         expect(get :show, id: batch.id, format: 'json').to have_http_status(200)
-        expect(get :new, id: batch.id, format: 'json').to have_http_status(200)
+        expect(get :new, format: 'json').to have_http_status(200)
         expect(post :create, format: 'json').to have_http_status(200)
       end
     end
