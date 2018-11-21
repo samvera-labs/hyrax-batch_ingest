@@ -43,4 +43,28 @@ RSpec.describe Hyrax::BatchIngest::BatchesController, type: :controller do
       end
     end
   end
+
+  describe 'ability' do
+    let(:batch) { FactoryBot.create(:batch) }
+
+    describe "as a non-admin user" do
+      let(:current_user) { FactoryBot.create(:user) }
+      it "all routes should return 403" do
+        expect(get :index, format: 'json').to have_http_status(403)
+        expect(get :show, id: batch.id, format: 'json').to have_http_status(403)
+        expect(post :create, format: 'json').to have_http_status(403)
+        expect(put :update, id: batch.id, format: 'json').to have_http_status(403)
+      end
+    end
+
+    describe "as an admin user" do
+      let(:current_user) { FactoryBot.create(:admin) }
+      it "all routes should return 200" do
+        expect(get :index, format: 'json').to have_http_status(200)
+        expect(get :show, id: batch.id, format: 'json').to have_http_status(200)
+        expect(post :create, format: 'json').to have_http_status(200)
+        expect(put :update, id: batch.id, format: 'json').to have_http_status(200)
+      end
+    end
+  end
 end
