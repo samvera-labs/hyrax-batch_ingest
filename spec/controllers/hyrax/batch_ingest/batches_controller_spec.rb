@@ -46,24 +46,35 @@ RSpec.describe Hyrax::BatchIngest::BatchesController, type: :controller do
 
   describe 'ability' do
     let(:batch) { FactoryBot.create(:batch) }
+    let(:batch_params) do
+      { batch: attributes_for(:batch).merge('batch_source' => fixture_file_upload('example_batches/empty.zip')) }
+    end
 
     describe "as a non-admin user" do
       let(:current_user) { FactoryBot.create(:user) }
       it "all routes should return 403" do
-        expect(get :index, format: 'json').to have_http_status(403)
-        expect(get :show, id: batch.id, format: 'json').to have_http_status(403)
-        expect(get :new, format: 'json').to have_http_status(403)
-        expect(post :create, format: 'json').to have_http_status(403)
+        expect(get :index).to have_http_status(403)
+        expect(get :show, id: batch.id).to have_http_status(403)
+        expect(get :new).to have_http_status(403)
+        expect(post :create, params: batch_params).to have_http_status(403)
+        # expect(get :index, format: 'json').to have_http_status(403)
+        # expect(get :show, id: batch.id, format: 'json').to have_http_status(403)
+        # expect(get :new, format: 'json').to have_http_status(403)
+        # expect(post :create, format: 'json').to have_http_status(403)
       end
     end
 
     describe "as an admin user" do
       let(:current_user) { FactoryBot.create(:admin) }
       it "all routes should return 200" do
-        expect(get :index, format: 'json').to have_http_status(200)
-        expect(get :show, id: batch.id, format: 'json').to have_http_status(200)
-        expect(get :new, format: 'json').to have_http_status(200)
-        expect(post :create, format: 'json').to have_http_status(200)
+        expect(get :index).to have_http_status(200)
+        expect(get :show, id: batch.id).to have_http_status(200)
+        expect(get :new).to have_http_status(200)
+        expect(post :create, params: batch_params).to have_http_status(200)
+        # expect(get :index, format: 'json').to have_http_status(200)
+        # expect(get :show, id: batch.id, format: 'json').to have_http_status(200)
+        # expect(get :new, format: 'json').to have_http_status(200)
+        # expect(post :create, format: 'json').to have_http_status(200)
       end
     end
   end
