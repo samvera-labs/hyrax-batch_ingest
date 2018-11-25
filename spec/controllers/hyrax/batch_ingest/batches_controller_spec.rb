@@ -4,9 +4,11 @@ require 'rails_helper'
 RSpec.describe Hyrax::BatchIngest::BatchesController, type: :controller do
   routes { Hyrax::BatchIngest::Engine.routes }
   let(:admin_user) { create :admin }
-  before { sign_in admin_user }
+  let(:user) { create :user }
 
   context 'when there are no ingest types configured' do
+    before { sign_in admin_user }
+
     before do
       # Set the batch ingest config to not have any ingest types.
       allow(Hyrax::BatchIngest.config).to receive(:ingest_types).and_return({})
@@ -21,6 +23,8 @@ RSpec.describe Hyrax::BatchIngest::BatchesController, type: :controller do
   end
 
   describe 'POST /batches/create' do
+    before { sign_in admin_user }
+
     # Mock the nearest edge
     before { allow(controller).to receive(:start_batch_runner).with(kind_of(Hyrax::BatchIngest::Batch)) }
 
@@ -44,50 +48,43 @@ RSpec.describe Hyrax::BatchIngest::BatchesController, type: :controller do
     end
   end
 
-  describe 'ability' do
-    let(:batch) { FactoryBot.create(:batch) }
-    let(:batch_params) do
-      { batch: attributes_for(:batch).merge('batch_source' => fixture_file_upload('example_batches/empty.zip')) }
-    end
+  describe 'abilities' do
+    let(:batch_items) { build_list(:batch_item, 1) }
+    let(:batch) { create(:batch, batch_items: batch_items) }
+    before { sign_in current_user }
 
     describe "as a non-admin user" do
-      let(:current_user) { FactoryBot.create(:user) }
-      it "all routes should return 403" do
+      let(:current_user) { admin_user }
+
+      it "#index should return 403" do
         expect(get :index).to have_http_status(403)
       end
-      it "all routes should return 403" do
+      it "#show should return 403" do
         expect(get :show, id: batch.id).to have_http_status(403)
       end
-      it "all routes should return 403" do
+      it "#new should return 403" do
         expect(get :new).to have_http_status(403)
       end
-      it "all routes should return 403" do
+      it "#post should return 403" do
         expect(post :create, params: batch_params).to have_http_status(403)
       end
-        # expect(get :index, format: 'json').to have_http_status(403)
-        # expect(get :show, id: batch.id, format: 'json').to have_http_status(403)
-        # expect(get :new, format: 'json').to have_http_status(403)
-        # expect(post :create, format: 'json').to have_http_status(403)
     end
 
     describe "as an admin user" do
-      let(:current_user) { FactoryBot.create(:admin) }
-      it "all routes should return 200" do
+      let(:current_user) { user }
+
+      it "#index should return 200" do
         expect(get :index).to have_http_status(200)
       end
-      it "all routes should return 200" do
+      it "#show should return 200" do
         expect(get :show, id: batch.id).to have_http_status(200)
       end
-      it "all routes should return 200" do
+      it "#new routes should return 200" do
         expect(get :new).to have_http_status(200)
       end
-      it "all routes should return 200" do
-        expect(post :create, params: batch_params).to have_http_status(200)
+      it "#post routes should return 302" do
+        expect(post :create, params: batch_params).to have_http_status(302)
       end
-      # expect(get :index, format: 'json').to have_http_status(200)
-      # expect(get :show, id: batch.id, format: 'json').to have_http_status(200)
-      # expect(get :new, format: 'json').to have_http_status(200)
-      # expect(post :create, format: 'json').to have_http_status(200)
     end
   end
 end
