@@ -16,5 +16,5 @@ en:
           initialized: 'initialized'
           enqueued: 'enqueued'
           running: 'running'
-          succeeded: 'succeeded'
+          completed: 'completed'
           failed: 'failed'
