@@ -7,9 +7,8 @@ RSpec.describe Hyrax::BatchIngest::BatchesController, type: :controller do
   let(:user) { create :user }
 
   context 'when there are no ingest types configured' do
-    before { sign_in admin_user }
-
     before do
+      sign_in admin_user
       # Set the batch ingest config to not have any ingest types.
       allow(Hyrax::BatchIngest.config).to receive(:ingest_types).and_return({})
     end
@@ -23,10 +22,11 @@ RSpec.describe Hyrax::BatchIngest::BatchesController, type: :controller do
   end
 
   describe 'POST /batches/create' do
-    before { sign_in admin_user }
-
     # Mock the nearest edge
-    before { allow(controller).to receive(:start_batch_runner).with(kind_of(Hyrax::BatchIngest::Batch)) }
+    before do
+      sign_in admin_user
+      allow(controller).to receive(:start_batch_runner).with(kind_of(Hyrax::BatchIngest::Batch)) }
+    end
 
     context 'with valid params' do
       let(:batch_params) do
@@ -57,36 +57,36 @@ RSpec.describe Hyrax::BatchIngest::BatchesController, type: :controller do
     before { sign_in current_user }
 
     describe "as a non-admin user" do
-      let(:current_user) { admin_user }
+      let(:current_user) { user }
 
       it "#index should return 403" do
-        expect(get :index).to have_http_status(403)
+        expect(get(:index)).to have_http_status(403)
       end
       it "#show should return 403" do
-        expect(get :show, id: batch.id).to have_http_status(403)
+        expect(get(:show, id: batch.id)).to have_http_status(403)
       end
       it "#new should return 403" do
-        expect(get :new).to have_http_status(403)
+        expect(get(:new)).to have_http_status(403)
       end
       it "#post should return 403" do
-        expect(post :create, params: batch_params).to have_http_status(403)
+        expect(post(:create, params: batch_params)).to have_http_status(403)
       end
     end
 
     describe "as an admin user" do
-      let(:current_user) { user }
+      let(:current_user) { admin_user }
 
       it "#index should return 200" do
-        expect(get :index).to have_http_status(200)
+        expect(get(:index)).to have_http_status(200)
       end
       it "#show should return 200" do
-        expect(get :show, id: batch.id).to have_http_status(200)
+        expect(get(:show, id: batch.id)).to have_http_status(200)
       end
       it "#new routes should return 200" do
-        expect(get :new).to have_http_status(200)
+        expect(get(:new)).to have_http_status(200)
       end
       it "#post routes should return 302" do
-        expect(post :create, params: batch_params).to have_http_status(302)
+        expect(post(:create, params: batch_params)).to have_http_status(302)
       end
     end
   end
