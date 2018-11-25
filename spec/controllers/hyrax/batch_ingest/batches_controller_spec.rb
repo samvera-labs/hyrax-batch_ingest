@@ -51,6 +51,9 @@ RSpec.describe Hyrax::BatchIngest::BatchesController, type: :controller do
   describe 'abilities' do
     let(:batch_items) { build_list(:batch_item, 1) }
     let(:batch) { create(:batch, batch_items: batch_items) }
+    let(:batch_params) do
+      { batch: attributes_for(:batch).merge('batch_source' => fixture_file_upload('example_batches/empty.zip')) }
+    end
     before { sign_in current_user }
 
     describe "as a non-admin user" do
