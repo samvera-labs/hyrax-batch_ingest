@@ -63,7 +63,7 @@ RSpec.describe Hyrax::BatchIngest::BatchesController, type: :controller do
         expect(get(:index)).to have_http_status(403)
       end
       it "#show should return 403" do
-        expect(get(:show, id: batch.id)).to have_http_status(403)
+        expect(get(:show, params: { id: batch.id })).to have_http_status(403)
       end
       it "#new should return 403" do
         expect(get(:new)).to have_http_status(403)
@@ -80,7 +80,7 @@ RSpec.describe Hyrax::BatchIngest::BatchesController, type: :controller do
         expect(get(:index)).to have_http_status(200)
       end
       it "#show should return 200" do
-        expect(get(:show, id: batch.id)).to have_http_status(200)
+        expect(get(:show, params: { id: batch.id })).to have_http_status(200)
       end
       it "#new routes should return 200" do
         expect(get(:new)).to have_http_status(200)
