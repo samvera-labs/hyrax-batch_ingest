@@ -25,7 +25,7 @@ RSpec.describe Hyrax::BatchIngest::BatchesController, type: :controller do
     # Mock the nearest edge
     before do
       sign_in admin_user
-      allow(controller).to receive(:start_batch_runner).with(kind_of(Hyrax::BatchIngest::Batch)) }
+      allow(controller).to receive(:start_batch_runner).with(kind_of(Hyrax::BatchIngest::Batch))
     end
 
     context 'with valid params' do
