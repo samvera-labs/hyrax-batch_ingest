@@ -8,6 +8,7 @@ module Hyrax
       end
 
       def user_abilities
+        # ordinary user has no permission to act on batch
       end
 
       def admin_abilities
