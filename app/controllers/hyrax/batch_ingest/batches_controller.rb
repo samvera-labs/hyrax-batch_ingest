@@ -3,6 +3,8 @@
 module Hyrax
   module BatchIngest
     class BatchesController < Hyrax::BatchIngest::ApplicationController
+      load_and_authorize_resource
+
       def new
         # We need to have some batch ingest types before we proceed.
         if Hyrax::BatchIngest.config.ingest_types.empty?
