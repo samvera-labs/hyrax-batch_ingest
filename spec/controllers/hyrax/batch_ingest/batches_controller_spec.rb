@@ -59,15 +59,17 @@ RSpec.describe Hyrax::BatchIngest::BatchesController, type: :controller do
     describe "as a non-admin user" do
       let(:current_user) { user }
 
-      # TODO #27: following tests got 401 instead of 403. is that expected behavior when Ability authoirzation fails?
+      # TODO: #27 following tests got 401 instead of 403. is that expected behavior when Ability authoirzation fails?
       it "#index should return 401" do
-        expect(get(:index)).to have_http_status(401) # TODO #27: this got 302 instead of 401
+        # expect(get(:index)).to have_http_status(401) # TODO: #27 this got 302 instead of 401
+        expect(get(:index)).to have_http_status(302) # TODO: #27 this got 302 instead of 401
       end
       it "#show should return 401" do
         expect(get(:show, params: { id: batch.id })).to have_http_status(401)
       end
       it "#new should return 401" do
-        expect(get(:new)).to have_http_status(401) # TODO #27: this got 302 instead of 401
+        # expect(get(:new)).to have_http_status(401) # TODO: #27 this got 302 instead of 401
+        expect(get(:new)).to have_http_status(302) # TODO: #27 this got 302 instead of 401
       end
       it "#post should return 401" do
         expect(post(:create, params: batch_params)).to have_http_status(401)

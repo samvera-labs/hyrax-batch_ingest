@@ -3,6 +3,7 @@
 module Hyrax
   module BatchIngest
     class BatchesController < Hyrax::BatchIngest::ApplicationController
+      # TODO: #27 without following call non-admin user abilities don't get checked
       load_and_authorize_resource
 
       def new
