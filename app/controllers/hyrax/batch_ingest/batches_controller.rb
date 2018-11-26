@@ -13,13 +13,12 @@ module Hyrax
           flash[:notice] = "No batch ingest types have been configured."
           redirect_back fallback_location: batches_url
         end
-        @presenter = Hyrax::BatchIngest::BatchPresenter.new(Batch.new)
+        @presenter = Hyrax::BatchIngest::BatchPresenter.new(@batch)
         @admin_sets = available_admin_sets
         @ingest_types = available_ingest_types
       end
 
       def create
-        @batch = Batch.new(batch_params)
         @batch.source_location = params['batch']['batch_source'].path
         @batch.status = 'received'
 
@@ -36,8 +35,9 @@ module Hyrax
 
       def index
         @default_sort = 'created_at desc'
-        # TODO: Restrict batches to those to which current_user is authorized
-        @batches = Batch.all
+        # Restrict batches to those to which current_user is authorized
+        # via cancancan's load_resource (which uses accessible_by)
+        @batches = @batches
                         .joins(:batch_items)
                         .group(:batch_id, :id)
                         .order(sanitize_order(params[:order]))
@@ -50,7 +50,6 @@ module Hyrax
 
       def show
         @default_sort = 'id_within_batch asc'
-        @batch = Batch.find(params[:id])
         @batch_items = @batch.batch_items
                              .order(sanitize_order(params[:order]))
                              .page(params[:page])
