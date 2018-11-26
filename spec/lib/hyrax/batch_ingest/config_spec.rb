@@ -39,6 +39,25 @@ RSpec.describe Hyrax::BatchIngest::Config do
     it 'allows adding ingest type config at runtime' do
       expect(config.ingest_types[:foo]).to be_a Hyrax::BatchIngest::IngestTypeConfig
     end
+
+    context 'with additional config for custom Reader and Ingester classes' do
+      before do
+        config.add_ingest_type_config(
+          'bar',
+          reader: 'BarReader',
+          reader_options: {
+            opt_1: "pizza",
+            opt_2: "cookies"
+          },
+          ingester: 'BarIngester',
+          ingester_options: "single value param"
+        )
+      end
+
+      it 'allows specifying additional config for Reader and Ingester classes' do
+        expect(config.ingest_types[:bar]).to be_a Hyrax::BatchIngest::IngestTypeConfig
+      end
+    end
   end
 
   context 'with an non-existent config file' do
