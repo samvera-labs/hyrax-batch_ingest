@@ -7,6 +7,11 @@ module Hyrax
         self.ability_logic += [:admin_abilities]
       end
 
+      def manager_abilities
+        return unless manager?
+        can [:create, :show, :index, :read, :edit, :update, :destroy], Hyrax::BatchIngest::Batch,
+      end
+
       def admin_abilities
         return unless admin?
         can [:create, :show, :index, :read, :edit, :update, :destroy], Hyrax::BatchIngest::Batch
