@@ -37,12 +37,11 @@ module Hyrax
         @default_sort = 'created_at desc'
         # Restrict batches to those to which current_user is authorized
         # via cancancan's load_resource (which uses accessible_by)
-        @batches = @batches
-                        .joins(:batch_items)
-                        .group(:batch_id, :id)
-                        .order(sanitize_order(params[:order]))
-                        .page(params[:page])
-                        .per(params[:per])
+        @batches = @batches.joins(:batch_items)
+                           .group(:batch_id, :id)
+                           .order(sanitize_order(params[:order]))
+                           .page(params[:page])
+                           .per(params[:per])
         @presenters = @batches.map do |batch|
           Hyrax::BatchIngest::BatchPresenter.new(batch)
         end
