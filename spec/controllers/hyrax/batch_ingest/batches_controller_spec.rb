@@ -96,7 +96,7 @@ RSpec.describe Hyrax::BatchIngest::BatchesController, type: :controller do
       it "#new routes should return 200" do
         expect(get(:new)).to have_http_status(200)
       end
-      
+
       it "#post routes should return 302" do
         expect(post(:create, params: batch_params)).to have_http_status(302)
       end
