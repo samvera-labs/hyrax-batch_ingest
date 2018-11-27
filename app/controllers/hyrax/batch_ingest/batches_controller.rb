@@ -3,7 +3,7 @@
 module Hyrax
   module BatchIngest
     class BatchesController < Hyrax::BatchIngest::ApplicationController
-      # TODO: #27 without following call non-admin user abilities don't get checked
+      # following call is needed to enable action authorization
       load_and_authorize_resource
 
       def new
@@ -59,8 +59,7 @@ module Hyrax
       private
 
         def available_admin_sets
-          # TODO: Restrict available_admin_sets to only those current user has
-          # access to.
+          # TODO: Restrict available_admin_sets to only those current user has access to.
           @available_admin_sets ||= AdminSet.all.map do |admin_set|
             [admin_set.title.first, admin_set.id]
           end

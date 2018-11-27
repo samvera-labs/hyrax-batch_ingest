@@ -7,12 +7,7 @@ module Hyrax
         self.ability_logic += [:admin_abilities]
       end
 
-      def user_abilities
-        # ordinary user has no permission to act on batch
-      end
-
       def admin_abilities
-        # TODO: #27 where is admin? defined? what are the methods for other roles? should those be put here (rename method?) or create new methods?
         return unless admin?
         can [:create, :show, :index, :read, :edit, :update, :destroy], Hyrax::BatchIngest::Batch
       end
