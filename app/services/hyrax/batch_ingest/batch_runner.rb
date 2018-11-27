@@ -48,7 +48,7 @@ module Hyrax
           item.update(status: 'enqueued') # batch item enqueued
         end
         batch.update(status: 'enqueued') # batch enqueued
-        # TODO: Send email that batch has been enqueued
+        BatchBeginMailer.with(batch: batch).batch_started_successfully.deliver_later
       rescue ActiveRecord::ActiveRecordError => e
         notify_failed(e)
         false
@@ -79,7 +79,7 @@ module Hyrax
 
         def notify_failed(exception)
           batch.update(status: 'failed', error: exception.message)
-          # TODO: Send email
+          BatchBeginMailer.with(batch: batch).batch_started_with_errors.deliver_later
         end
     end
   end

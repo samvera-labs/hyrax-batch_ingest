@@ -1,0 +1,9 @@
+Batch Ingest Started Successfully
+=================================
+
+The batch submitted by <%= @batch.submitter_email %> was started successfully.
+
+Another email will be sent when the batch processing has completed.
+
+To view its status, just follow this link:
+<%= batch_url(@batch, host:  Rails.application.config.action_mailer.default_url_options[:host]) %>.
