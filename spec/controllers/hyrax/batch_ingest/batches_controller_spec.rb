@@ -59,18 +59,24 @@ RSpec.describe Hyrax::BatchIngest::BatchesController, type: :controller do
     describe "as a non-admin user" do
       let(:current_user) { user }
 
-      # TODO: #27 following tests got 401 instead of 403. is that expected behavior when Ability authoirzation fails?
       it "#index should return 401" do
-        # expect(get(:index)).to have_http_status(401) # TODO: #27 this got 302 instead of 401
-        expect(get(:index)).to have_http_status(302) # TODO: #27 this got 302 instead of 401
+        # TODO: index request gets 302 instead of 401, due to a hyrax bug (see https://github.com/samvera/hyrax/issues/3444)
+        # following test expects 302 as a work-around; once the bug is fixed, we can switch back to 401.
+        # expect(get(:index)).to have_http_status(401)
+        expect(get(:index)).to have_http_status(302)
       end
+
       it "#show should return 401" do
         expect(get(:show, params: { id: batch.id })).to have_http_status(401)
       end
+
       it "#new should return 401" do
-        # expect(get(:new)).to have_http_status(401) # TODO: #27 this got 302 instead of 401
-        expect(get(:new)).to have_http_status(302) # TODO: #27 this got 302 instead of 401
+        # TODO: new request gets 302 instead of 401, due to a hyrax bug (see https://github.com/samvera/hyrax/issues/3444)
+        # following test expects 302 as a work-around; once the bug is fixed, we can switch back to 401.
+        # expect(get(:new)).to have_http_status(401)
+        expect(get(:new)).to have_http_status(302)
       end
+
       it "#post should return 401" do
         expect(post(:create, params: batch_params)).to have_http_status(401)
       end
@@ -82,12 +88,15 @@ RSpec.describe Hyrax::BatchIngest::BatchesController, type: :controller do
       it "#index should return 200" do
         expect(get(:index)).to have_http_status(200)
       end
+
       it "#show should return 200" do
         expect(get(:show, params: { id: batch.id })).to have_http_status(200)
       end
+
       it "#new routes should return 200" do
         expect(get(:new)).to have_http_status(200)
       end
+      
       it "#post routes should return 302" do
         expect(post(:create, params: batch_params)).to have_http_status(302)
       end
