@@ -1,24 +1,12 @@
-<!DOCTYPE html>
-<html>
-  <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <style>
-      /* Email styles need to be inline */
-    </style>
-  </head>
-
-  <body>
     <h1>Batch Ingest Started But Had Errors</h1>
     <p>
       The batch submitted by <%= @batch.submitter_email %> was started but failed. Errors are listed below.
     </p>
     <p>
-      To view its status, just follow this link: <%= link_to(@batch) %>.
+      To view its status, just follow this link: <%=  batch_url(@batch, host:  Rails.application.config.action_mailer.default_url_options[:host]) %>.
     </p>
     <ul>
       <% @batch.errors.full_messages.each do |message| %>
         <li><%= message %></li>
       <% end %>
     </ul>
-  </body>
-</html>
