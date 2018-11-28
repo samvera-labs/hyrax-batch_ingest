@@ -1,0 +1,20 @@
+  <h1>Batch Ingest Completed But Had Errors</h1>
+  <p>
+    The batch submitted by <%= @batch.submitter_email %> has completed but had errors. Errors are listed below.
+  </p>
+  <p>
+    To view its status, just follow this link: <%=  batch_url(@batch, host:  Rails.application.config.action_mailer.default_url_options[:host]) %>.
+  </p>
+  <% if @batch.error.present? %>
+  <p>
+    Batch Error:</br>
+    <% @batch.error %>
+  </p>
+  <% end %>
+  <% if @batch.batch_items.present? %>
+  <p>
+    Batch Items:<br/>
+    Total: <%= @batch.batch_items.count %><br/>
+    Errors: <%= @batch.batch_items.select{ |bi| bi.error.present? }.count %>
+  </p>
+  <% end %>

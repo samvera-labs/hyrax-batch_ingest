@@ -22,5 +22,9 @@ module Hyrax::BatchIngest
     def collection
       # TODO: return instance of Collection object
     end
+
+    def failed_items?
+      batch_items.any?(&:error)
+    end
   end
 end
