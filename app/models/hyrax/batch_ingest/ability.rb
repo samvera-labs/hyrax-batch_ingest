@@ -6,25 +6,22 @@ module Hyrax
       included do
         self.ability_logic += [:batch_abilities]
       end
-      
-      def batch_abilities
-        # # any logged in user can perform index on batch, although he may not have permission to see any existing batch (in which case nothing will be listed)
-        # can [:index], Hyrax::BatchIngest::Batch
 
+      def batch_abilities
         if admin?
           # exclude edit/update since we don't have such actions, keep destroy since we allow cancelling of a batch job
           can [:new, :create, :index, :show, :read, :destroy], Hyrax::BatchIngest::Batch
         else
           # user who can deposit into an admin set can create batch against the admin set
           can [:new, :create], Hyrax::BatchIngest::Batch do |batch|
-              can :deposit, AdminSet.find(batch.admin_set_id)
+              can? :deposit, AdminSet.find(batch.admin_set_id)
           end
           # can [:new, :create], Hyrax::BatchIngest::Batch do |batch|
           #   Hyrax::Collections::PermissionsService.can_deposit_in_collection?(ability: self, collection_id: batch.admin_set_id)
           # end
 
-          # user who can show at least one admin set can view the batch index
-          can [:index], Hyrax::BatchIngest::Batch if can :view_admin_show_any, AdminSet
+          # user who can view at least one admin set can access the batch index
+          can [:index], Hyrax::BatchIngest::Batch if can? :view_admin_show_any, AdminSet
           # can [:index], Hyrax::BatchIngest::Batch if Hyrax::Collections::PermissionsService.can_view_admin_show_for_any_admin_set?(ability: self)
 
           # manager of a admin set can show/cancel any batch for that admin set
