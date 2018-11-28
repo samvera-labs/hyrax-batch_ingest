@@ -4,3 +4,4 @@
 
 gem 'pry-byebug'
 gem 'launchy'
+gem 'bootsnap', require: false

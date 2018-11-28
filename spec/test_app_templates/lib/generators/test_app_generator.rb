@@ -4,6 +4,12 @@ require 'rails/generators'
 class TestAppGenerator < Rails::Generators::Base
   source_root "./spec/test_app_templates"
 
+  def require_bootsnap
+    inject_into_file 'config/boot.rb', after: "require 'bundler/setup' # Set up gems listed in the Gemfile.\n" do
+      "require 'bootsnap/setup'\n"
+    end
+  end
+
   # if you need to generate any additional configuration
   # into the test app, this generator will be run immediately
   # after setting up the application
