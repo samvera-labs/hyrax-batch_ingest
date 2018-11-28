@@ -14,7 +14,7 @@ describe Ability, type: :model do
     it 'is allowed to perform all actions on any batch' do
       is_expected.to be_able_to(:new, batch)
       is_expected.to be_able_to(:create, batch)
-      is_expected.to be_able_to(:index, Batch)
+      is_expected.to be_able_to(:index, Hyrax::BatchIngest::Batch)
       is_expected.to be_able_to(:show, batch)
       is_expected.to be_able_to(:read, batch)
       is_expected.to be_able_to(:destroy, batch)
@@ -40,7 +40,7 @@ describe Ability, type: :model do
     end
 
     it 'is allowed to display the batch index' do
-      is_expected.to be_able_to(:index, Batch)
+      is_expected.to be_able_to(:index, Hyrax::BatchIngest::Batch)
     end
 
     it 'is allowed to read/cancel a batch created by others for an admin set managed by him' do
@@ -80,7 +80,7 @@ describe Ability, type: :model do
     end
 
     it 'is allowed to display the batch index' do
-      is_expected.to be_able_to(:index, Batch)
+      is_expected.to be_able_to(:index, Hyrax::BatchIngest::Batch)
     end
 
     it 'is allowed to read/cancel a batch created by him' do
@@ -100,7 +100,7 @@ describe Ability, type: :model do
     it {
       is_expected.not_to be_able_to(:new, batch)
       is_expected.not_to be_able_to(:create, batch)
-      is_expected.not_to be_able_to(:index, Batch)
+      is_expected.not_to be_able_to(:index, Hyrax::BatchIngest::Batch)
       is_expected.not_to be_able_to(:show, batch)
       is_expected.not_to be_able_to(:read, batch)
       is_expected.not_to be_able_to(:destroy, batch)
