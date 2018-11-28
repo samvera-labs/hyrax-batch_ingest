@@ -5,8 +5,9 @@
     <p>
       To view its status, just follow this link: <%=  batch_url(@batch, host:  Rails.application.config.action_mailer.default_url_options[:host]) %>.
     </p>
-    <ul>
-      <% @batch.errors.full_messages.each do |message| %>
-        <li><%= message %></li>
-      <% end %>
-    </ul>
+    <% if @batch.error.present? %>
+    <p>
+      Batch Error:</br>
+      <% @batch.error %>
+    </p>
+    <% end %>

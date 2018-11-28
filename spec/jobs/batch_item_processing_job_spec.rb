@@ -71,20 +71,40 @@ describe Hyrax::BatchIngest::BatchItemProcessingJob do
   end
 
   describe 'after_perform' do
-    it 'sets the batch to completed if completed' do
-      batch = FactoryBot.create(:running_batch, batch_items: [batch_item])
-      job.perform_now
-      # Make sure that after_perform was run and not the rescue
-      expect(batch_item.reload.status).not_to eq 'failed'
-      expect(batch.reload.status).to eq 'completed'
+    context 'batch completed' do
+      it 'sets the batch to completed if completed' do
+        batch = FactoryBot.create(:running_batch, batch_items: [batch_item])
+        job.perform_now
+        # Make sure that after_perform was run and not the rescue
+        expect(batch_item.reload.status).not_to eq 'failed'
+        expect(batch.reload.status).to eq 'completed'
+      end
+
+      it 'sends batch completed email' do
+        expect { job.perform_now }
+          .to have_enqueued_job(ActionMailer::Parameterized::DeliveryJob)
+          .with('Hyrax::BatchIngest::BatchCompleteMailer', 'batch_completed_successfully', 'deliver_now', batch: batch)
+      end
     end
 
-    it 'does nothing if batch is not completed' do
-      batch = FactoryBot.create(:running_batch, batch_items: [batch_item, FactoryBot.build(:batch_item, status: 'enqueued')])
-      job.perform_now
-      # Make sure that after_perform was run and not the rescue
-      expect(batch_item.reload.status).not_to eq 'failed'
-      expect(batch.reload.status).to eq 'running'
+    context 'batch completed with item errors' do
+      let(:batch_item) { FactoryBot.build(:batch_item, status: 'enqueued', error: 'Error') }
+
+      it 'sends batch completed email if errors exist' do
+        expect { job.perform_now }
+          .to have_enqueued_job(ActionMailer::Parameterized::DeliveryJob)
+          .with('Hyrax::BatchIngest::BatchCompleteMailer', 'batch_completed_with_errors', 'deliver_now', batch: batch)
+      end
+    end
+
+    context 'batch not completed' do
+      it 'does nothing if batch is not completed' do
+        batch = FactoryBot.create(:running_batch, batch_items: [batch_item, FactoryBot.build(:batch_item, status: 'enqueued')])
+        job.perform_now
+        # Make sure that after_perform was run and not the rescue
+        expect(batch_item.reload.status).not_to eq 'failed'
+        expect(batch.reload.status).to eq 'running'
+      end
     end
   end
 end

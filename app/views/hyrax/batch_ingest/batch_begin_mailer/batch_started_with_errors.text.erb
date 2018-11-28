@@ -6,7 +6,8 @@ The batch submitted by <%= @batch.submitter_email %> was started, but had errors
 To view its status, just follow this link:
 <%=  batch_url(@batch, host:  Rails.application.config.action_mailer.default_url_options[:host]) %>.
 
+<% if @batch.error.present? %>
 ===================================
-Errors:
-
-<%= @batch.errors.full_messages.join("\n") %>
+Batch Error:
+<%= @batch.error %>
+<% end %>
