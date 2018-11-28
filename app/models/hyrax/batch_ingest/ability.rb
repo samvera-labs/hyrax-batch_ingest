@@ -6,22 +6,7 @@ module Hyrax
       included do
         self.ability_logic += [:batch_abilities]
       end
-
-      # def user_abilities
-      #   # ordinary user has no permission to act on batch
-      # end
-
-      # def depositor_abilities
-      #   can [:create], Batch do |batch|
-      #     Hyrax::Collections::PermissionsService.can_deposit_in_collection?(ability: self, collection_id: batch.admin_set_id)
-      #   end
-      # end
-
-      # def manager_abilities
-      #   return unless manager?
-      #   can [:new, :create, :index, :show, :read, :edit, :update, :destroy], Hyrax::BatchIngest::Batch,
-      # end
-
+      
       def batch_abilities
         # # any logged in user can perform index on batch, although he may not have permission to see any existing batch (in which case nothing will be listed)
         # can [:index], Hyrax::BatchIngest::Batch
