@@ -48,17 +48,109 @@ RSpec.describe Hyrax::BatchIngest::BatchesController, type: :controller do
     end
   end
 
-  describe 'abilities' do
+  describe 'authorization' do
+    let(:current_user) { user }
+    let(:admin_set) { create(:admin_set, id: 'this', with_permission_template: true) }
+    let(:admin_set_other) { create(:admin_set, id: 'other', with_permission_template: true) }
     let(:batch_items) { build_list(:batch_item, 1) }
-    let(:batch) { create(:batch, batch_items: batch_items) }
     let(:batch_params) do
       { batch: attributes_for(:batch).merge('batch_source' => fixture_file_upload('example_batches/empty.zip')) }
     end
+    let(:batch) { create(:batch, admin_set_id: admin_set.id, submitter_email: current_user.email, batch_items: batch_items) }
+    let(:batch_other_created) { create(:batch, admin_set_id: admin_set.id, submitter_email: 'other@example.com') }
+    let(:batch_other_managed) { create(:batch, admin_set_id: admin_set_other.id) }
+
     before { sign_in current_user }
 
-    describe "as a non-admin user" do
-      let(:current_user) { user }
+    context "as an admin user" do
+      let(:current_user) { admin_user }
 
+      it "#index should return 200" do
+        expect(get(:index)).to have_http_status(200)
+      end
+
+      it "#show any batch should return 200" do
+        expect(get(:show, params: { id: batch_other_managed.id })).to have_http_status(200)
+      end
+
+      it "#new routes should return 200" do
+        expect(get(:new)).to have_http_status(200)
+      end
+
+      it "#post routes should return 302" do
+        expect(post(:create, params: batch_params)).to have_http_status(302)
+      end
+    end
+
+    context "as an admin set manager" do
+      before do
+        create(:permission_template_access,
+               :manage,
+               permission_template: admin_set.permission_template,
+               agent_type: 'user',
+               agent_id: user.user_key)
+        admin_set.reset_access_controls!
+      end
+
+      it "#index should return 200" do
+        expect(get(:index)).to have_http_status(200)
+      end
+
+      it "#show batch created by others for an admin set managed by him should return 200" do
+        expect(get(:show, params: { id: batch_other_created.id })).to have_http_status(200)
+      end
+
+      it "#show batch created by others for an admin set not managed by him should return 401" do
+        # TODO: new request gets 302 instead of 401, due to a hyrax bug (see https://github.com/samvera/hyrax/issues/3444)
+        # following test expects 302 as a work-around; once the bug is fixed, we can switch back to 401.
+        # expect(get(:show, params: { id: batch_other_managed.id })).to have_http_status(401)
+        expect(get(:show, params: { id: batch_other_managed.id })).to have_http_status(302)
+      end
+
+      it "#new routes should return 200" do
+        expect(get(:new)).to have_http_status(200)
+      end
+
+      it "#post routes should return 302" do
+        expect(post(:create, params: batch_params)).to have_http_status(302)
+      end
+    end
+
+    context "as an admin set depositor" do
+      before do
+        create(:permission_template_access,
+               :deposit,
+               permission_template: admin_set.permission_template,
+               agent_type: 'user',
+               agent_id: user.user_key)
+        admin_set.reset_access_controls!
+      end
+
+      it "#index should return 200" do
+        expect(get(:index)).to have_http_status(200)
+      end
+
+      it "#show batch created by himself should return 200" do
+        expect(get(:show, params: { id: batch.id })).to have_http_status(200)
+      end
+
+      it "#show batch created by others should return 401" do
+        # TODO: new request gets 302 instead of 401, due to a hyrax bug (see https://github.com/samvera/hyrax/issues/3444)
+        # following test expects 302 as a work-around; once the bug is fixed, we can switch back to 401.
+        # expect(get(:show, params: { id: batch_other_created.id })).to have_http_status(401)
+        expect(get(:show, params: { id: batch_other_created.id })).to have_http_status(302)
+      end
+
+      it "#new routes should return 200" do
+        expect(get(:new)).to have_http_status(200)
+      end
+
+      it "#post routes should return 302" do
+        expect(post(:create, params: batch_params)).to have_http_status(302)
+      end
+    end
+
+    context "as a non-admin user" do
       it "#index should return 401" do
         # TODO: index request gets 302 instead of 401, due to a hyrax bug (see https://github.com/samvera/hyrax/issues/3444)
         # following test expects 302 as a work-around; once the bug is fixed, we can switch back to 401.
@@ -79,26 +171,6 @@ RSpec.describe Hyrax::BatchIngest::BatchesController, type: :controller do
 
       it "#post should return 401" do
         expect(post(:create, params: batch_params)).to have_http_status(401)
-      end
-    end
-
-    describe "as an admin user" do
-      let(:current_user) { admin_user }
-
-      it "#index should return 200" do
-        expect(get(:index)).to have_http_status(200)
-      end
-
-      it "#show should return 200" do
-        expect(get(:show, params: { id: batch.id })).to have_http_status(200)
-      end
-
-      it "#new routes should return 200" do
-        expect(get(:new)).to have_http_status(200)
-      end
-
-      it "#post routes should return 302" do
-        expect(post(:create, params: batch_params)).to have_http_status(302)
       end
     end
   end

@@ -2,8 +2,8 @@
 # Specify a list of Hyrax factories to require.
 hyrax_factories = [
   'admin_sets',
-  # 'permission_templates',
-  # 'permission_template_accesses',
+  'permission_templates',
+  'permission_template_accesses',
   # 'collections',
   # 'collections_factory',
   # 'collection_types',

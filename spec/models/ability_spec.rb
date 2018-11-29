@@ -9,7 +9,7 @@ describe Ability, type: :model do
   let(:batch_other_created) { FactoryBot.create(:batch, admin_set_id: admin_set_id, submitter_email: 'other@example.com') }
   let(:batch_other_managed) { FactoryBot.create(:batch, admin_set_id: 'other') }
 
-  context 'an admin' do
+  context ': an admin' do
     let(:current_user) { FactoryBot.create(:admin) }
     it 'is allowed to perform all actions on any batch' do
       is_expected.to be_able_to(:new, batch)
@@ -21,9 +21,10 @@ describe Ability, type: :model do
     end
   end
 
-  context 'an admin set manager' do
+  context ': an admin set manager' do
     let(:admin_set_id) { 'as_mu' }
     let!(:admin_set) { create(:admin_set, id: admin_set_id, with_permission_template: true) }
+    let!(:admin_set_other) { create(:admin_set, id: batch_other_managed.admin_set_id, with_permission_template: true) }
 
     before do
       create(:permission_template_access,
@@ -56,9 +57,10 @@ describe Ability, type: :model do
     end
   end
 
-  context 'an admin set depositor' do
+  context ': an admin set depositor' do
     let(:admin_set_id) { 'as_du' }
     let!(:admin_set) { create(:admin_set, id: admin_set_id, with_permission_template: true) }
+    let!(:admin_set_other) { create(:admin_set, id: batch_other_managed.admin_set_id, with_permission_template: true) }
 
     before do
       create(:permission_template_access,
@@ -96,7 +98,9 @@ describe Ability, type: :model do
     end
   end
 
-  context 'as an unauthorized batch user' do
+  context ': an unauthorized batch user' do
+    let(:admin_set) { create(:admin_set, id: admin_set_id, with_permission_template: true) }
+
     it {
       is_expected.not_to be_able_to(:new, batch)
       is_expected.not_to be_able_to(:create, batch)
