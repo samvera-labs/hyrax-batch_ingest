@@ -50,8 +50,8 @@ RSpec.describe Hyrax::BatchIngest::BatchesController, type: :controller do
 
   describe 'authorization' do
     let(:current_user) { user }
-    let(:admin_set) { create(:admin_set, id: 'this', with_permission_template: true) }
-    let(:admin_set_other) { create(:admin_set, id: 'other', with_permission_template: true) }
+    let!(:admin_set) { create(:admin_set, id: 'this', with_permission_template: true) }
+    let!(:admin_set_other) { create(:admin_set, id: 'other', with_permission_template: true) }
     let(:batch_items) { build_list(:batch_item, 1) }
     let(:batch_params) do
       { batch: attributes_for(:batch).merge('batch_source' => fixture_file_upload('example_batches/empty.zip')) }

@@ -31,7 +31,7 @@ describe Ability, type: :model do
              :manage,
              permission_template: admin_set.permission_template,
              agent_type: 'user',
-             agent_id: user.user_key)
+             agent_id: current_user.user_key)
       admin_set.reset_access_controls!
     end
 
@@ -67,7 +67,7 @@ describe Ability, type: :model do
              :deposit,
              permission_template: admin_set.permission_template,
              agent_type: 'user',
-             agent_id: user.user_key)
+             agent_id: current_user.user_key)
       admin_set.reset_access_controls!
     end
 
@@ -99,7 +99,7 @@ describe Ability, type: :model do
   end
 
   context ': an unauthorized batch user' do
-    let(:admin_set) { create(:admin_set, id: admin_set_id, with_permission_template: true) }
+    let!(:admin_set) { create(:admin_set, id: admin_set_id, with_permission_template: true) }
 
     it {
       is_expected.not_to be_able_to(:new, batch)
