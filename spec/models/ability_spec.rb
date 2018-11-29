@@ -11,13 +11,13 @@ describe Ability, type: :model do
 
   context ': an admin' do
     let(:current_user) { FactoryBot.create(:admin) }
-    it 'is allowed to perform all actions on any batch' do
-      is_expected.to be_able_to(:new, batch)
+    it 'is allowed to perform all actions on all batches' do
+      is_expected.to be_able_to(:new, Hyrax::BatchIngest::Batch)
       is_expected.to be_able_to(:create, batch)
       is_expected.to be_able_to(:index, Hyrax::BatchIngest::Batch)
-      is_expected.to be_able_to(:show, batch)
-      is_expected.to be_able_to(:read, batch)
-      is_expected.to be_able_to(:destroy, batch)
+      is_expected.to be_able_to(:show, batch_other_managed)
+      is_expected.to be_able_to(:read, batch_other_managed)
+      is_expected.to be_able_to(:destroy, batch_other_managed)
     end
   end
 
@@ -35,8 +35,11 @@ describe Ability, type: :model do
       admin_set.reset_access_controls!
     end
 
-    it 'is allowed to create/new a batch for an admin set managed by him' do
-      is_expected.to be_able_to(:new, batch)
+    it 'is allowed to initiate a new batch ' do
+      is_expected.to be_able_to(:new, Hyrax::BatchIngest::Batch)
+    end
+
+    it 'is allowed to create a batch for an admin set managed by him' do
       is_expected.to be_able_to(:create, batch)
     end
 
@@ -71,8 +74,11 @@ describe Ability, type: :model do
       admin_set.reset_access_controls!
     end
 
-    it 'is allowed to create/new a batch for an admin set accessible to him' do
-      is_expected.to be_able_to(:new, batch)
+    it 'is allowed to initiate a new batch ' do
+      is_expected.to be_able_to(:new, Hyrax::BatchIngest::Batch)
+    end
+
+    it 'is allowed to create a batch for an admin set accessible to him' do
       is_expected.to be_able_to(:create, batch)
     end
 
@@ -101,13 +107,13 @@ describe Ability, type: :model do
   context ': an unauthorized batch user' do
     let!(:admin_set) { create(:admin_set, id: admin_set_id, with_permission_template: true) }
 
-    it {
-      is_expected.not_to be_able_to(:new, batch)
+    it 'is not allowed to perform any action on any batch' do
+      is_expected.not_to be_able_to(:new, Hyrax::BatchIngest::Batch)
       is_expected.not_to be_able_to(:create, batch)
       is_expected.not_to be_able_to(:index, Hyrax::BatchIngest::Batch)
       is_expected.not_to be_able_to(:show, batch)
       is_expected.not_to be_able_to(:read, batch)
       is_expected.not_to be_able_to(:destroy, batch)
-    }
+    end
   end
 end

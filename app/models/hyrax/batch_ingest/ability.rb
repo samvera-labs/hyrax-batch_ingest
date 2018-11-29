@@ -12,8 +12,11 @@ module Hyrax
           # exclude edit/update since we don't have such actions, keep destroy since we allow cancelling of a batch job
           can [:new, :create, :index, :show, :read, :destroy], Hyrax::BatchIngest::Batch
         else
+          # user who can deposit into at least one admin set can initiate a new batch
+          can [:new], Hyrax::BatchIngest::Batch if Hyrax::Collections::PermissionsService.source_ids_for_deposit(ability: self, source_type: 'admin_set').present?
+
           # user who can deposit into an admin set can create batch for the admin set
-          can [:new, :create], Hyrax::BatchIngest::Batch do |batch|
+          can [:create], Hyrax::BatchIngest::Batch do |batch|
               can? :deposit, AdminSet.find(batch.admin_set_id)
           end
           # can [:new, :create], Hyrax::BatchIngest::Batch do |batch|
