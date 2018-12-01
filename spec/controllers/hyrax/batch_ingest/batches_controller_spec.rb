@@ -101,10 +101,7 @@ RSpec.describe Hyrax::BatchIngest::BatchesController, type: :controller do
       end
 
       it "#show batch created by others for an admin set not managed by him should return 401" do
-        # TODO: new request gets 302 instead of 401, due to a hyrax bug (see https://github.com/samvera/hyrax/issues/3444)
-        # following test expects 302 as a work-around; once the bug is fixed, we can switch back to 401.
-        # expect(get(:show, params: { id: batch_other_managed.id })).to have_http_status(401)
-        expect(get(:show, params: { id: batch_other_managed.id })).to have_http_status(302)
+        expect(get(:show, params: { id: batch_other_managed.id })).to have_http_status(401)
       end
 
       it "#new routes should return 200" do
@@ -135,10 +132,7 @@ RSpec.describe Hyrax::BatchIngest::BatchesController, type: :controller do
       end
 
       it "#show batch created by others should return 401" do
-        # TODO: new request gets 302 instead of 401, due to a hyrax bug (see https://github.com/samvera/hyrax/issues/3444)
-        # following test expects 302 as a work-around; once the bug is fixed, we can switch back to 401.
-        # expect(get(:show, params: { id: batch_other_created.id })).to have_http_status(401)
-        expect(get(:show, params: { id: batch_other_created.id })).to have_http_status(302)
+        expect(get(:show, params: { id: batch_other_created.id })).to have_http_status(401)
       end
 
       it "#new routes should return 200" do
@@ -150,7 +144,7 @@ RSpec.describe Hyrax::BatchIngest::BatchesController, type: :controller do
       end
     end
 
-    context "as a non-admin user" do
+    context "as a unauthorized batch user" do
       it "#index should return 401" do
         # TODO: index request gets 302 instead of 401, due to a hyrax bug (see https://github.com/samvera/hyrax/issues/3444)
         # following test expects 302 as a work-around; once the bug is fixed, we can switch back to 401.

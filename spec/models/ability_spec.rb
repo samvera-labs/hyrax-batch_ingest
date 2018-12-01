@@ -82,8 +82,7 @@ describe Ability, type: :model do
       is_expected.to be_able_to(:create, batch)
     end
 
-    it 'is not allowed to create/new a batch for an admin set inaccessible to him' do
-      is_expected.not_to be_able_to(:new, batch_other_managed)
+    it 'is not allowed to create a batch for an admin set inaccessible to him' do
       is_expected.not_to be_able_to(:create, batch_other_managed)
     end
 
