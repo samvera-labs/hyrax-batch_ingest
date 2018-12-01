@@ -17,9 +17,10 @@ module Hyrax
 
           # user who can deposit into an admin set can create batch for the admin set
           can [:create], Hyrax::BatchIngest::Batch do |batch|
-              can? :deposit, AdminSet.find(batch.admin_set_id)
+            admin_set = batch.admin_set_id ? AdminSet.find(batch.admin_set_id) : nil
+            admin_set && (can? :deposit, admin_set)
           end
-          # can [:new, :create], Hyrax::BatchIngest::Batch do |batch|
+          # can [:create], Hyrax::BatchIngest::Batch do |batch|
           #   Hyrax::Collections::PermissionsService.can_deposit_in_collection?(ability: self, collection_id: batch.admin_set_id)
           # end
 
@@ -29,7 +30,8 @@ module Hyrax
 
           # manager of a admin set (i.e. who can update the admin set) can show/cancel any batch for that admin set
           can [:show, :destroy], Hyrax::BatchIngest::Batch do |batch|
-            can [:edit, :update, :destroy, :view_admin_show], AdminSet.find(batch.admin_set_id)
+            admin_set = batch.admin_set_id ? AdminSet.find(batch.admin_set_id) : nil
+            admin_set && (can? [:edit, :update, :destroy, :view_admin_show], admin_set)
           end
           # can [:show, :destroy], Hyrax::BatchIngest::Batch do |batch|
           #   Hyrax::Collections::PermissionsService.manage_access_to_collection?(collection_id: batch.admin_set_id, ability: self)
@@ -37,7 +39,7 @@ module Hyrax
 
           # depositor of a batch can only show/cancel the batch created by himself
           can [:show, :destroy], Hyrax::BatchIngest::Batch do |batch|
-            current_user.email = batch.submitter_email
+            current_user.email == batch.submitter_email
           end
           # can [:show, :destroy], Hyrax::BatchIngest::Batch do |batch|
           #   current_user == ::User.find_by(email: batch.submitter_email)
