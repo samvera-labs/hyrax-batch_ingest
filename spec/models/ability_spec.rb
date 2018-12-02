@@ -24,8 +24,8 @@ describe Ability, type: :model do
   context ': an admin set manager' do
     let(:current_user) { FactoryBot.create(:user) }
     let(:admin_set_id) { 'as_mu' }
-    let(:admin_set) { create(:admin_set, id: admin_set_id, with_permission_template: true) }
-    let(:admin_set_other) { create(:admin_set, id: batch_other_managed.admin_set_id, with_permission_template: false) }
+    let!(:admin_set) { create(:admin_set, id: admin_set_id, with_permission_template: true) }
+    let!(:admin_set_other) { create(:admin_set, id: batch_other_managed.admin_set_id, with_permission_template: true) }
 
     before do
       create(:permission_template_access,
@@ -64,8 +64,8 @@ describe Ability, type: :model do
   context ': an admin set depositor' do
     let(:current_user) { FactoryBot.create(:user) }
     let(:admin_set_id) { 'as_du' }
-    let(:admin_set) { create(:admin_set, id: admin_set_id, with_permission_template: true) }
-    let(:admin_set_other) { create(:admin_set, id: batch_other_managed.admin_set_id, with_permission_template: false) }
+    let!(:admin_set) { create(:admin_set, id: admin_set_id, with_permission_template: true) }
+    let!(:admin_set_other) { create(:admin_set, id: batch_other_managed.admin_set_id, with_permission_template: true) }
 
     before do
       create(:permission_template_access,
@@ -108,8 +108,7 @@ describe Ability, type: :model do
   context ': an unauthorized batch user' do
     let(:current_user) { FactoryBot.create(:user) }
     let(:admin_set_id) { 'as' }
-    let(:admin_set) { create(:admin_set, id: admin_set_id, with_permission_template: false) }
-    # let(:admin_set) { create(:admin_set, id: admin_set_id, with_permission_template: true) }
+    let!(:admin_set) { create(:admin_set, id: admin_set_id, with_permission_template: true) }
 
     it 'is not allowed to perform any action on any batch' do
       is_expected.not_to be_able_to(:new, Hyrax::BatchIngest::Batch)
