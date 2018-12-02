@@ -3,13 +3,14 @@ require 'cancan/matchers'
 
 describe Ability, type: :model do
   subject(:ability) { described_class.new(current_user) }
-  # let(:admin_set_id) { 'as' }
   let(:batch) { FactoryBot.create(:batch, admin_set_id: admin_set_id, submitter_email: current_user.email) }
   let(:batch_other_created) { FactoryBot.create(:batch, admin_set_id: admin_set_id, submitter_email: 'other@example.com') }
   let(:batch_other_managed) { FactoryBot.create(:batch, admin_set_id: 'other') }
 
   context ': an admin' do
     let(:current_user) { FactoryBot.create(:admin) }
+    let(:admin_set_id) { 'as_au' }
+
     it 'is allowed to perform all actions on all batches' do
       is_expected.to be_able_to(:new, Hyrax::BatchIngest::Batch)
       is_expected.to be_able_to(:create, batch)
@@ -107,7 +108,8 @@ describe Ability, type: :model do
   context ': an unauthorized batch user' do
     let(:current_user) { FactoryBot.create(:user) }
     let(:admin_set_id) { 'as' }
-    let!(:admin_set) { create(:admin_set, id: admin_set_id, with_permission_template: true) }
+    let!(:admin_set) { create(:admin_set, id: admin_set_id, with_permission_template: false) }
+    # let!(:admin_set) { create(:admin_set, id: admin_set_id, with_permission_template: true) }
 
     it 'is not allowed to perform any action on any batch' do
       is_expected.not_to be_able_to(:new, Hyrax::BatchIngest::Batch)
