@@ -25,7 +25,7 @@ describe Ability, type: :model do
     let(:current_user) { FactoryBot.create(:user) }
     let(:admin_set_id) { 'as_mu' }
     let(:admin_set) { create(:admin_set, id: admin_set_id, with_permission_template: true) }
-    let(:admin_set_other) { create(:admin_set, id: batch_other_managed.admin_set_id, with_permission_template: true) }
+    let(:admin_set_other) { create(:admin_set, id: batch_other_managed.admin_set_id, with_permission_template: false) }
 
     before do
       create(:permission_template_access,
@@ -65,7 +65,7 @@ describe Ability, type: :model do
     let(:current_user) { FactoryBot.create(:user) }
     let(:admin_set_id) { 'as_du' }
     let(:admin_set) { create(:admin_set, id: admin_set_id, with_permission_template: true) }
-    let(:admin_set_other) { create(:admin_set, id: batch_other_managed.admin_set_id, with_permission_template: true) }
+    let(:admin_set_other) { create(:admin_set, id: batch_other_managed.admin_set_id, with_permission_template: false) }
 
     before do
       create(:permission_template_access,
