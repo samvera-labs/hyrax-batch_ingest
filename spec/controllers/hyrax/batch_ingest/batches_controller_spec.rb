@@ -88,7 +88,7 @@ RSpec.describe Hyrax::BatchIngest::BatchesController, type: :controller do
                :manage,
                permission_template: admin_set.permission_template,
                agent_type: 'user',
-               agent_id: user.user_key)
+               agent_id: current_user.user_key)
         admin_set.reset_access_controls!
       end
 
@@ -119,7 +119,7 @@ RSpec.describe Hyrax::BatchIngest::BatchesController, type: :controller do
                :deposit,
                permission_template: admin_set.permission_template,
                agent_type: 'user',
-               agent_id: user.user_key)
+               agent_id: current_user.user_key)
         admin_set.reset_access_controls!
       end
 

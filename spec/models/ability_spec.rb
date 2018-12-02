@@ -47,15 +47,15 @@ describe Ability, type: :model do
       is_expected.to be_able_to(:index, Hyrax::BatchIngest::Batch)
     end
 
-    it 'is allowed to read/cancel a batch created by others for an admin set managed by him' do
+    it 'is allowed to show/cancel a batch created by others for an admin set managed by him' do
       is_expected.to be_able_to(:show, batch_other_created)
-      is_expected.to be_able_to(:read, batch_other_created)
+      # is_expected.to be_able_to(:read, batch_other_created)
       is_expected.to be_able_to(:destroy, batch_other_created)
     end
 
-    it 'is not allowed to read/cancel a batch created for an admin set not managed by him' do
+    it 'is not allowed to show/cancel a batch created for an admin set not managed by him' do
       is_expected.not_to be_able_to(:show, batch_other_managed)
-      is_expected.not_to be_able_to(:read, batch_other_managed)
+      # is_expected.not_to be_able_to(:read, batch_other_managed)
       is_expected.not_to be_able_to(:destroy, batch_other_managed)
     end
   end
@@ -90,15 +90,15 @@ describe Ability, type: :model do
       is_expected.to be_able_to(:index, Hyrax::BatchIngest::Batch)
     end
 
-    it 'is allowed to read/cancel a batch created by him' do
+    it 'is allowed to show/cancel a batch created by himself' do
       is_expected.to be_able_to(:show, batch)
-      is_expected.to be_able_to(:read, batch)
+      # is_expected.to be_able_to(:read, batch)
       is_expected.to be_able_to(:destroy, batch)
     end
 
-    it 'is not allowed to read/cancel a batch created by others even within the same admin set' do
+    it 'is not allowed to show/cancel a batch created by others even within the same admin set' do
       is_expected.not_to be_able_to(:show, batch_other_created)
-      is_expected.not_to be_able_to(:read, batch_other_created)
+      # is_expected.not_to be_able_to(:read, batch_other_created)
       is_expected.not_to be_able_to(:destroy, batch_other_created)
     end
   end
