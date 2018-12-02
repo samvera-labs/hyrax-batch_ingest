@@ -49,7 +49,7 @@ RSpec.describe Hyrax::BatchIngest::BatchesController, type: :controller do
   end
 
   describe 'authorization' do
-    let(:current_user) { user }
+    # let(:current_user) { user }
     let!(:admin_set) { create(:admin_set, id: 'this', with_permission_template: true) }
     let!(:admin_set_other) { create(:admin_set, id: 'other', with_permission_template: true) }
     let(:batch_items) { build_list(:batch_item, 1) }
@@ -83,6 +83,8 @@ RSpec.describe Hyrax::BatchIngest::BatchesController, type: :controller do
     end
 
     context "as an admin set manager" do
+      let(:current_user) { FactoryBot.create(:user) }
+
       before do
         create(:permission_template_access,
                :manage,
@@ -114,6 +116,8 @@ RSpec.describe Hyrax::BatchIngest::BatchesController, type: :controller do
     end
 
     context "as an admin set depositor" do
+      let(:current_user) { FactoryBot.create(:user) }
+
       before do
         create(:permission_template_access,
                :deposit,
@@ -145,6 +149,8 @@ RSpec.describe Hyrax::BatchIngest::BatchesController, type: :controller do
     end
 
     context "as a unauthorized batch user" do
+      let(:current_user) { FactoryBot.create(:user) }
+
       it "#index should return 401" do
         # TODO: index request gets 302 instead of 401, due to a hyrax bug (see https://github.com/samvera/hyrax/issues/3444)
         # following test expects 302 as a work-around; once the bug is fixed, we can switch back to 401.

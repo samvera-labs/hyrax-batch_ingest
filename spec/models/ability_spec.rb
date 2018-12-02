@@ -3,8 +3,7 @@ require 'cancan/matchers'
 
 describe Ability, type: :model do
   subject(:ability) { described_class.new(current_user) }
-  let(:current_user) { FactoryBot.create(:user) }
-  let(:admin_set_id) { 'as' }
+  # let(:admin_set_id) { 'as' }
   let(:batch) { FactoryBot.create(:batch, admin_set_id: admin_set_id, submitter_email: current_user.email) }
   let(:batch_other_created) { FactoryBot.create(:batch, admin_set_id: admin_set_id, submitter_email: 'other@example.com') }
   let(:batch_other_managed) { FactoryBot.create(:batch, admin_set_id: 'other') }
@@ -22,6 +21,7 @@ describe Ability, type: :model do
   end
 
   context ': an admin set manager' do
+    let(:current_user) { FactoryBot.create(:user) }
     let(:admin_set_id) { 'as_mu' }
     let!(:admin_set) { create(:admin_set, id: admin_set_id, with_permission_template: true) }
     let!(:admin_set_other) { create(:admin_set, id: batch_other_managed.admin_set_id, with_permission_template: true) }
@@ -61,6 +61,7 @@ describe Ability, type: :model do
   end
 
   context ': an admin set depositor' do
+    let(:current_user) { FactoryBot.create(:user) }
     let(:admin_set_id) { 'as_du' }
     let!(:admin_set) { create(:admin_set, id: admin_set_id, with_permission_template: true) }
     let!(:admin_set_other) { create(:admin_set, id: batch_other_managed.admin_set_id, with_permission_template: true) }
@@ -104,6 +105,8 @@ describe Ability, type: :model do
   end
 
   context ': an unauthorized batch user' do
+    let(:current_user) { FactoryBot.create(:user) }
+    let(:admin_set_id) { 'as' }
     let!(:admin_set) { create(:admin_set, id: admin_set_id, with_permission_template: true) }
 
     it 'is not allowed to perform any action on any batch' do
