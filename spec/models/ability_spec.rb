@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+require 'rails_helper'
 require 'cancan/matchers'
 
 describe Ability, type: :model do
@@ -17,7 +18,6 @@ describe Ability, type: :model do
       is_expected.to be_able_to(:index, Hyrax::BatchIngest::Batch)
       is_expected.to be_able_to(:show, batch_other_managed)
       is_expected.to be_able_to(:read, batch_other_managed)
-      is_expected.to be_able_to(:destroy, batch_other_managed)
     end
   end
 
@@ -36,28 +36,22 @@ describe Ability, type: :model do
       admin_set.reset_access_controls!
     end
 
-    it 'is allowed to initiate a new batch ' do
+    it 'is allowed to perform all actions' do
       is_expected.to be_able_to(:new, Hyrax::BatchIngest::Batch)
-    end
-
-    it 'is allowed to create a batch for an admin set managed by him' do
       is_expected.to be_able_to(:create, batch)
-    end
-
-    it 'is allowed to display the batch index' do
       is_expected.to be_able_to(:index, Hyrax::BatchIngest::Batch)
-    end
-
-    it 'is allowed to show/cancel a batch created by others for an admin set managed by him' do
+      is_expected.to be_able_to(:show, batch)
+      is_expected.to be_able_to(:read, batch)
+      # Can show batches within the same admin set created by others
       is_expected.to be_able_to(:show, batch_other_created)
-      # is_expected.to be_able_to(:read, batch_other_created)
-      is_expected.to be_able_to(:destroy, batch_other_created)
     end
 
-    it 'is not allowed to show/cancel a batch created for an admin set not managed by him' do
+    it 'is not allowed to create a batch for an admin set inaccessible to him' do
+      is_expected.not_to be_able_to(:create, batch_other_managed)
+    end
+
+    it 'is not allowed to show a batch created for an admin set not managed' do
       is_expected.not_to be_able_to(:show, batch_other_managed)
-      # is_expected.not_to be_able_to(:read, batch_other_managed)
-      is_expected.not_to be_able_to(:destroy, batch_other_managed)
     end
   end
 
@@ -76,32 +70,20 @@ describe Ability, type: :model do
       admin_set.reset_access_controls!
     end
 
-    it 'is allowed to initiate a new batch ' do
+    it 'is allowed to perform all actions on owned batch' do
       is_expected.to be_able_to(:new, Hyrax::BatchIngest::Batch)
-    end
-
-    it 'is allowed to create a batch for an admin set accessible to him' do
       is_expected.to be_able_to(:create, batch)
+      is_expected.to be_able_to(:index, Hyrax::BatchIngest::Batch)
+      is_expected.to be_able_to(:show, batch)
+      is_expected.to be_able_to(:read, batch)
     end
 
     it 'is not allowed to create a batch for an admin set inaccessible to him' do
       is_expected.not_to be_able_to(:create, batch_other_managed)
     end
 
-    it 'is allowed to display the batch index' do
-      is_expected.to be_able_to(:index, Hyrax::BatchIngest::Batch)
-    end
-
-    it 'is allowed to show/cancel a batch created by himself' do
-      is_expected.to be_able_to(:show, batch)
-      # is_expected.to be_able_to(:read, batch)
-      is_expected.to be_able_to(:destroy, batch)
-    end
-
-    it 'is not allowed to show/cancel a batch created by others even within the same admin set' do
+    it 'is not allowed to show a batch created by others even within the same admin set' do
       is_expected.not_to be_able_to(:show, batch_other_created)
-      # is_expected.not_to be_able_to(:read, batch_other_created)
-      is_expected.not_to be_able_to(:destroy, batch_other_created)
     end
   end
 
@@ -116,7 +98,6 @@ describe Ability, type: :model do
       is_expected.not_to be_able_to(:index, Hyrax::BatchIngest::Batch)
       is_expected.not_to be_able_to(:show, batch)
       is_expected.not_to be_able_to(:read, batch)
-      is_expected.not_to be_able_to(:destroy, batch)
     end
   end
 end

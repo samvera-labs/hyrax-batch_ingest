@@ -48,13 +48,12 @@ RSpec.describe Hyrax::BatchIngest::BatchesController, type: :controller do
     end
   end
 
-  describe 'authorization' do
-    # let(:current_user) { user }
-    let!(:admin_set) { create(:admin_set, id: 'this', with_permission_template: true) }
-    let!(:admin_set_other) { create(:admin_set, id: 'other', with_permission_template: true) }
+  describe 'authorization', clean_repo: true do
+    let(:admin_set) { create(:admin_set, id: 'this', with_permission_template: true) }
+    let(:admin_set_other) { create(:admin_set, id: 'other', with_permission_template: true) }
     let(:batch_items) { build_list(:batch_item, 1) }
     let(:batch_params) do
-      { batch: attributes_for(:batch).merge('batch_source' => fixture_file_upload('example_batches/empty.zip')) }
+      { batch: { ingest_type: 'example_ingest_type', admin_set_id: admin_set.id, submitter_email: current_user.email, batch_source: fixture_file_upload('example_batches/empty.zip') } }
     end
     let(:batch) { create(:batch, admin_set_id: admin_set.id, submitter_email: current_user.email, batch_items: batch_items) }
     let(:batch_other_created) { create(:batch, admin_set_id: admin_set.id, submitter_email: 'other@example.com') }
@@ -83,7 +82,7 @@ RSpec.describe Hyrax::BatchIngest::BatchesController, type: :controller do
     end
 
     context "as an admin set manager" do
-      let(:current_user) { FactoryBot.create(:user) }
+      let(:current_user) { user }
 
       before do
         create(:permission_template_access,

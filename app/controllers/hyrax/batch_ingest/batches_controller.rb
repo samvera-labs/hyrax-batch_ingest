@@ -63,9 +63,6 @@ module Hyrax
           @available_admin_sets ||= Hyrax::Collections::PermissionsService.source_ids_for_deposit(ability: current_ability, source_type: 'admin_set').map do |admin_set_id|
             [AdminSet.find(admin_set_id).title.first, admin_set_id]
           end
-          # @available_admin_sets ||= AdminSet.all.select { |admin_set| can? :deposit, admin_set }.map do |admin_set|
-          #   [admin_set.title.first, admin_set.id]
-          # end
         end
 
         def available_ingest_types
