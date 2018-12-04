@@ -97,11 +97,11 @@ RSpec.describe Hyrax::BatchIngest::BatchesController, type: :controller do
         expect(get(:index)).to have_http_status(200)
       end
 
-      it "#show batch created by others for an admin set managed by him should return 200" do
+      it "#show batch created by others for a managed admin set managed by user should return 200" do
         expect(get(:show, params: { id: batch_other_created.id })).to have_http_status(200)
       end
 
-      it "#show batch created by others for an admin set not managed by him should return 401" do
+      it "#show batch created by others for an admin set not managed by user should return 401" do
         expect(get(:show, params: { id: batch_other_managed.id })).to have_http_status(401)
       end
 
@@ -130,7 +130,7 @@ RSpec.describe Hyrax::BatchIngest::BatchesController, type: :controller do
         expect(get(:index)).to have_http_status(200)
       end
 
-      it "#show batch created by himself should return 200" do
+      it "#show batch created by user should return 200" do
         expect(get(:show, params: { id: batch.id })).to have_http_status(200)
       end
 
