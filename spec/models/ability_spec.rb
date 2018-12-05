@@ -36,7 +36,7 @@ describe Ability, type: :model do
       admin_set.reset_access_controls!
     end
 
-    it 'is allowed to perform all actions managed by him' do
+    it 'is allowed to perform all actions on managed batch' do
       is_expected.to be_able_to(:new, Hyrax::BatchIngest::Batch)
       is_expected.to be_able_to(:create, batch)
       is_expected.to be_able_to(:index, Hyrax::BatchIngest::Batch)
