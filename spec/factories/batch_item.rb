@@ -7,6 +7,6 @@ FactoryBot.define do
     source_location { 'path/to/batch_manifest.csv' }
     status { Hyrax::BatchIngest::BatchItem::STATUSES.sample }
     error { nil }
-    object_id { '12345678' }
+    repo_object_id { '12345678' }
   end
 end

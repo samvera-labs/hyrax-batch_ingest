@@ -9,7 +9,7 @@ hyrax_factories = [
   # 'collection_types',
   # 'collection_type_participants',
   # 'collection_branding_infos',
-  # 'object_id',
+  # 'repo_object_id',
   'users'
   # 'workflows',
   # 'workflow_actions'

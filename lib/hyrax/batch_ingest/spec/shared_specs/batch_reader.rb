@@ -38,7 +38,7 @@ RSpec.shared_examples "a Hyrax::BatchIngest::BatchReader" do
         expect(item.status).to eq 'initialized'
         expect(item.source_data.present? || item.source_location.present?).to eq true
         expect(item.error).to be_blank
-        expect(item.object_id).to be_blank
+        expect(item.repo_object_id).to be_blank
       end
     end
 

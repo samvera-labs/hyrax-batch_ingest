@@ -3,7 +3,7 @@ require 'rails_helper'
 
 describe Hyrax::BatchIngest::BatchItemProcessingJob do
   let(:batch) { FactoryBot.create(:enqueued_batch, batch_items: [batch_item]) }
-  let(:batch_item) { FactoryBot.build(:batch_item, status: 'enqueued', object_id: nil) }
+  let(:batch_item) { FactoryBot.build(:batch_item, status: 'enqueued', repo_object_id: nil) }
   let(:config) { instance_double(Hyrax::BatchIngest::IngestTypeConfig, ingester: ingester_class) }
   let(:ingester_class) { double("IngesterClass") }
   let(:ingester) { double("BatchItemIngester") }
@@ -31,7 +31,7 @@ describe Hyrax::BatchIngest::BatchItemProcessingJob do
 
     it 'updates the BatchItem with the created object id' do
       job.perform(batch_item)
-      expect(batch_item.reload.object_id).to eq work.id
+      expect(batch_item.reload.repo_object_id).to eq work.id
     end
 
     context 'with exception' do
