@@ -59,9 +59,9 @@ module Hyrax
       private
 
         def available_admin_sets
-          # TODO: Restrict available_admin_sets to only those current user has access to.
-          @available_admin_sets ||= AdminSet.all.map do |admin_set|
-            [admin_set.title.first, admin_set.id]
+          # Restrict available_admin_sets to only those current user can desposit to.
+          @available_admin_sets ||= Hyrax::Collections::PermissionsService.source_ids_for_deposit(ability: current_ability, source_type: 'admin_set').map do |admin_set_id|
+            [AdminSet.find(admin_set_id).title.first, admin_set_id]
           end
         end
 
