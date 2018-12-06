@@ -30,7 +30,7 @@ module Hyrax
 
       def perform(batch_item)
         work = config(batch_item).ingester.new(batch_item).ingest
-        batch_item.update(status: 'completed', object_id: work.id)
+        batch_item.update(status: 'completed', repo_object_id: work.id)
       end
 
       private

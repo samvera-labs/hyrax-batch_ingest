@@ -5,7 +5,7 @@ module Hyrax
     class BatchItemPresenter
       attr_reader :batch_item
 
-      delegate :id, :id_within_batch, :source_location, :error, :object_id,
+      delegate :id, :id_within_batch, :source_location, :error, :repo_object_id,
                :status, to: :batch_item
 
       def initialize(batch_item)
