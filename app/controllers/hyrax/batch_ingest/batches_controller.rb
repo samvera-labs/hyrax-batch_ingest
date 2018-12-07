@@ -37,7 +37,7 @@ module Hyrax
         @default_sort = 'created_at desc'
         # Restrict batches to those to which current_user is authorized
         # via cancancan's load_resource (which uses accessible_by)
-        @batches = @batches.joins(:batch_items)
+        @batches = @batches.left_joins(:batch_items)
                            .group(:batch_id, :id)
                            .order(sanitize_order(params[:order]))
                            .page(params[:page])
