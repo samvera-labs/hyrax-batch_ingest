@@ -7,5 +7,7 @@ module Hyrax::BatchIngest
     belongs_to :batch
     validates :status, inclusion: { in: STATUSES }
     paginates_per 20
+
+    delegate :submitter_email, :submitter, to: :batch
   end
 end
