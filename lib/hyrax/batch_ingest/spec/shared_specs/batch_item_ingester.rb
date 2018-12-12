@@ -17,18 +17,4 @@ RSpec.shared_examples "a Hyrax::BatchIngest::BatchItemIngester" do
       expect(ingester.batch_item).to eq batch_item
     end
   end
-
-  describe '#ingest' do
-    subject { ingester.ingest }
-
-    it 'creates a new object' do
-      expect { subject }.to change { ActiveFedora::Base.count }.by_at_least(1)
-    end
-
-    it 'returns a persisted object' do
-      expect(subject).to be_an ActiveFedora::Base
-      expect(subject).to be_persisted
-      expect(subject.id).to be_present
-    end
-  end
 end
