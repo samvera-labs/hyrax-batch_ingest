@@ -14,7 +14,7 @@ RSpec.describe Hyrax::BatchIngest::Batch do
   end
 
   describe '#admin_set' do
-    context 'when the Batch record has an admin_set_id' do
+    context 'when the Batch record does NOT have an admin_set_id' do
       let(:batch) { build(:batch, admin_set_id: nil) }
       it 'returns nil' do
         expect(batch.admin_set).to eq nil
@@ -40,6 +40,30 @@ RSpec.describe Hyrax::BatchIngest::Batch do
       let(:batch) { build(:batch, admin_set_id: 'gobbledygook') }
       it 'raises ActiveFedora::ObjectNotFoundError' do
         expect { batch.admin_set }.to raise_error ActiveFedora::ObjectNotFoundError
+      end
+    end
+  end
+
+  describe '#submitter' do
+    context 'when there is a User record that has email equal to #submitter_email' do
+      let(:user) { create(:user, email: "user1@example.org") }
+      let(:batch) { build(:batch, submitter_email: user.email) }
+      it 'returns the User instance' do
+        expect(batch.submitter).to eq user
+      end
+    end
+
+    context 'when there is NOT a User record that has email equal to #submitter_email' do
+      let(:batch) { build(:batch, submitter_email: "user_does_not_exist@example.com") }
+      it 'raises an ActiveRecord::RecordNotFound' do
+        expect { batch.submitter }.to raise_error ActiveRecord::RecordNotFound
+      end
+    end
+
+    context 'when #submitter_email is nil' do
+      let(:batch) { build(:batch, submitter_email: nil) }
+      it 'returns nil' do
+        expect(batch.submitter).to be_nil
       end
     end
   end

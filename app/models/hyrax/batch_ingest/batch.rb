@@ -26,5 +26,10 @@ module Hyrax::BatchIngest
     def failed_items?
       batch_items.any?(&:error)
     end
+
+    def submitter
+      return nil if submitter_email.nil?
+      @submitter ||= User.find_by! email: submitter_email
+    end
   end
 end
