@@ -26,11 +26,11 @@
     <% end %>
   </li>
 
-  <% if can? :index, Hyrax::BatchIngest::Batch %>
-    <%= menu.nav_link(hyrax.batches_path) do %>
-      <span class="fa fa-table" aria-hidden="true"></span> <span class="sidebar-action-text"><%= 'Batches' %></span>
-    <% end %>
-  <% end %>
+  <%# if can? :index, Hyrax::BatchIngest::Batch %>
+    <%#= menu.nav_link(hyrax.batches_path) do %>
+<!--      <span class="fa fa-table" aria-hidden="true"></span> <span class="sidebar-action-text"><%#= 'Batches' %></span>-->
+    <%# end %>
+  <%# end %>
 
   <% if can? :read, :admin_dashboard %>
     <%= menu.nav_link(hyrax.admin_stats_path) do %>
