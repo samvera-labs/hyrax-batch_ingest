@@ -1,7 +1,8 @@
+<!--<tr class="<%#= status_context(batch_item.status) %>">-->
 <tr class="batch-item" data-batch-item-id="<%= presenter.id %>">
-  <td><%= presenter.status_span_tag %></td>
+<!--  <td><%#= presenter.status_span_tag %></td>-->
+  <td><span data-toggle="collapse" data-target="#error_<%= index %>" class="clickable <%= status_context(batch_item.status) %>" style="cursor: pointer;"><%= status_label batch_item.status %></span></td>
   <td><%= presenter.id_within_batch %></td>
   <td><%= presenter.repo_object_id %></td>
-  <td><%= presenter.error %></td>
 </tr>
-<!-- TODO: copy Donut's expandable row containing error information  -->
+<%= render partial: 'error_row', locals: { index: index, batch_item: batch_item } %>
