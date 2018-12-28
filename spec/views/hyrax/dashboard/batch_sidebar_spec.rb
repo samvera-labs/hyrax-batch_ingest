@@ -4,12 +4,12 @@ require 'rails_helper'
 describe 'hyrax/dashboard/sidebar/_repository_content.html.erb', type: :view do
   let(:user) { create(:user) }
   let(:menu) { Hyrax::MenuPresenter.new(view) }
+  let(:can_view_batches) { nil }
 
   before do
     allow(view).to receive(:signed_in?).and_return(true)
     allow(view).to receive(:current_user).and_return(user)
-    allow(view).to receive(:can?).with(:index, Hyrax::BatchIngest::Batch).and_return(:can_view_batches)
-    allow(view).to receive(:can?).with(:read, :admin_dashboard).and_return(true)
+    allow(view).to receive(:can?).with(:index, Hyrax::BatchIngest::Batch).and_return(can_view_batches)
   end
 
   context 'as any logged in user' do

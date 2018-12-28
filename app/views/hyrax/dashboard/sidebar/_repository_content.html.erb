@@ -11,7 +11,7 @@
   <% end %>
 
   <% if can? :index, Hyrax::BatchIngest::Batch %>
-    <%= menu.nav_link(hyrax.batches_path) do %>
+    <%= menu.nav_link(hyrax_batch_ingest.batches_path) do %>
       <span class="fa fa-table" aria-hidden="true"></span> <span class="sidebar-action-text"><%= 'Batches' %></span>
     <% end %>
   <% end %>
