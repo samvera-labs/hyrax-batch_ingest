@@ -29,7 +29,6 @@ describe 'hyrax/dashboard/sidebar/_repository_content.html.erb', type: :view do
     before { render 'hyrax/dashboard/sidebar/repository_content', menu: menu }
     subject { rendered }
     let(:can_view_batches) { true }
-    
     it 'has the Batches link' do
       is_expected.to have_link 'Batches'
     end
@@ -39,7 +38,6 @@ describe 'hyrax/dashboard/sidebar/_repository_content.html.erb', type: :view do
     before { render 'hyrax/dashboard/sidebar/repository_content', menu: menu }
     subject { rendered }
     let(:can_view_batches) { false }
-
     it 'does not have the Batches link' do
       is_expected.not_to have_link 'Batches'
     end
