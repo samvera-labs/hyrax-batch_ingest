@@ -45,7 +45,6 @@ module Hyrax
         # notify_failed("No batch items found.") if batch.batch_items.blank?
         batch.batch_items.each do |item|
           BatchItemProcessingJob.perform_later(item)
-          item.update(status: 'enqueued') # batch item enqueued
         end
         batch.update(status: 'enqueued') # batch enqueued
         BatchBeginMailer.with(batch: batch).batch_started_successfully.deliver_later
