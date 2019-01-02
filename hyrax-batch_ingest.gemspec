@@ -30,7 +30,7 @@ Gem::Specification.new do |s|
   s.add_development_dependency "sqlite3"
   s.add_development_dependency "rspec-rails", "~> 3.8"
   s.add_development_dependency "rspec-collection_matchers"
-  s.add_development_dependency 'solr_wrapper'
+  s.add_development_dependency 'solr_wrapper', '~> 2.1'
 
   # Pinned dependencies
   s.add_development_dependency 'sass', '=3.6.0'
