@@ -16,21 +16,21 @@ describe Hyrax::BatchIngest::BatchItemProcessingJob do
     allow(ingester).to receive(:ingest).and_return(work)
   end
 
-  describe '#perform' do
+  describe '#perform (via #perform_now)' do
     let!(:batch) { FactoryBot.create(:enqueued_batch, batch_items: [batch_item]) }
 
     it 'runs the ingester' do
-      job.perform(batch_item)
+      job.perform_now
       expect(ingester).to have_received(:ingest)
     end
 
     it 'sets the BatchItem status to completed' do
-      job.perform(batch_item)
+      job.perform_now
       expect(batch_item.reload.status).to eq 'completed'
     end
 
     it 'updates the BatchItem with the created object id' do
-      job.perform(batch_item)
+      job.perform_now
       expect(batch_item.reload.repo_object_id).to eq work.id
     end
 

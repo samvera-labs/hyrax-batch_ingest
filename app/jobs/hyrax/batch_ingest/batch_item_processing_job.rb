@@ -2,6 +2,11 @@
 module Hyrax
   module BatchIngest
     class BatchItemProcessingJob < ApplicationJob
+      before_enqueue do
+        batch_item = arguments.first
+        batch_item.update(status: 'enqueued')
+      end
+
       before_perform do
         batch_item = arguments.first
         batch_item.batch.update(status: 'running') if batch_item.batch.status == 'enqueued'
@@ -10,6 +15,7 @@ module Hyrax
 
       after_perform do
         batch_item = arguments.first
+        batch_item.update(status: 'completed', repo_object_id: @work.id)
         if batch_item.batch.completed?
           batch = batch_item.batch
           batch.update(status: 'completed')
@@ -29,8 +35,7 @@ module Hyrax
       end
 
       def perform(batch_item)
-        work = config(batch_item).ingester.new(batch_item).ingest
-        batch_item.update(status: 'completed', repo_object_id: work.id)
+        @work = config(batch_item).ingester.new(batch_item).ingest
       end
 
       private
