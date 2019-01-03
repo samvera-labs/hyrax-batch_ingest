@@ -31,7 +31,6 @@ module Hyrax
 
       def override_dashboard_sidebar_repository_content
         copy_file "app/views/hyrax/dashboard/sidebar/_repository_content.html.erb", "app/views/hyrax/dashboard/sidebar/_repository_content.html.erb"
-        copy_file "spec/views/hyrax/dashboard/batch_sidebar_spec.rb", "spec/views/hyrax/dashboard/batch_sidebar_spec.rb"
       end
     end
   end
