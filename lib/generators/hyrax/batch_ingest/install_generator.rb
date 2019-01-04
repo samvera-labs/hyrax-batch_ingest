@@ -9,6 +9,8 @@ module Hyrax
          3. Adds batch_ingest-specific abilities
       EOS
 
+      source_root File.expand_path('templates', __dir__)
+
       def add_routes
         route "mount Hyrax::BatchIngest::Engine, at: '/'"
       end
@@ -25,6 +27,10 @@ module Hyrax
 
       def install_kaminari_views
         generate 'kaminari:views bootstrap3'
+      end
+
+      def override_dashboard_sidebar_repository_content
+        copy_file "app/views/hyrax/dashboard/sidebar/_repository_content.html.erb", "app/views/hyrax/dashboard/sidebar/_repository_content.html.erb"
       end
     end
   end
