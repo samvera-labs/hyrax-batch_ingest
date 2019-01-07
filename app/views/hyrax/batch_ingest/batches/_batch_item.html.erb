@@ -1,7 +1,6 @@
 <tr class="batch-item" data-batch-item-id="<%= presenter.id %>">
-  <td><%= presenter.status_span_tag %></td>
+  <td><%= presenter.status_span_tag(index) %></td>
   <td><%= presenter.id_within_batch %></td>
   <td><%= presenter.repo_object_id %></td>
-  <td><%= presenter.error %></td>
 </tr>
-<!-- TODO: copy Donut's expandable row containing error information  -->
+<%= render partial: 'error_row', locals: { index: index, presenter: presenter } %>

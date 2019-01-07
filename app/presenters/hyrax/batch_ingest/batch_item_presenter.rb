@@ -12,8 +12,8 @@ module Hyrax
         @batch_item = batch_item
       end
 
-      def status_span_tag
-        "<span class=\"#{status_css_class}\"> #{status_label}</span>".html_safe
+      def status_span_tag(index)
+        "<span data-toggle=\"collapse\" data-target=\"#error_#{index}\" class=\"#{status_css_class}\" style=\"cursor: pointer;\">#{status_label}</span>".html_safe
       end
 
       def status_label
@@ -21,7 +21,7 @@ module Hyrax
       end
 
       def status_css_class
-        self.class.status_css_classes[batch_item.status]
+        "clickable #{self.class.status_css_classes[batch_item.status]}"
       end
 
       class << self
