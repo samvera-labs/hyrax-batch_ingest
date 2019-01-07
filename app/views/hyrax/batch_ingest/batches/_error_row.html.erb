@@ -1,5 +1,5 @@
-<tr id="error_<%= index %>" class="collapse <%= presenter.status_css_classes %>">
-  <td colspan="4" style="padding-left: 2em;">
-    <%= presenter.error.html_safe %>
+<tr id="error_<%= presenter.id_within_batch %>" class="collapse <%= presenter.status_css_class %>">
+  <td colspan="3" style="padding-left: 2em;">
+    <%= presenter.error ? presenter.error.html_safe : 'no error' %>
   </td>
 </tr>
