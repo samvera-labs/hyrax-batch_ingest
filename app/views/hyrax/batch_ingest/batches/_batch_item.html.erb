@@ -1,8 +1,8 @@
 <!--<tr class="<%#= status_context(batch_item.status) %>">-->
 <!--  <td><span data-toggle="collapse" data-target="#error_<%#= index %>" class="clickable <%#= status_context(batch_item.status) %>" style="cursor: pointer;"><%#= status_label batch_item.status %></span></td>-->
 <tr class="batch-item" data-batch-item-id="<%= presenter.id %>">
-  <td><%= presenter.status_span_tag %></td>
+  <td><%= presenter.status_span_tag(index) %></td>
   <td><%= presenter.id_within_batch %></td>
   <td><%= presenter.repo_object_id %></td>
 </tr>
-<%= render partial: 'error_row', locals: { presenter: presenter } %>
+<%= render partial: 'error_row', locals: { index: index, presenter: presenter } %>

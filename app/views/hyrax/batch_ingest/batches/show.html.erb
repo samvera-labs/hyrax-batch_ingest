@@ -36,7 +36,7 @@
     </thead>
     <tbody>
       <% @batch_items.each_with_index do |batch_item, index| %>
-        <%= render 'batch_item', presenter: Hyrax::BatchIngest::BatchItemPresenter.new(batch_item) %>
+        <%= render 'batch_item', presenter: Hyrax::BatchIngest::BatchItemPresenter.new(batch_item), index: index %>
       <% end %>
     </tbody>
   </table>
