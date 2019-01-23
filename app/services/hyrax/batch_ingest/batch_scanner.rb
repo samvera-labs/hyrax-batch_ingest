@@ -16,7 +16,6 @@ module Hyrax
           logger.info "<< Processing manifest #{manifest} for admin set #{admin_set.id} >>"
           # submitter_email will be populated later by batch reader
           Hyrax::BatchIngest::BatchRunner.new(ingest_type: 'Avalon Ingest Type', source_location: manifest, admin_set_id: admin_set.id).run
-          # Hyrax::BatchIngest::BatchRunner.new(ingest_type: 'Avalon Ingest Type', source_location: manifest_location(manifest), admin_set_id: admin_set.id).run
         end
       end
 
@@ -26,11 +25,6 @@ module Hyrax
       def unprocessed_manifests
         raise Hyrax::BatchIngest::ScannerError.new("Cannot use abstract BatchScanner class.")
       end
-
-      # # Returns the source location of the manifest file.
-      # def manifest_location(manifest)
-      #   raise Hyrax::BatchIngest::ScannerError.new("Cannot use abstract BatchScanner class.")
-      # end
     end
   end
 end

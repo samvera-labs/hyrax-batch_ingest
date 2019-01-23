@@ -35,7 +35,7 @@ module Hyrax
         fail_on_mismatch(batch, reader)
         populate_batch_from_reader(batch, reader)
         batch.save! # batch accepted
-        #once batch is persisted we don't need its manifest anymore
+        # once batch is persisted we don't need its manifest anymore, delete the file to prevent redundant process
         reader.delete_manifest
       rescue ReaderError, ActiveRecord::ActiveRecordError => e
         notify_failed(e)
