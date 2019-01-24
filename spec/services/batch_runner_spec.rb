@@ -112,6 +112,11 @@ RSpec.describe Hyrax::BatchIngest::BatchRunner do
         expect(batch.status).to eq 'accepted'
       end
 
+      it 'deletes the batch manifest' do
+        batch_runner.read
+        expect(reader).to have_received(:delete_manifest)
+      end
+
       context 'submitter email' do
         it 'sets when batch is missing email and reader has email' do
           batch.submitter_email = nil
