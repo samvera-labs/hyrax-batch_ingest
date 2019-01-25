@@ -3,6 +3,7 @@ RSpec.shared_examples "a Hyrax::BatchIngest::BatchScanner" do
   before do
     raise 'scanner class must be set with `let(:scanner_class)`' unless defined? scanner_class
     raise 'admin_set must be set with `let(:admin_set)`' unless defined? admin_set
+    raise 'manifests must be set with `let(:manifests)`' unless defined? manifests
   end
 
   subject { scanner }
@@ -19,11 +20,13 @@ RSpec.shared_examples "a Hyrax::BatchIngest::BatchScanner" do
 
   describe '#scan' do
     subject { scanner.scan }
-    let(:manifests) { scanner.unprocessed_manifests }
+    # let(:manifests) { scanner.unprocessed_manifests }
 
     it 'creates/run BatchRunner for each unprocessed manifest' do
-      expect(Hyrax::BatchIngest::BatchRunner).to have_received(:new).exactly(manifests.count).times
-      expect(Hyrax::BatchIngest::BatchRunner).to have_received(:new).with(ingest_type: 'Avalon Ingest Type', admin_set_id: admin_set.id) if manifests.count > 0
+      expect(Hyrax::BatchIngest::BatchRunner).to receive(:new).exactly(manifests.count).times
+      expect(Hyrax::BatchIngest::BatchRunner).to receive(:new).with(ingest_type: 'Avalon Ingest Type', admin_set_id: admin_set.id) if manifests.count > 0
+        # expect(Hyrax::BatchIngest::BatchRunner).to have_received(:new).exactly(manifests.count).times
+        # expect(Hyrax::BatchIngest::BatchRunner).to have_received(:new).with(ingest_type: 'Avalon Ingest Type', admin_set_id: admin_set.id) if manifests.count > 0
     end
   end
 end

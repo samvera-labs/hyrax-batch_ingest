@@ -36,6 +36,7 @@ describe Hyrax::BatchIngest::BatchScanner do
 
   let(:scanner_class) { ExampleScanner }
   let(:admin_set) { AdminSet.new(title: ['TestAdminSet']) }
+  let(:manifests) {[]}
 
   context 'when there are unprocessed manifests' do
     let(:manifests) {['dropbox/manifest1.csv', 'dropbox/manifest2.csv']}
@@ -43,7 +44,6 @@ describe Hyrax::BatchIngest::BatchScanner do
   end
 
   context 'when there is no unprocessed manifest' do
-    let(:manifests) {[]}
     it_behaves_like 'a Hyrax::BatchIngest::BatchScanner'
   end
 end
