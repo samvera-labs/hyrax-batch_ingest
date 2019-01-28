@@ -20,30 +20,62 @@ require 'rails_helper'
 require 'hyrax/batch_ingest/spec/shared_specs'
 
 describe Hyrax::BatchIngest::BatchScanner do
-  before(:all) do
-    class ExampleScanner < Hyrax::BatchIngest::BatchScanner
-      protected
+  # before(:all) do
+  #   class ExampleScanner < Hyrax::BatchIngest::BatchScanner
+  #     protected
+  #
+  #     def unprocessed_manifests
+  #       manifests
+  #     end
+  #   end
+  # end
 
-      def unprocessed_manifests
-        manifests
-      end
-    end
-  end
+  # after(:all) do
+  #   Object.send(:remove_const, :ExampleScanner)
+  # end
 
-  after(:all) do
-    Object.send(:remove_const, :ExampleScanner)
-  end
-
-  let(:scanner_class) { ExampleScanner }
-  let(:admin_set) { AdminSet.new(title: ['TestAdminSet']) }
-  let(:manifests) {[]}
+  # let(:scanner_class) { ExampleScanner }
+  let(:admin_set) { AdminSet.new }
+  # let(:manifests) {[]}
 
   context 'when there are unprocessed manifests' do
-    let(:manifests) {['dropbox/manifest1.csv', 'dropbox/manifest2.csv']}
+    before do
+      class ExampleScanner1 < Hyrax::BatchIngest::BatchScanner
+        protected
+
+        def unprocessed_manifests
+          ['/dropbox/TestAdminSet/manifest1.csv', '/dropbox/TestAdminSet/manifest2.csv']
+        end
+      end
+      # allow(admin_set).to receive(:id).and_return(0)
+    end
+
+    after do
+      Object.send(:remove_const, :ExampleScanner1)
+    end
+
+    let(:scanner_class) { ExampleScanner1 }
+    let(:manifests) {['/dropbox/TestAdminSet/manifest1.csv', '/dropbox/TestAdminSet/manifest2.csv']}
     it_behaves_like 'a Hyrax::BatchIngest::BatchScanner'
   end
 
   context 'when there is no unprocessed manifest' do
+    before do
+      class ExampleScanner2 < Hyrax::BatchIngest::BatchScanner
+        protected
+
+        def unprocessed_manifests
+          []
+        end
+      end
+    end
+
+    after do
+      Object.send(:remove_const, :ExampleScanner2)
+    end
+
+    let(:scanner_class) { ExampleScanner2 }
+    let(:manifests) { [] }
     it_behaves_like 'a Hyrax::BatchIngest::BatchScanner'
   end
 end

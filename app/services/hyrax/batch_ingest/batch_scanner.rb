@@ -11,9 +11,9 @@ module Hyrax
       # Scans for all unprocessed manifests for this admin set and creates/run batches for them.
       def scan
         manifests = unprocessed_manifests
-        logger.info "<< Found #{manifests.count} unprocessed manifests for admin_set #{@admin_set.title.first} >>" if manifests.count > 0
+        Rails.logger.info "<< Found #{manifests.count} unprocessed manifests for admin_set #{@admin_set.title.first} >>" if manifests.count > 0
         manifests.each do |manifest|
-          logger.info "<< Processing manifest #{manifest} for admin set #{admin_set.id} >>"
+          Rails.logger.info "<< Processing manifest #{manifest} for admin set #{admin_set.id} >>"
           # submitter_email will be populated later by batch reader
           Hyrax::BatchIngest::BatchRunner.new(ingest_type: 'Avalon Ingest Type', source_location: manifest, admin_set_id: admin_set.id).run
         end
