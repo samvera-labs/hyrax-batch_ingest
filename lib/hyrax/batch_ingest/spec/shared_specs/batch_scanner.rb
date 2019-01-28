@@ -20,25 +20,31 @@ RSpec.shared_examples "a Hyrax::BatchIngest::BatchScanner" do
   describe '#scan' do
     before do
       allow(admin_set).to receive(:id).and_return(0)
-      manifests.each_with_index do |manifest, i|
-        allow(Hyrax::BatchIngest::BatchRunner).to receive(:new).with(ingest_type: 'Avalon Ingest Type', source_location: manifest, admin_set_id: admin_set.id).and_return(runners[i])
-        allow(runners[i]).to receive(:run)
-      end
+      allow(Hyrax::BatchIngest::BatchRunner).to receive(:new).and_call_original
+      run_count = 0
+      allow_any_instance_of(Hyrax::BatchIngest::BatchRunner).to receive(:run) { run_count += 1 }
+      # manifests.each_with_index do |manifest, i|
+      #   allow(Hyrax::BatchIngest::BatchRunner).to receive(:new).with(ingest_type: 'Avalon Ingest Type', source_location: manifest, admin_set_id: admin_set.id).and_return(runners[i])
+      #   allow(runners[i]).to receive(:run)
+      # end
     end
 
-    subject { scanner.scan }
-    let(:runners) { manifests.collect { |manifest| double('Hyrax::BatchIngest::BatchRunner') } }
+    # subject { scanner.scan }
+    # let(:runners) { manifests.collect { |manifest| double('Hyrax::BatchIngest::BatchRunner') } }
+    # let(:runners) { manifests.collect { Hyrax::BatchIngest::BatchRunner.new } }
     # let(:runners) { manifest.collect { |manifest| Hyrax::BatchIngest::BatchRunner.new(ingest_type: 'Avalon Ingest Type', source_location: manifest, admin_set_id: admin_set.id) } }
 
     it 'creates/run BatchRunner for each unprocessed manifest' do
-      # expect(Hyrax::BatchIngest::BatchRunner).to receive(:new).exactly(manifests.count).times
-      # expect(Hyrax::BatchIngest::BatchRunner).to receive(:new).with(ingest_type: 'Avalon Ingest Type', admin_set_id: admin_set.id) if manifests.count > 0
-      # scanner.scan
-      # expect(Hyrax::BatchIngest::BatchRunner).to have_received(:new).with(ingest_type: 'Avalon Ingest Type', admin_set_id: admin_set.id) if manifests.count > 0
+      scanner.scan
       expect(Hyrax::BatchIngest::BatchRunner).to have_received(:new).exactly(manifests.count).times
-      manifests.each_with_index do |manifest, i|
-        expect(runner[i].to have_received(:run))
+      expect_any_instance_of(Hyrax::BatchIngest::BatchRunner).to have_received(:run).exactly(manifests.count).times
+      # expect(run_count).to eq(manifests.count)
+      manifests.each do |manifest|
+        expect(Hyrax::BatchIngest::BatchRunner).to have_received(:new).with(ingest_type: 'Avalon Ingest Type', source_location: manifest, admin_set_id: admin_set.id)
       end
+      # manifests.each_with_index do |manifest, i|
+      #   expect(runners[i].to have_received(:run))
+      # end
     end
   end
 end

@@ -20,23 +20,7 @@ require 'rails_helper'
 require 'hyrax/batch_ingest/spec/shared_specs'
 
 describe Hyrax::BatchIngest::BatchScanner do
-  # before(:all) do
-  #   class ExampleScanner < Hyrax::BatchIngest::BatchScanner
-  #     protected
-  #
-  #     def unprocessed_manifests
-  #       manifests
-  #     end
-  #   end
-  # end
-
-  # after(:all) do
-  #   Object.send(:remove_const, :ExampleScanner)
-  # end
-
-  # let(:scanner_class) { ExampleScanner }
   let(:admin_set) { AdminSet.new }
-  # let(:manifests) {[]}
 
   context 'when there are unprocessed manifests' do
     before do
@@ -47,7 +31,6 @@ describe Hyrax::BatchIngest::BatchScanner do
           ['/dropbox/TestAdminSet/manifest1.csv', '/dropbox/TestAdminSet/manifest2.csv']
         end
       end
-      # allow(admin_set).to receive(:id).and_return(0)
     end
 
     after do
