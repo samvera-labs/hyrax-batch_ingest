@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 # Copyright 2011-2018, The Trustees of Indiana University and Northwestern
 # University. Additional copyright may be held by others, as reflected in
 # the commit history.
@@ -27,9 +28,9 @@ describe Hyrax::BatchIngest::BatchScanner do
       class ExampleScanner1 < Hyrax::BatchIngest::BatchScanner
         protected
 
-        def unprocessed_manifests
-          ['/dropbox/TestAdminSet/manifest1.csv', '/dropbox/TestAdminSet/manifest2.csv']
-        end
+          def unprocessed_manifests
+            ['/dropbox/TestAdminSet/manifest1.csv', '/dropbox/TestAdminSet/manifest2.csv']
+          end
       end
     end
 
@@ -38,7 +39,7 @@ describe Hyrax::BatchIngest::BatchScanner do
     end
 
     let(:scanner_class) { ExampleScanner1 }
-    let(:manifests) {['/dropbox/TestAdminSet/manifest1.csv', '/dropbox/TestAdminSet/manifest2.csv']}
+    let(:manifests) { ['/dropbox/TestAdminSet/manifest1.csv', '/dropbox/TestAdminSet/manifest2.csv'] }
     it_behaves_like 'a Hyrax::BatchIngest::BatchScanner'
   end
 
@@ -47,9 +48,9 @@ describe Hyrax::BatchIngest::BatchScanner do
       class ExampleScanner2 < Hyrax::BatchIngest::BatchScanner
         protected
 
-        def unprocessed_manifests
-          []
-        end
+          def unprocessed_manifests
+            []
+          end
       end
     end
 
