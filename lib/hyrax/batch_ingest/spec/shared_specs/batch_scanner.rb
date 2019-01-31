@@ -23,10 +23,10 @@ RSpec.shared_examples "a Hyrax::BatchIngest::BatchScanner" do
       allow(Hyrax::BatchIngest::BatchRunner).to receive(:new).and_call_original
       @run_count = 0
       allow_any_instance_of(Hyrax::BatchIngest::BatchRunner).to receive(:run) { @run_count += 1 }
+      scanner.scan
     end
 
     it 'creates/run BatchRunner for each unprocessed manifest' do
-      scanner.scan
       expect(Hyrax::BatchIngest::BatchRunner).to have_received(:new).exactly(manifests.count).times
       expect(@run_count).to eq(manifests.count)
       manifests.each do |manifest|
