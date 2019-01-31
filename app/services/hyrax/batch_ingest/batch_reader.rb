@@ -38,6 +38,11 @@ module Hyrax
         @read
       end
 
+      # Deletes the manifest of this batch from its source location.
+      def delete_manifest
+        raise Hyrax::BatchIngest::ReaderError.new("Cannot use abstract BatchReader class.")
+      end
+
       protected
 
         def perform_read

@@ -5,6 +5,7 @@ module Hyrax
     class BatchIngestError < ::StandardError; end
     class ReaderError < BatchIngestError; end
     class IngesterError < BatchIngestError; end
+    class ScannerError < BatchIngestError; end
 
     class ConfigFileNotFoundError < BatchIngestError
       def initialize(path)

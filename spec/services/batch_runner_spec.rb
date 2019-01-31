@@ -99,6 +99,7 @@ RSpec.describe Hyrax::BatchIngest::BatchRunner do
         allow(reader).to receive(:batch_items).and_return(batch_items)
         allow(reader).to receive(:submitter_email).and_return(submitter_email)
         allow(reader).to receive(:admin_set_id)
+        allow(reader).to receive(:delete_manifest)
         batch_runner.initialize_batch
       end
 
@@ -110,6 +111,11 @@ RSpec.describe Hyrax::BatchIngest::BatchRunner do
         batch_runner.read
         batch.reload
         expect(batch.status).to eq 'accepted'
+      end
+
+      it 'deletes the batch manifest' do
+        batch_runner.read
+        expect(reader).to have_received(:delete_manifest)
       end
 
       context 'submitter email' do

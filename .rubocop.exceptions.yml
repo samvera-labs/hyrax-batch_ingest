@@ -43,3 +43,11 @@ RSpec/NamedSubject:
   Exclude:
     - 'lib/hyrax/batch_ingest/spec/shared_specs/batch_item_ingester.rb'
     - 'lib/hyrax/batch_ingest/spec/shared_specs/batch_reader.rb'
+
+RSpec/AnyInstance:
+  Exclude:
+    - 'lib/hyrax/batch_ingest/spec/shared_specs/batch_scanner.rb'
+
+RSpec/InstanceVariable:
+  Exclude:
+    - 'lib/hyrax/batch_ingest/spec/shared_specs/batch_scanner.rb'
