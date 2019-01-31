@@ -21,7 +21,7 @@ Batch Ingest Plugin for Hyrax
 
    ```
    # from your application's root directory...
-   bundle exec hyrax:batch_ingest:install
+   bin/rails generate hyrax:batch_ingest:install
    ```
 
    The installer does a few things:
