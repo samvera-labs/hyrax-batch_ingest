@@ -11,6 +11,7 @@ RSpec.shared_examples "a Hyrax::BatchIngest::BatchItemIngester" do
 
   it { is_expected.to respond_to :ingest }
   it { is_expected.to respond_to :batch_item }
+  it { is_expected.to respond_to :options }
 
   describe '#initialize' do
     it 'stores the batch_item' do

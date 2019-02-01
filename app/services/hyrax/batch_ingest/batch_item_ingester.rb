@@ -2,10 +2,11 @@
 module Hyrax
   module BatchIngest
     class BatchItemIngester
-      attr_reader :batch_item
+      attr_reader :batch_item, :options
 
-      def initialize(batch_item)
+      def initialize(batch_item, opts = {})
         @batch_item = batch_item
+        @options = opts || {}
       end
 
       def ingest

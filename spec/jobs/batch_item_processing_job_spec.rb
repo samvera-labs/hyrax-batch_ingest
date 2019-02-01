@@ -4,7 +4,7 @@ require 'rails_helper'
 describe Hyrax::BatchIngest::BatchItemProcessingJob do
   let(:batch) { FactoryBot.create(:enqueued_batch, batch_items: [batch_item]) }
   let(:batch_item) { FactoryBot.build(:batch_item, status: 'enqueued', repo_object_id: nil) }
-  let(:config) { instance_double(Hyrax::BatchIngest::IngestTypeConfig, ingester: ingester_class) }
+  let(:config) { instance_double(Hyrax::BatchIngest::IngestTypeConfig, ingester: ingester_class, ingester_options: {}) }
   let(:ingester_class) { double("IngesterClass") }
   let(:ingester) { double("BatchItemIngester") }
   let(:work) { double("work", id: 'new_object') }
@@ -12,7 +12,7 @@ describe Hyrax::BatchIngest::BatchItemProcessingJob do
 
   before do
     allow(job).to receive(:config).and_return(config)
-    allow(ingester_class).to receive(:new).with(batch_item).and_return(ingester)
+    allow(ingester_class).to receive(:new).with(batch_item, {}).and_return(ingester)
     allow(ingester).to receive(:ingest).and_return(work)
   end
 

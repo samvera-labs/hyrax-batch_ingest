@@ -35,13 +35,15 @@ module Hyrax
       end
 
       def perform(batch_item)
-        @work = config(batch_item).ingester.new(batch_item).ingest
+        ingester_class = config(batch_item).ingester
+        ingester_options = config(batch_item).ingester_options
+        @work = ingester_class.new(batch_item, ingester_options).ingest
       end
 
       private
 
         def config(batch_item)
-          @config ||= Hyrax::BatchIngest.config.ingest_types[batch_item.batch.ingest_type.to_sym]
+          Hyrax::BatchIngest.config.ingest_types[batch_item.batch.ingest_type.to_sym]
         end
     end
   end
