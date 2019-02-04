@@ -31,7 +31,7 @@ module Hyrax
 
       def read
         raise ArgumentError, "Batch not initialized yet" unless batch.persisted?
-        reader = config.reader.new(batch.source_location)
+        reader = config.reader.new(batch.source_location, config.reader_options)
         fail_on_mismatch(batch, reader)
         populate_batch_from_reader(batch, reader)
         batch.save! # batch accepted

@@ -17,6 +17,7 @@ RSpec.shared_examples "a Hyrax::BatchIngest::BatchReader" do
   it { is_expected.to respond_to :read }
   it { is_expected.to respond_to :been_read? }
   it { is_expected.to respond_to :source_location }
+  it { is_expected.to respond_to :options }
 
   describe '#initialize' do
     it 'stores the source_location' do

@@ -3,14 +3,15 @@
 module Hyrax
   module BatchIngest
     class BatchReader
-      attr_reader :source_location
+      attr_reader :source_location, :options
 
-      def initialize(source_location)
+      def initialize(source_location, opts = {})
         @source_location = source_location
         @read = false
         @submitter_email = nil
         @batch_items = nil
         @admin_set_id = nil
+        @options = opts || {}
       end
 
       def submitter_email

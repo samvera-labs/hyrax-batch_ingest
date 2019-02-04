@@ -88,14 +88,14 @@ RSpec.describe Hyrax::BatchIngest::BatchRunner do
 
     context 'with batch initialized' do
       let(:batch) { FactoryBot.create(:initialized_batch) }
-      let(:config) { instance_double(Hyrax::BatchIngest::IngestTypeConfig, reader: reader_class) }
+      let(:config) { instance_double(Hyrax::BatchIngest::IngestTypeConfig, reader: reader_class, reader_options: {}) }
       let(:reader_class) { double("ReaderClass") }
       let(:reader) { double("BatchReader") }
       let(:batch_items) { [FactoryBot.build(:batch_item), FactoryBot.build(:batch_item)] }
 
       before do
         allow(batch_runner).to receive(:config).and_return(config)
-        allow(reader_class).to receive(:new).with(batch.source_location).and_return(reader)
+        allow(reader_class).to receive(:new).with(batch.source_location, {}).and_return(reader)
         allow(reader).to receive(:batch_items).and_return(batch_items)
         allow(reader).to receive(:submitter_email).and_return(submitter_email)
         allow(reader).to receive(:admin_set_id)
@@ -150,12 +150,12 @@ RSpec.describe Hyrax::BatchIngest::BatchRunner do
 
       context 'errors' do
         context 'with ReaderError' do
-          let(:config) { instance_double(Hyrax::BatchIngest::IngestTypeConfig, reader: bad_reader_class) }
+          let(:config) { instance_double(Hyrax::BatchIngest::IngestTypeConfig, reader: bad_reader_class, reader_options: {}) }
           let(:bad_reader_class) { double("ReaderClass") }
           let(:bad_reader) { double("BatchReader") }
 
           before do
-            allow(bad_reader_class).to receive(:new).with(batch.source_location).and_return(bad_reader)
+            allow(bad_reader_class).to receive(:new).with(batch.source_location, {}).and_return(bad_reader)
             allow(bad_reader).to receive(:submitter_email)
             allow(bad_reader).to receive(:admin_set_id)
             allow(bad_reader).to receive(:batch_items).and_raise(Hyrax::BatchIngest::ReaderError, "Invalid batch")
