@@ -13,7 +13,6 @@ gemspec
 
 # To use a debugger
 # gem 'byebug', group: [:development, :test]
-gem 'engine_cart', '~> 2.0'
 # BEGIN ENGINE_CART BLOCK
 # engine_cart: 2.0.1
 # engine_cart stanza: 0.10.0
