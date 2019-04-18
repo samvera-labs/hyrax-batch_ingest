@@ -8,7 +8,7 @@ describe Hyrax::BatchIngest::BatchItemProcessingJob do
   let(:ingester_class) { double("IngesterClass") }
   let(:ingester) { double("BatchItemIngester") }
   let(:work) { double("work", id: 'new_object') }
-  let(:job) { described_class.new(batch_item) }
+  let(:job) { described_class.new(batch_item: batch_item) }
 
   before do
     allow(job).to receive(:config).and_return(config)

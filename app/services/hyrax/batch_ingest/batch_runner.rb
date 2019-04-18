@@ -45,8 +45,8 @@ module Hyrax
       def enqueue
         raise ArgumentError, "Batch not read yet" unless batch.status == 'accepted'
         batch.update(status: 'enqueued')
-        batch.batch_items.each do |item|
-          BatchItemProcessingJob.perform_later(item)
+        batch.batch_items.each do |batch_item|
+          BatchItemProcessingJob.perform_later(batch_item: batch_item)
         end
         BatchBeginMailer.with(batch: batch).batch_started_successfully.deliver_later
       rescue ActiveRecord::ActiveRecordError => e
