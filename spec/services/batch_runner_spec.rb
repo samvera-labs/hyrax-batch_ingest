@@ -196,8 +196,8 @@ RSpec.describe Hyrax::BatchIngest::BatchRunner do
 
       it 'enqueues the batch items from the reader' do
         batch_runner.enqueue
-        expect(Hyrax::BatchIngest::BatchItemProcessingJob).to have_been_enqueued.with(batch_items[0])
-        expect(Hyrax::BatchIngest::BatchItemProcessingJob).to have_been_enqueued.with(batch_items[1])
+        expect(Hyrax::BatchIngest::BatchItemProcessingJob).to have_been_enqueued.with(batch_item: batch_items[0])
+        expect(Hyrax::BatchIngest::BatchItemProcessingJob).to have_been_enqueued.with(batch_item: batch_items[1])
       end
 
       it 'sets the batch status to enqueued' do
