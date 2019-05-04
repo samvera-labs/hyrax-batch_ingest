@@ -1,6 +1,11 @@
 <tr class="batch-item" data-batch-item-id="<%= presenter.id %>">
   <td><%= presenter.status_span_tag(index) %></td>
   <td><%= presenter.id_within_batch %></td>
-  <td><%= presenter.repo_object_id %></td>
+  <td><%= presenter.repo_object_display_name %></td>
+  <td>
+    <% if presenter.repo_object_path %>
+      <%= link_to presenter.repo_object_id, presenter.repo_object_path %>
+    <% end %>
+  </td>
 </tr>
 <%= render partial: 'error_row', locals: { index: index, presenter: presenter } %>

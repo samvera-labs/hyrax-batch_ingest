@@ -53,7 +53,7 @@ jobs:
 
     - restore_cache:
         keys:
-        - v3-internal-test-app-{{ checksum "hyrax-batch_ingest.gemspec" }}-{{ checksum "spec/test_app_templates/lib/generators/test_app_generator.rb" }}-{{ checksum "lib/generators/hyrax/batch_ingest/install_generator.rb" }}
+        - v3-internal-test-app-{{ checksum "hyrax-batch_ingest.gemspec" }}-{{ checksum "spec/test_app_templates/lib/generators/test_app_generator.rb" }}-{{ checksum "lib/generators/hyrax/batch_ingest/install_generator.rb" }}-{{ checksum "lib/hyrax/batch_ingest/version.rb" }}
 
     # Download and cache dependencies
     - restore_cache:
@@ -78,14 +78,14 @@ jobs:
     - save_cache:
         paths:
         - ./.internal_test_app
-        key: v3-internal-test-app-{{ checksum "hyrax-batch_ingest.gemspec" }}-{{ checksum "spec/test_app_templates/lib/generators/test_app_generator.rb" }}-{{ checksum "lib/generators/hyrax/batch_ingest/install_generator.rb" }}
+        key: v3-internal-test-app-{{ checksum "hyrax-batch_ingest.gemspec" }}-{{ checksum "spec/test_app_templates/lib/generators/test_app_generator.rb" }}-{{ checksum "lib/generators/hyrax/batch_ingest/install_generator.rb" }}-{{ checksum "lib/hyrax/batch_ingest/version.rb" }}
 
     - run:
         name: Install test app dependencies
         command: |
           cd .internal_test_app
           bundle install
-          
+
     - run:
         name: Load config into SolrCloud
         command: |
