@@ -15,7 +15,7 @@ module Hyrax
 
       after_perform do
         batch_item = named_arguments[:batch_item]
-        batch_item.update(status: 'completed', repo_object_id: @work.id)
+        batch_item.update(status: 'completed', repo_object_id: @work.id, repo_object_class_name: @work.class)
         if batch_item.batch.completed?
           batch = batch_item.batch
           batch.update(status: 'completed')

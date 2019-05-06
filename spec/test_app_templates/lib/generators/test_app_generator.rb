@@ -2,7 +2,10 @@
 require 'rails/generators'
 
 class TestAppGenerator < Rails::Generators::Base
-  source_root "./spec/test_app_templates"
+  # This is run under .internal_test_app/lib/generators/test_app_generator.rb,
+  # so the source_root needs to be sure to specify spec/test_app_templates
+  # relative to the gem's root, and not the test app's root.
+  source_root File.expand_path('../../../spec/test_app_templates', File.dirname(__FILE__))
 
   def require_bootsnap
     inject_into_file 'config/boot.rb', after: "require 'bundler/setup' # Set up gems listed in the Gemfile.\n" do
@@ -34,12 +37,7 @@ class TestAppGenerator < Rails::Generators::Base
   end
 
   def add_example_batch_ingest_config
-    # TODO: the line below doesn't work. Currently need to copy by hand .
     copy_file 'config/example_batch_ingest.yml', 'config/batch_ingest.yml'
-  end
-
-  def add_admin_user
-    # TODO
   end
 
   def generate_work_type

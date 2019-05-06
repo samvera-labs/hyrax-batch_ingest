@@ -1,5 +1,10 @@
+---
 ingest_types:
-  wgbh_ingest:
-    label: 'WGBH Ingest'
-    reader: WGBHReader
-    ingester: WGBHIngester
+  example_ingest_type:
+    label: "Example Ingest Type"
+    reader: "ExampleReader"
+    ingester: "ExampleIngester"
+  other_ingest_type:
+    label: "Other Ingest Type"
+    reader: "OtherReader"
+    ingester: "OtherIngester"

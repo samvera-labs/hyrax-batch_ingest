@@ -7,6 +7,14 @@ FactoryBot.define do
     source_location { 'path/to/batch_manifest.csv' }
     status { Hyrax::BatchIngest::BatchItem::STATUSES.sample }
     error { nil }
-    repo_object_id { '12345678' }
+
+    after(:build) do |batch_item, _evaluator|
+      # If the batch item is completed, add an object id and a class name if
+      # there isn't already one specified.
+      if batch_item.status == 'completed'
+        batch_item.repo_object_id ||= SecureRandom.uuid
+        batch_item.repo_object_class_name ||= 'GenericWork'
+      end
+    end
   end
 end
