@@ -11,7 +11,7 @@ module CustomMatchers
     have_css("tr[data-batch-item-id=\"#{batch_item.id}\"]")
   end
 
-  # Returns a matcher for whether all the given batch_items given are in the search
+  # Returns a matcher for whether all the given batch_items are in the search
   # results.
   def have_batch_item_rows(batch_items = [])
     raise_argument_error_if_not_batch_items batch_items
@@ -21,8 +21,8 @@ module CustomMatchers
     end
   end
 
-  # Returns a matcher for whether the given batch_items are the ONLY recrods in the
-  # serach results.
+  # Returns a matcher for whether the given batch_items are the ONLY records in
+  # the search results.
   def only_have_batch_item_rows(batch_items = [])
     raise_argument_error_if_not_batch_items batch_items
     # Has all of the batch_items in the search results...

@@ -10,7 +10,7 @@ module Hyrax
       def batch_abilities
         if admin?
           # exclude edit/update since we don't have such actions, keep destroy since we allow cancelling of a batch job
-          can [:new, :create, :index, :show, :read, :destroy], Hyrax::BatchIngest::Batch
+          can [:new, :create, :index, :show, :read, :destroy, :summary], Hyrax::BatchIngest::Batch
         else
           deposit_admin_sets = Hyrax::Collections::PermissionsService.source_ids_for_deposit(ability: self, source_type: 'admin_set')
           if deposit_admin_sets.present?

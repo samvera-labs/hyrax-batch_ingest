@@ -18,6 +18,10 @@ Metrics/BlockLength:
     - 'spec/**/*_spec.rb'
     - 'spec/factories/*.rb'
 
+Metrics/MethodLength:
+  Exclude:
+    - 'app/presenters/hyrax/batch_ingest/batch_summary_presenter.rb'
+
 RSpec/DescribeClass:
   Exclude:
     - 'spec/services/batch_runner_spec.rb'

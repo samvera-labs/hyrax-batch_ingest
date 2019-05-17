@@ -47,3 +47,7 @@ else
   end
 end
 # END ENGINE_CART BLOCK
+
+group :development do
+  gem 'rb-readline'
+end

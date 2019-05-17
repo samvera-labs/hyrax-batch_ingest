@@ -33,7 +33,7 @@ module Hyrax
         raise exception unless batch_item
 
         error_msg = exception.message
-        error_msg += "<br><br>#{exception.backtrace.join('<br>')}" if Rails.env == "development"
+        error_msg += "\n\n#{exception.backtrace.join("\n")}" if Rails.env == "development"
         batch_item.update(status: 'failed', error: error_msg)
         batch_item.batch.update(status: 'completed') if batch_item.batch.completed?
       end
