@@ -44,7 +44,8 @@ module Hyrax
             enqueued:    I18n.t('hyrax.batch_ingest.batch_items.status.enqueued'),
             running:     I18n.t('hyrax.batch_ingest.batch_items.status.running'),
             completed:   I18n.t('hyrax.batch_ingest.batch_items.status.completed'),
-            failed:      I18n.t('hyrax.batch_ingest.batch_items.status.failed')
+            failed:      I18n.t('hyrax.batch_ingest.batch_items.status.failed'),
+            expunged:    I18n.t('hyrax.batch_ingest.batch_items.status.expunged')
           }.with_indifferent_access
         end
 
@@ -54,7 +55,8 @@ module Hyrax
             enqueued:     'fa fa-info',
             running:      'fa fa-refresh fa-sync',
             completed:    'fa fa-check-circle',
-            failed:       'fa fa-exclamation-triangle'
+            failed:       'fa fa-exclamation-triangle',
+            expunged:     'fa fa-exclamation-triangle'
           }.with_indifferent_access
         end
       end

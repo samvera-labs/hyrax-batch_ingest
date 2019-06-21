@@ -18,3 +18,4 @@ en:
           running: 'running'
           completed: 'completed'
           failed: 'failed'
+          expunged: 'expunged'
