@@ -8,7 +8,7 @@ module Hyrax
       attr_reader :batch
 
       delegate :id, :submitter_email, :source_location, :batch_items, :error,
-               to: :batch
+               :count_by_status, :count_by_object, to: :batch
 
       def initialize(batch)
         @batch = batch
@@ -35,10 +35,6 @@ module Hyrax
         batch.updated_at.strftime(DATETIME_FORMAT)
       end
 
-      def batch_item_count
-        batch.batch_items.count
-      end
-
       def status_label
         self.class.status_labels[batch.status] || 'unknown'
       end
@@ -51,10 +47,18 @@ module Hyrax
         batch.admin_set&.title&.first
       end
 
+      def error_html
+        error.gsub("\n", "<br>")
+      end
+
       def batch_item_presenters
-        batch_items.map do |batch_item|
+        @batch_item_presenters ||= batch_items.map do |batch_item|
           Hyrax::BatchIngest::BatchItemPresenter.new(batch_item)
         end
+      end
+
+      def batch_item_count
+        @batch_item_count ||= batch.batch_items.count
       end
 
       class << self

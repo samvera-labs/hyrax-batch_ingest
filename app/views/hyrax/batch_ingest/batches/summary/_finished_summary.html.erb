@@ -1,0 +1,25 @@
+<section class="batch-ingest-summary-section">
+  <h3><%= total %> Batch Items Finished</h3>
+  <% unless rows.empty? %>
+    <div class="table-responsive">
+      <table class="table">
+        <thead>
+          <tr>
+            <th style="width: 5%;">#</th>
+            <th style="width: 5%;">%</th>
+            <th>Status</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% rows.each do |row| %>
+            <tr>
+              <td><%= row[:count] %></td>
+              <td><%= row[:percent] %></td>
+              <td><%= row[:status] %></td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+    </div>
+  <% end %>
+</section>

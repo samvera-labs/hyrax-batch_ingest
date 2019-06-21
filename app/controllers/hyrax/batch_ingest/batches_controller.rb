@@ -56,6 +56,10 @@ module Hyrax
         @presenter = Hyrax::BatchIngest::BatchPresenter.new(@batch)
       end
 
+      def summary
+        @presenter = Hyrax::BatchIngest::BatchSummaryPresenter.new(@batch)
+      end
+
       private
 
         def available_admin_sets

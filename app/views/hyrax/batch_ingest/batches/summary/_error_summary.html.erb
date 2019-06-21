@@ -1,0 +1,32 @@
+<section class="batch-ingest-summary-section">
+  <h3><%= total %> Errors</h3>
+  <% unless rows.empty? %>
+    <div class="table-responsive">
+      <table class="table">
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>%</th>
+            <th>Error</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% rows.each_with_index do |row, i| %>
+            <tr>
+              <td><%= row[:count] %></td>
+              <td><%= row[:percent] %></td>
+              <td>
+                <%= row[:error] %>
+                <br>
+                <a style="cursor: pointer;" data-toggle="collapse" data-target="#ids_within_batch_<%= i %>">IDs Within Batch</a>
+                <div id="ids_within_batch_<%= i %>" class="collapse">
+                  <%= row[:ids_within_batch].join('<br>').html_safe %>
+                </div>
+              </td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+    </div>
+  <% end %>
+</section>

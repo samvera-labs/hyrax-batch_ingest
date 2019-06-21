@@ -31,5 +31,16 @@ module Hyrax::BatchIngest
       return nil if submitter_email.nil?
       @submitter ||= User.find_by! email: submitter_email
     end
+
+    def count_by_status
+      batch_items.group(:status).count
+    end
+
+    def count_by_object
+      batch_items
+        .where.not(repo_object_class_name: nil)
+        .group(:repo_object_class_name)
+        .count
+    end
   end
 end

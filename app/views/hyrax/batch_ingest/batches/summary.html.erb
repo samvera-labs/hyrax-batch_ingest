@@ -1,0 +1,19 @@
+<%= stylesheet_link_tag 'hyrax/batch_ingest/batch_ingest' %>
+
+<h1><span class="fa fa-copy"></span>Batch Ingest Summary</h1>
+
+<dl>
+  <dt>Ingest Type:</dt>
+  <dd><%= @presenter.ingest_type %></dd>
+  <dt>Submitter:</dt>
+  <dd><%= @presenter.submitter_email %></dd>
+  <dt>Admin Set:</dt>
+  <dd><%= @presenter.admin_set_title %></dd>
+  <dt>Status:</dt>
+  <dd><%= @presenter.status_label %></dd>
+</dl>
+
+<%= render partial: 'hyrax/batch_ingest/batches/summary/finished_summary', locals: @presenter.finished_summary %>
+<%= render partial: 'hyrax/batch_ingest/batches/summary/remaining_summary', locals: @presenter.remaining_summary %>
+<%= render partial: 'hyrax/batch_ingest/batches/summary/object_summary', locals: @presenter.object_summary %>
+<%= render partial: 'hyrax/batch_ingest/batches/summary/error_summary', locals: @presenter.error_summary  %>

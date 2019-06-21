@@ -1,0 +1,28 @@
+<section class="batch-ingest-summary-section">
+  <h3><%= total %> Objects Ingested <sup>*</sup></h3>
+  <% unless rows.empty? %>
+    <div class="table-responsive">
+      <table class="table">
+        <thead>
+          <tr>
+            <th style="width: 5%;">#</th>
+            <th style="width: 5%;">%</th>
+            <th>Object Type</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% rows.each do |row| %>
+            <td><%= row[:count] %></td>
+            <td><%= row[:percent] %></td>
+            <td><%= row[:object_type] %></td>
+          <% end %>
+        </tbody>
+      </table>
+    </div>
+  <% end %>
+
+  <div class="footnote">
+    * This shows the number of each type of object ingested. However, there may
+      have been more objects created during the ingest process.
+  </div>
+</section>
