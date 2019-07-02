@@ -13,7 +13,7 @@ module Hyrax
       end
 
       def status_span_tag(index)
-        "<span data-toggle=\"collapse\" data-target=\"#error_#{index}\" class=\"#{status_css_class}\" style=\"cursor: pointer;\">#{status_label}</span>".html_safe
+        "<span data-toggle=\"collapse\" data-target=\"#error_#{index}\" class=\"#{status_css_class}\">&nbsp;#{status_label.capitalize}</span>".html_safe
       end
 
       def status_label
