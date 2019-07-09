@@ -13,15 +13,21 @@ module Hyrax
       end
 
       def status_span_tag(index)
-        "<span data-toggle=\"collapse\" data-target=\"#error_#{index}\" class=\"#{status_css_class}\">&nbsp;#{status_label.capitalize}</span>".html_safe
+        "<span data-toggle=\"collapse\" data-target=\"#error_#{index}\" class=\"clickable fa #{status_icon_css_class}\">&nbsp;#{status_label.capitalize}</span>".html_safe
       end
 
       def status_label
         self.class.status_labels[status]
       end
 
-      def status_css_class
-        "clickable #{self.class.status_css_classes[batch_item.status]}"
+      def status_icon_css_class
+        {
+          initialized:  'fa-info',
+          enqueued:     'fa-info',
+          running:      'fa-refresh',
+          completed:    repo_object_exists? ? 'fa-check-circle' : 'fa-ban',
+          failed:       'fa-exclamation-triangle'
+        }.fetch(status.to_sym, 'fa-question')
       end
 
       # @return [String] the relative URL to the #show page for the repository
@@ -37,6 +43,11 @@ module Hyrax
         repo_object_class&.model_name&.human || repo_object_class_name
       end
 
+      # Memoized results of BatchItem#repo_object_exists?
+      def repo_object_exists?
+        @repo_object_exists ||= batch_item.repo_object_exists?
+      end
+
       class << self
         def status_labels
           {
@@ -44,19 +55,7 @@ module Hyrax
             enqueued:    I18n.t('hyrax.batch_ingest.batch_items.status.enqueued'),
             running:     I18n.t('hyrax.batch_ingest.batch_items.status.running'),
             completed:   I18n.t('hyrax.batch_ingest.batch_items.status.completed'),
-            failed:      I18n.t('hyrax.batch_ingest.batch_items.status.failed'),
-            expunged:    I18n.t('hyrax.batch_ingest.batch_items.status.expunged')
-          }.with_indifferent_access
-        end
-
-        def status_css_classes
-          {
-            initialized:  'fa fa-info',
-            enqueued:     'fa fa-info',
-            running:      'fa fa-refresh fa-sync',
-            completed:    'fa fa-check-circle',
-            failed:       'fa fa-exclamation-triangle',
-            expunged:     'fa fa-exclamation-triangle'
+            failed:      I18n.t('hyrax.batch_ingest.batch_items.status.failed')
           }.with_indifferent_access
         end
       end
@@ -64,15 +63,19 @@ module Hyrax
       private
 
         def repo_object_class
-          Object.const_get(batch_item.repo_object_class_name.to_s)
+          Object.const_get(repo_object_class_name.to_s)
         rescue NameError
           nil
         end
 
         def repo_object_path_helper
-          return nil unless repo_object_class
-          self.class.include Rails.application.routes.url_helpers
-          "hyrax_#{repo_object_class.model_name.singular}_path"
+          @repo_object_path_helper ||= begin
+            if repo_object_class
+              self.class.include Rails.application.routes.url_helpers
+              path_helper = "hyrax_#{repo_object_class.model_name.singular}_path".to_sym
+              path_helper if respond_to? path_helper
+            end
+          end
         end
     end
   end

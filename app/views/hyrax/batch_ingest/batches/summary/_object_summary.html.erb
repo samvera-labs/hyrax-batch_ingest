@@ -12,9 +12,11 @@
         </thead>
         <tbody>
           <% rows.each do |row| %>
-            <td><%= row[:count] %></td>
-            <td><%= row[:percent] %></td>
-            <td><%= row[:object_type] %></td>
+            <tr>
+              <td><%= row[:count] %></td>
+              <td><%= row[:percent] %></td>
+              <td><%= row[:object_type] %></td>
+            </tr>
           <% end %>
         </tbody>
       </table>

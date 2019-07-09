@@ -13,6 +13,24 @@ RSpec.describe Hyrax::BatchIngest::BatchItem do
     end
   end
 
+  describe 'repo_object_exists?' do
+    subject { build(:batch_item, status: 'completed', repo_object_id: repo_object_id).repo_object_exists? }
+    context 'repo_object_id is nil' do
+      let(:repo_object_id) { nil }
+      it { is_expected.to eq false }
+    end
+
+    context 'when repo_object_id is not in the repo' do
+      let(:repo_object_id) { 'does-not-exist' }
+      it { is_expected.to eq false }
+    end
+
+    context 'when repo_object_id does exsit in the repo' do
+      let(:repo_object_id) { ActiveFedora::Base.create.id }
+      it { is_expected.to eq true }
+    end
+  end
+
   describe 'methods delegated to Batch' do
     let(:batch) { build(:batch, submitter_email: "submitter@example.org") }
     let(:batch_item) { build(:batch_item, batch: batch) }

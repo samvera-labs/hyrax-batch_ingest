@@ -6,6 +6,7 @@ FactoryBot.define do
     source_data { '{ title: ["Title"], creator: ["Jane Doe"], keyword: ["test"]}' }
     source_location { 'path/to/batch_manifest.csv' }
     status { Hyrax::BatchIngest::BatchItem::STATUSES.sample }
+    repo_object_id { SecureRandom.uuid }
     error { nil }
 
     transient do
@@ -17,7 +18,6 @@ FactoryBot.define do
         # If the batch item is completed, add an object id and a class name if
         # there isn't already one specified.
         if batch_item.status == 'completed'
-          batch_item.repo_object_id ||= SecureRandom.uuid
           batch_item.repo_object_class_name ||= 'GenericWork'
         else
           batch_item.repo_object_id = nil
