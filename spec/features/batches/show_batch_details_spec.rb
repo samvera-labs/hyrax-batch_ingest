@@ -10,12 +10,15 @@ describe 'Show Batches Data', type: :feature do
       # make a list of batch items, 1-3 for each different status.
       let(:batch_items) do
         Hyrax::BatchIngest::BatchItem::STATUSES.map do |status|
-          build_list(:batch_item, 2, status: status)
+          if status == 'completed'
+            # Create real repo object for 'completed' batch items.
+            build_list(:batch_item, rand(1..3), repo_object_id: ActiveFedora::Base.create.id, status: 'completed')
+          else
+            build_list(:batch_item, rand(1..3), status: status)
+          end
         end.flatten
       end
-
       let(:completed_batch_items) { batch_items.select { |batch_item| batch_item.status == 'completed' } }
-
       let(:batch) { create(:batch, batch_items: batch_items) }
       before do
         visit batch_path(id: batch.id)

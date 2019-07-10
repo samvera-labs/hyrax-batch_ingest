@@ -5,7 +5,7 @@ module Hyrax
     class BatchSummaryPresenter < BatchPresenter
       def finished_summary
         @finished_summary ||= begin
-          total = count_by_status.values_at('completed', 'failed', 'expunged').map(&:to_i).sum
+          total = count_by_status.values_at('completed', 'failed').map(&:to_i).sum
           {
             total: total,
             rows: [
@@ -18,11 +18,6 @@ module Hyrax
                 count: count_by_status['failed'],
                 percent: percentage(count_by_status['failed'].to_i, total, 1),
                 status: 'Failed'
-              },
-              {
-                count: count_by_status['expunged'],
-                percent: percentage(count_by_status['expunged'].to_i, total, 1),
-                status: 'Expunged'
               }
             ]
           }

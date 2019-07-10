@@ -8,7 +8,7 @@ describe 'Batch Summary', type: :feature do
 
     # calculate some totals expected for the summary
     let(:num_finished) do
-      batch_items.select { |batch_item| batch_item.status.in? ['completed', 'failed', 'expunged'] }.count
+      batch_items.select { |batch_item| batch_item.status.in? ['completed', 'failed'] }.count
     end
     let(:num_remaining) { batch_items.count - num_finished }
     let(:num_errors) { batch_items.select(&:error).count }

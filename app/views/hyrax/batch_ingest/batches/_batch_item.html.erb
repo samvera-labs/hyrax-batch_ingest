@@ -3,8 +3,14 @@
   <td><%= presenter.id_within_batch %></td>
   <td><%= presenter.repo_object_display_name %></td>
   <td>
-    <% if presenter.repo_object_path %>
-      <%= link_to presenter.repo_object_id, presenter.repo_object_path %>
+    <% if presenter.repo_object_exists? %>
+      <% if presenter.repo_object_path %>
+        <%= link_to presenter.repo_object_id, presenter.repo_object_path %>
+      <% else %>
+        <%= presenter.repo_object_id %>
+      <% end %>
+    <% elsif presenter.status == 'completed' %>
+      <em>Gone</em>
     <% end %>
   </td>
 </tr>
