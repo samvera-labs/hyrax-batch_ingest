@@ -1,15 +1,5 @@
-<!-- TODO: find a way to move this css into correct place -->
-<style type="text/css">
-  .batch_sort_asc::after {
-    content: ' ▲';
-  }
-  .batch_sort_desc::after {
-    content: ' ▼';
-  }
-</style>
-
+<%= stylesheet_link_tag 'hyrax/batch_ingest/batch_ingest' %>
 <h1><span class="fa fa-copy"></span>Batches</h1>
-
 <a href="/batches/new" title="Upload New Batch">Upload New Batch</a>
 
 <% if @presenters.count > 0 %>

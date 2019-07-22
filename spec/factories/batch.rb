@@ -8,6 +8,8 @@ FactoryBot.define do
     sequence(:submitter_email) { |n| "batch_submitter_#{n}@example.org" }
     error {}
     ingest_type { 'example_ingest_type' }
+    uploaded_filename { "foo.zip" }
+    start_time { DateTime.now.utc - rand(10..1000).minutes }
 
     after(:build) do |batch, evaluator|
       evaluator.batch_items.each { |batch_item| batch_item.batch = batch }
@@ -31,6 +33,11 @@ FactoryBot.define do
 
     factory :running_batch do
       status { 'running' }
+    end
+
+    factory :completed_batch do
+      status { 'completed' }
+      end_time { start_time + rand(10...1000).minutes }
     end
   end
 end

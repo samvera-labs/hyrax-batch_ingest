@@ -1,0 +1,52 @@
+<section class="batch-ingest-summary-section">
+  <div class="container attr-list">
+    <div class="row">
+      <div class="label col-md-2">Ingest Type:</div>
+      <div class="col-md-4"><%= @presenter.ingest_type %></div>
+    </div>
+
+    <div class="row">
+      <div class="label col-md-2">Submitter:</div>
+      <div class="col-md-4"><%= @presenter.submitter_email %></div>
+    </div>
+
+    <div class="row">
+      <div class="label col-md-2">Admin Set:</div>
+      <div class="col-md-4"><%= @presenter.admin_set_title %></div>
+    </div>
+
+    <% if @presenter.uploaded_filename %>
+      <div class="row">
+        <div class="label col-md-2">Uploaded File:</div>
+        <div class="col-md-4"><%= @presenter.uploaded_filename %></div>
+      </div>
+    <% end %>
+
+    <div class="row">
+      <div class="label col-md-2">Started:</div>
+      <div class="col-md-4"><%= @presenter.start_time %></div>
+    </div>
+
+    <div class="row">
+      <div class="label col-md-2">Status:</div>
+      <div class="col-md-4"><%= @presenter.status_label.capitalize %></div>
+    </div>
+
+    <% if @presenter.end_time %>
+      <div class="row">
+        <div class="label col-md-2">Finished:</div>
+        <div class="col-md-4"><%= @presenter.end_time %></div>
+      </div>
+    <% end %>
+
+    <div class="row">
+      <div class="label col-md-2">Run time:</div>
+      <div class="col-md-4"><%= @presenter.run_time %></div>
+    </div>
+
+    <% if @presenter.error.present? %>
+      <div class="label col-md-2">Error:</div>
+      <div class="col-md-4"><%= @presenter.error_html %></div>
+    <% end %>
+  </div>
+</section>

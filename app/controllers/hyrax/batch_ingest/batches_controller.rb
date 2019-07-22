@@ -13,12 +13,13 @@ module Hyrax
           flash[:notice] = "No batch ingest types have been configured."
           redirect_back fallback_location: batches_url
         end
-        @presenter = Hyrax::BatchIngest::BatchPresenter.new(@batch)
+        @presenter = Hyrax::BatchIngest::BatchPresenter.new(@batch, request)
         @admin_sets = available_admin_sets
         @ingest_types = available_ingest_types
       end
 
       def create
+        @batch.uploaded_filename = params['batch']['batch_source'].original_filename
         @batch.source_location = params['batch']['batch_source'].path
         @batch.status = 'received'
 
@@ -28,7 +29,7 @@ module Hyrax
           flash[:notice] = 'Batch Started'
           redirect_to @batch
         else
-          @presenter = Hyrax::BatchIngest::BatchPresenter.new(@batch)
+          @presenter = Hyrax::BatchIngest::BatchPresenter.new(@batch, request)
           render :new
         end
       end
@@ -53,11 +54,11 @@ module Hyrax
                              .order(sanitize_order(params[:order]))
                              .page(params[:page])
                              .per(params[:per])
-        @presenter = Hyrax::BatchIngest::BatchPresenter.new(@batch)
+        @presenter = Hyrax::BatchIngest::BatchPresenter.new(@batch, request)
       end
 
       def summary
-        @presenter = Hyrax::BatchIngest::BatchSummaryPresenter.new(@batch)
+        @presenter = Hyrax::BatchIngest::BatchSummaryPresenter.new(@batch, request)
       end
 
       private

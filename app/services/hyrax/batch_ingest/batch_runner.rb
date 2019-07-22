@@ -23,6 +23,7 @@ module Hyrax
 
       def initialize_batch
         batch.status = 'received'
+        batch.start_time = DateTime.now.in_time_zone
         batch.save! # batch received
       rescue ActiveRecord::ActiveRecordError => e
         notify_failed(e)

@@ -1,45 +1,5 @@
-<!-- TODO: find a way to move this css into correct place -->
-<style type="text/css">
-  .batch_sort_asc::after {
-    content: ' ▲';
-  }
-  .batch_sort_desc::after {
-    content: ' ▼';
-  }
-</style>
-
-<h1><span class="fa fa-copy"></span>Batch Details</h1>
-
-<dl>
-  <dt>Ingest Type:</dt>
-  <dd><%= @presenter.ingest_type %></dd>
-  <dt>Submitter:</dt>
-  <dd><%= @presenter.submitter_email %></dd>
-  <dt>Admin Set:</dt>
-  <dd><%= @presenter.admin_set_title %></dd>
-  <dt>Source Location:</dt>
-  <dd><%= @presenter.source_location %></dd>
-  <% if @presenter.error.present? %>
-    <dt>Error:</dt>
-    <dd><%= @presenter.error_html %></dd>
-  <% end %>
-</dl>
-
-<div class='table-responsive'>
-  <table class='table table-condensed'>
-    <thead>
-      <tr>
-        <th scope='col'><%= sort_link_to('Status', 'status') %></th>
-        <th scope='col'><%= sort_link_to('ID Within Batch', 'id_within_batch') %></th>
-        <th scope='col'><%= sort_link_to('Object Type', 'repo_object_class_name') %></th>
-        <th scope='col'><%= sort_link_to('Repository ID', 'repo_object_id') %></th>
-      </tr>
-    </thead>
-    <tbody>
-      <% @batch_items.each_with_index do |batch_item, index| %>
-        <%= render 'batch_item', presenter: Hyrax::BatchIngest::BatchItemPresenter.new(batch_item), index: index %>
-      <% end %>
-    </tbody>
-  </table>
-  <%= paginate @batch_items %>
-</div>
+<%= stylesheet_link_tag 'hyrax/batch_ingest/batch_ingest' %>
+<h1><span class="fa fa-copy"></span>Batch Ingest <%= @presenter.id %></h1>
+<%= render partial: 'hyrax/batch_ingest/batches/batch_attrs' %>
+<%= render partial: 'hyrax/batch_ingest/batches/batch_actions' %>
+<%= render partial: 'hyrax/batch_ingest/batches/batch_item_list' %>
