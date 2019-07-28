@@ -18,7 +18,7 @@ module Hyrax
         batch_item.update(status: 'completed', repo_object_id: @work.id, repo_object_class_name: @work.class)
         if batch_item.batch.completed?
           batch = batch_item.batch
-          batch.update(status: 'completed')
+          batch.update(status: 'completed', end_time: DateTime.now.in_time_zone)
           if batch.failed_items?
             BatchCompleteMailer.with(batch: batch).batch_completed_with_errors.deliver_later
           else

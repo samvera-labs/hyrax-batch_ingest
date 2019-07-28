@@ -10,12 +10,12 @@ module Hyrax
             total: total,
             rows: [
               {
-                count: count_by_status['completed'],
+                count: count_by_status['completed'].to_i,
                 percent: percentage(count_by_status['completed'].to_i, total, 1),
                 status: 'Success'
               },
               {
-                count: count_by_status['failed'],
+                count: count_by_status['failed'].to_i,
                 percent: percentage(count_by_status['failed'].to_i, total, 1),
                 status: 'Failed'
               }
@@ -32,7 +32,7 @@ module Hyrax
             total: total,
             rows: count_by_status.slice(*statuses_for_remaining).map do |status, count|
               {
-                count: count,
+                count: count.to_i,
                 percent: percentage(count.to_i, total, 1),
                 status: batch_item_status_label_for(status)
               }
@@ -48,7 +48,7 @@ module Hyrax
           # their human readable counterparts if possible.
           rows: count_by_object.map do |class_name, count|
             {
-              count: count,
+              count: count.to_i,
               percent: percentage(count.to_i, batch_items_ingested.count, 1),
               object_type: friendly_object_name(class_name)
             }

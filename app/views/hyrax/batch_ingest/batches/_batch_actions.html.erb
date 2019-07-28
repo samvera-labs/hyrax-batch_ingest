@@ -1,0 +1,8 @@
+<% @presenter.batch_actions.each_with_index do |batch_action, i| %>
+  <%= i == 0 ? '' : ' | '%>
+  <% if batch_action[:active] %>
+    <%= batch_action[:text] %>
+  <% else %>
+    <%= link_to batch_action[:text], batch_action[:url], batch_action[:options] %>
+  <% end %>
+<% end %>
