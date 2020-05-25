@@ -13,8 +13,8 @@ describe 'hyrax/dashboard/sidebar/_repository_content.html.erb', type: :view do
   end
 
   context 'as any logged in user' do
-    before { render 'hyrax/dashboard/sidebar/repository_content', menu: menu }
     subject { rendered }
+    before { render 'hyrax/dashboard/sidebar/repository_content', menu: menu }
 
     it 'has the Collection link' do
       is_expected.to have_link t('hyrax.admin.sidebar.collections')
@@ -26,8 +26,8 @@ describe 'hyrax/dashboard/sidebar/_repository_content.html.erb', type: :view do
   end
 
   context 'as a user who can view Batch info' do
-    before { render 'hyrax/dashboard/sidebar/repository_content', menu: menu }
     subject { rendered }
+    before { render 'hyrax/dashboard/sidebar/repository_content', menu: menu }
     let(:can_view_batches) { true }
     it 'has the Batches link' do
       is_expected.to have_link 'Batches'
@@ -35,8 +35,8 @@ describe 'hyrax/dashboard/sidebar/_repository_content.html.erb', type: :view do
   end
 
   context 'as a user who cannot view Batch info' do
-    before { render 'hyrax/dashboard/sidebar/repository_content', menu: menu }
     subject { rendered }
+    before { render 'hyrax/dashboard/sidebar/repository_content', menu: menu }
     let(:can_view_batches) { false }
     it 'does not have the Batches link' do
       is_expected.not_to have_link 'Batches'

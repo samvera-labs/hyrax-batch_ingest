@@ -22,11 +22,11 @@ module Hyrax
 
       def status_icon_css_class
         {
-          initialized:  'fa-info',
-          enqueued:     'fa-info',
-          running:      'fa-refresh',
-          completed:    repo_object_exists? ? 'fa-check-circle' : 'fa-ban',
-          failed:       'fa-exclamation-triangle'
+          initialized: 'fa-info',
+          enqueued: 'fa-info',
+          running: 'fa-refresh',
+          completed: repo_object_exists? ? 'fa-check-circle' : 'fa-ban',
+          failed: 'fa-exclamation-triangle'
         }.fetch(status.to_sym, 'fa-question')
       end
 
@@ -52,10 +52,10 @@ module Hyrax
         def status_labels
           {
             initialized: I18n.t('hyrax.batch_ingest.batch_items.status.initialized'),
-            enqueued:    I18n.t('hyrax.batch_ingest.batch_items.status.enqueued'),
-            running:     I18n.t('hyrax.batch_ingest.batch_items.status.running'),
-            completed:   I18n.t('hyrax.batch_ingest.batch_items.status.completed'),
-            failed:      I18n.t('hyrax.batch_ingest.batch_items.status.failed')
+            enqueued: I18n.t('hyrax.batch_ingest.batch_items.status.enqueued'),
+            running: I18n.t('hyrax.batch_ingest.batch_items.status.running'),
+            completed: I18n.t('hyrax.batch_ingest.batch_items.status.completed'),
+            failed: I18n.t('hyrax.batch_ingest.batch_items.status.failed')
           }.with_indifferent_access
         end
       end

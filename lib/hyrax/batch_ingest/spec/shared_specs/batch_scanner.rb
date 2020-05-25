@@ -1,12 +1,12 @@
 # frozen_string_literal: true
 RSpec.shared_examples "a Hyrax::BatchIngest::BatchScanner" do
+  subject { scanner }
   before do
     raise 'scanner class must be set with `let(:scanner_class)`' unless defined? scanner_class
     raise 'admin_set must be set with `let(:admin_set)`' unless defined? admin_set
     raise 'manifests must be set with `let(:manifests)`' unless defined? manifests
   end
 
-  subject { scanner }
   let(:scanner) { scanner_class.new(admin_set) }
 
   it { is_expected.to respond_to :admin_set }
