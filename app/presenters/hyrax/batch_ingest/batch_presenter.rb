@@ -104,12 +104,12 @@ module Hyrax
 
         def status_css_classes
           {
-            'received'  => 'fa fa-info',
-            'accepted'  => 'fa fa-info',
-            'enqueued'  => 'fa fa-info',
-            'running'   => 'fa fa-refresh fa-sync',
-            'completed'  => 'fa fa-check-circle',
-            'failed'     => 'fa fa-exclamation-triangle'
+            'received' => 'fa fa-info',
+            'accepted' => 'fa fa-info',
+            'enqueued' => 'fa fa-info',
+            'running' => 'fa fa-refresh fa-sync',
+            'completed' => 'fa fa-check-circle',
+            'failed' => 'fa fa-exclamation-triangle'
           }
         end
       end

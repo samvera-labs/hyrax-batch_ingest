@@ -41,8 +41,8 @@ module Hyrax
         @batches = @batches.left_joins(:batch_items)
                            .group(:batch_id, :id)
                            .order(sanitize_order(params[:order]))
-                           .page(params[:page])
-                           .per(params[:per])
+        @batches = @batches.page(params[:page]) if params[:page].present?
+        @batches = @batches.per(params[:per]) if params[:per].present?
         @presenters = @batches.map do |batch|
           Hyrax::BatchIngest::BatchPresenter.new(batch)
         end

@@ -1,12 +1,11 @@
 # frozen_string_literal: true
 RSpec.shared_examples "a Hyrax::BatchIngest::BatchReader" do
+  subject { reader }
   before do
     raise 'reader class must be set with `let(:reader_class)`' unless defined? reader_class
     raise 'source location must be set with `let(:source_location)`' unless defined? source_location
     raise 'invalid source location must be set with `let(:invalid_source_location)`' unless defined? invalid_source_location
   end
-
-  subject { reader }
 
   let(:reader) { reader_class.new(source_location) }
   let(:invalid_reader) { reader_class.new(invalid_source_location) }
