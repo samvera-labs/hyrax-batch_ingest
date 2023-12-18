@@ -14,3 +14,4 @@ Gemfile.lock
 # This is for @afred to keep scripts and docs for sprint demos.
 # Please keep this here until we cut a 1.x release. Thanks!
 demos/**/*
+*.~undo-tree~

@@ -16,7 +16,7 @@ module Hyrax::BatchIngest
 
     def admin_set
       return unless admin_set_id
-      @admin_set ||= AdminSet.find(admin_set_id)
+      @admin_set ||= Hyrax.query_service.find_by(id: admin_set_id)
     end
 
     def collection
