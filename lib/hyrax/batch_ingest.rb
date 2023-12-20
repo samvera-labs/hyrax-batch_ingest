@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+require "hyrax/batch_ingest/version"
 require "hyrax/batch_ingest/engine"
 require 'hyrax/batch_ingest/config'
 require 'hyrax'

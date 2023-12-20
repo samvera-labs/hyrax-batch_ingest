@@ -39,6 +39,7 @@ module Hyrax
       end
 
       def perform(batch_item:)
+        # TODO Rob - does this work?
         ingester_class = config(batch_item).ingester
         ingester_options = config(batch_item).ingester_options
         @work = ingester_class.new(batch_item, ingester_options).ingest
