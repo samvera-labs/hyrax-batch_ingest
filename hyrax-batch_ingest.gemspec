@@ -19,7 +19,7 @@ Gem::Specification.new do |s|
 
   s.add_dependency 'rails', '~> 6.0'
   s.add_dependency 'hyrax', '>= 4.0', '< 6.0'
-  s.add_dependency 'roo', '~> 2.7.0'
+  s.add_dependency 'roo', '~> 2.7'
 
   s.add_development_dependency 'bixby'
   s.add_development_dependency 'capybara'
